@@ -64,7 +64,7 @@
     "graphql-tag": "2.10.1",
     "https": "1.0.0",
     "jsonwebtoken": "8.5.1",
-    "justorm": "^1.0.2",
+    "justorm": "^2.0.0",
     "lodash.get": "^4.4.2",
     "lodash.omit": "^4.5.0",
     "lodash.pick": "^4.4.0",
