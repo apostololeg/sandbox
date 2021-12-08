@@ -64,7 +64,7 @@
     "graphql-tag": "2.10.1",
     "https": "1.0.0",
     "jsonwebtoken": "8.5.1",
-    "justorm": "^1.0.2",
+    "justorm": "^1.4.1",
     "lodash.get": "^4.4.2",
     "lodash.omit": "^4.5.0",
     "lodash.pick": "^4.4.0",
@@ -81,7 +81,7 @@
     "raven-js": "3.27.0",
     "react-hot-loader": "^4.12.18",
     "terser-webpack-plugin": "2.2.1",
-    "timen": "^0.0.2",
+    "timen": "^0.0.8",
     "typescript": "^3.8.3"
   },
   "description": "",
