@@ -1,8 +1,8 @@
-import { withStore } from 'justorm/preact';
+import { withStore } from 'justorm/react';
 
-import { Redirect } from 'components/Router';
-import { Title } from 'components/Header';
-import Flex from 'components/UI/Flex';
+import { Redirect } from 'components/Router/Router';
+import { Title } from 'components/Header/Header';
+import Flex from 'components/UI/Flex/Flex';
 
 export default withStore({ user: ['isLogged'] })(function Admin({ store }) {
   const { isLogged } = store.user;

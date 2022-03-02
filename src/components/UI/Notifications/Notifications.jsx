@@ -1,5 +1,5 @@
 import cn from 'classnames';
-import { withStore } from 'justorm/preact';
+import { withStore } from 'justorm/react';
 
 import icons from './icons';
 import s from './Notifications.styl';
@@ -45,14 +45,8 @@ function Item(props) {
 }
 
 export default withStore({ notifications: ['items', 'data'] })(
-  function Notifications() {
-    const {
-      items,
-      data,
-      pause,
-      unpause,
-      close,
-    } = this.props.store.notifications;
+  function Notifications({ store }) {
+    const { items, data, pause, unpause, close } = store.notifications;
     const api = { pause, unpause, close };
 
     return (

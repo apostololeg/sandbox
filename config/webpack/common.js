@@ -3,7 +3,7 @@ const CopyPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const ComponentDirectoryPlugin = require('component-directory-webpack-plugin');
+// const ComponentDirectoryPlugin = require('component-directory-webpack-plugin');
 const FaviconWebpackPlugin = require('favicons-webpack-plugin');
 
 const paths = require('../paths');
@@ -15,27 +15,33 @@ const {
   HOST,
   PORT,
   DO_SPACE_NS,
-  DO_SPACE_NAME
+  DO_SPACE_NAME,
 } = require('../const');
 
 module.exports = {
-  entry: [`${paths.client}/index.js`],
+  entry: [`${paths.client}/index.tsx`],
   output: {
     path: paths.build,
-    filename: 'js/[name].js?v=[hash:5]'
+    publicPath: '/',
+    filename: 'js/[name].js?v=[hash:5]',
   },
   resolve: {
     modules: ['node_modules', paths.client],
     alias: {
       config: paths.config,
+      theme: `${paths.client}/theme.styl`,
+      uilib: '@foreverido/uilib',
       quill: `${paths.modules}/quill`,
       'quill-css': `${paths.modules}/quill/dist/quill.core.css`,
-      react: 'preact/compat',
-      'react-dom': 'preact/compat',
-      'react-dom/test-utils': 'preact/test-utils'
+      // react: 'preact/compat',
+      // 'react-dom': 'preact/compat',
+      // 'react-dom/test-utils': 'preact/test-utils',
     },
-    plugins: [new ComponentDirectoryPlugin()],
-    extensions: ['.js', '.jsx', '.ts', '.tsx', '.css']
+    // plugins: [new ComponentDirectoryPlugin()],
+    extensions: ['.js', '.jsx', '.ts', '.tsx', '.css'],
+  },
+  optimization: {
+    moduleIds: 'named',
   },
   module: {
     noParse: /node_modules\/quill\/dist/,
@@ -44,57 +50,72 @@ module.exports = {
         test: /\.(j|t)sx?$/,
         loader: 'babel-loader',
         include: paths.src,
-        exclude: {
-          exclude: [paths.modules],
-          test: [/\.quill\.js$/]
-        }
+        exclude: [paths.modules],
+        // exclude: {
+        //   exclude: [paths.modules],
+        //   test: [/\.quill\.js$/],
+        // },
+      },
+      {
+        test: /\.m?js/,
+        resolve: {
+          fullySpecified: false,
+        },
       },
       {
         test: /\.styl$/,
         use: [
           'style-loader',
+          { loader: 'css-modules-typescript-loader' },
           {
             loader: 'css-loader',
             options: {
               modules: {
-                localIdentName: '[name]__[local]___[hash:base64:5]'
-              }
-            }
+                localIdentName: '[name]__[local]___[hash:base64:5]',
+              },
+            },
           },
           {
             loader: 'postcss-loader',
             options: {
-              config: {
-                path: './config/postcss.config.js'
-              }
-            }
+              postcssOptions: {
+                ident: 'postcss',
+                plugins: [
+                  ['postcss-preset-env', { stage: 3, autoprefixer: true }],
+                ],
+              },
+            },
           },
-          'stylus-loader'
-        ]
+          'stylus-loader',
+        ],
+      },
+      {
+        test: /\.css$/,
+        use: [MiniCssExtractPlugin.loader, 'css-loader'],
       },
       {
         test: /\.svg$/,
         exclude: paths.modules,
         oneOf: [
           {
-            issuer: /\.jsx?$/,
+            issuer: /\.(t|j)sx?$/,
             use: [
               {
-                loader: 'babel-loader'
+                loader: 'babel-loader',
               },
               {
-                loader: 'preact-svg-loader'
-              }
-            ]
+                loader: 'react-svg-loader',
+              },
+            ],
           },
           {
             loader: 'file-loader',
             options: {
               name: 'static/[name].[ext]',
-              outputPath: 'images/'
-            }
-          }
-        ]
+              outputPath: 'images/',
+            },
+          },
+        ],
       },
       {
         test: /\.(woff|woff2|eot|ttf)$/,
@@ -102,11 +123,11 @@ module.exports = {
           loader: 'file-loader',
           options: {
             name: 'static/[name].[ext]',
-            outputPath: 'images/'
-          }
-        }
-      }
-    ]
+            outputPath: 'images/',
+          },
+        },
+      },
+    ],
   },
   plugins: [
     new CleanWebpackPlugin(),
@@ -116,25 +137,27 @@ module.exports = {
       HOST: JSON.stringify(HOST),
       PORT: JSON.stringify(PORT),
       DO_SPACE_NS: JSON.stringify(DO_SPACE_NS),
-      DO_SPACE_NAME: JSON.stringify(DO_SPACE_NAME)
+      DO_SPACE_NAME: JSON.stringify(DO_SPACE_NAME),
     }),
     new webpack.ProvidePlugin({
-      h: ['preact', 'h'],
+      React: 'react',
     }),
-    new CopyPlugin([
-      {
-        from: `${paths.assets}/*.css`,
-        to: paths.build
-      },
-      {
-        from: `${paths.assets}/fonts`,
-        to: `${paths.build}/fonts`
-      },
-      {
-        from: `${paths.assets}/logo.svg`,
-        to: paths.build
-      }
-    ]),
+    new CopyPlugin({
+      patterns: [
+        {
+          from: `${paths.assets}/*.css`,
+          to: paths.build,
+        },
+        {
+          from: `${paths.assets}/fonts`,
+          to: `${paths.build}/fonts`,
+        },
+        {
+          from: `${paths.assets}/logo.svg`,
+          to: paths.build,
+        },
+      ],
+    }),
     new HtmlWebpackPlugin({
       lang: PAGE_LANG,
       title: PAGE_TITLE,
@@ -150,8 +173,8 @@ module.exports = {
         keepClosingSlash: true,
         minifyJS: true,
         minifyCSS: true,
-        minifyURLs: true
-      }
+        minifyURLs: true,
+      },
     }),
     new FaviconWebpackPlugin({
       logo: `${paths.assets}/logo.svg`,
@@ -166,14 +189,13 @@ module.exports = {
         theme_color: '#111',
         icons: {
           coast: false,
-          yandex: false
-        }
-      }
+          yandex: false,
+        },
+      },
     }),
     new MiniCssExtractPlugin({
-      filename: PRODUCTION ? '[name].[hash].css' : '[name].css',
-      chunkFilename: PRODUCTION ? '[id].[hash].css' : '[id].css'
+      filename: PRODUCTION ? '[name].[fullhash].css' : '[name].css',
+      chunkFilename: PRODUCTION ? '[id].[fullhash].css' : '[id].css',
     }),
-    new webpack.NamedModulesPlugin()
-  ]
+  ],
 };

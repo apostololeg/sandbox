@@ -1,6 +1,6 @@
-@import '~theme/theme.styl'
+@import '~theme'
 
-accent(color = $accentColor, bgColor = $accentColorLight)
+accent(color = var(--accent-color), bgColor = var(--accent-color-alpha-50))
   box-shadow inset 6px 0 0 -3px color
   background-color bgColor
 
@@ -31,15 +31,15 @@ accent(color = $accentColor, bgColor = $accentColorLight)
       transform scale(0.98)
 
 .padded .item
-  padding 5px $indent_s
+  padding 5px var(--indent-s)
 
 .paddedX .item
-  padding 0 $indent_s
+  padding 0 var(--indent-s)
 
 .highlighted .item
 
   &:hover
-    accent($activeColor, $activeColorLight)
+    accent(var(--active-color), var(--active-color-alpha-50))
 
   &.selected
     accent()

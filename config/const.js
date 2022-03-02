@@ -1,3 +1,5 @@
+const pick = require('lodash.pick');
+
 const VARS = [
   'PEM_DIR',
   'PROTOCOL',
@@ -11,7 +13,7 @@ const VARS = [
   'AWS_KEY_ID',
   'COOKIE_TOKEN_NAME',
   'DO_SPACE_NS',
-  'DO_SPACE_NAME'
+  'DO_SPACE_NAME',
 ];
 
 const { parsed } = require('dotenv').config();
@@ -21,17 +23,14 @@ const PRODUCTION = NODE_ENV === 'production';
 
 const env = {
   PRODUCTION,
-  ...VARS.reduce(
-    (acc, v) => ({ ...acc, [v]: parsed[v] }),
-    {}
-  )
+  ...pick(parsed, VARS),
 };
 
 if (!PRODUCTION) {
   Object.assign(env, {
     PROTOCOL: 'http://',
     HOST: 'localhost',
-    PORT: ':3000'
+    PORT: ':3000',
   });
 }
 

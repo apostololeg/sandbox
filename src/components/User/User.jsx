@@ -1,11 +1,9 @@
-import { withStore } from 'justorm/preact';
+import { withStore } from 'justorm/react';
 
-import UserStore from 'store/user';
-import PageStore from 'store/page';
+import { Popup } from 'uilib';
 
-import { Link } from 'components/Router';
-import Popup from 'components/UI/Popup';
-import Menu, { MenuItem } from 'components/UI/Menu';
+import { Link } from 'components/Router/Router';
+import Menu, { MenuItem } from 'components/UI/Menu/Menu';
 
 import DefaultIcon from './icons/avatar.svg';
 import s from './User.styl';
@@ -45,20 +43,26 @@ export default withStore({
   const items = getMenuLinks({ isLogged, isAdmin, isAuth });
 
   return (
-    <Popup autoClose>
-      <div className={s.user}>
-        <div className={s.userName}>{email || name || 'Guest'}</div>
-        <Userpic url={avatar} />
-      </div>
-      {items.length > 0 && (
-        <Menu className={s.menu} align="right">
-          {items.map(([path, text]) => (
-            <MenuItem key={path}>
-              <Link href={path}>{text}</Link>
-            </MenuItem>
-          ))}
-        </Menu>
-      )}
-    </Popup>
+    <Popup
+      autoClose
+      direction="bottom-left"
+      trigger={
+        <div className={s.user} tabIndex={0}>
+          <div className={s.userName}>{email || name || 'Guest'}</div>
+          <Userpic url={avatar} />
+        </div>
+      }
+      content={
+        items.length > 0 && (
+          <Menu className={s.menu} align="right">
+            {items.map(([path, text]) => (
+              <MenuItem key={path}>
+                <Link href={path}>{text}</Link>
+              </MenuItem>
+            ))}
+          </Menu>
+        )
+      }
+    />
   );
 });

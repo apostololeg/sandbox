@@ -1,5 +1,5 @@
-import { render } from 'preact';
-import { Link } from 'components/Router';
+import ReactDOM from 'react-dom';
+import { Link } from 'components/Router/Router';
 
 const COMPONENTS_TO_HYDRATE = {
   Link,
@@ -14,7 +14,7 @@ export function hydrateComponents(rootNode) {
 
     if (C) {
       node.innerHTML = '';
-      render(<C {...props} />, node);
+      ReactDOM.render(<C {...props} />, node);
       node.setAttribute('data-inited', '');
     }
   });

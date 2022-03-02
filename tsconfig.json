@@ -1,9 +1,9 @@
 {
   "compileOnSave": true,
   "compilerOptions": {
+    "exportDefaultFrom": true,
     "allowSyntheticDefaultImports": true,
-    "jsx": "react",
-    "jsxFactory": "h",
+    "jsx": "react-jsx",
     "target": "es6",
     "lib": ["dom", "dom.iterable", "esnext"],
     "experimentalDecorators": true,
@@ -25,12 +25,12 @@
         "*"
         // Can't accord component-directory-webpack-plugin
         // https://github.com/microsoft/TypeScript/issues/24116
+        // => https://github.com/microsoft/TypeScript/issues/45402
         // "*/*"
       ]
     }
   },
   "include": ["src"],
-  "exclude": [
-    "node_modules",
-  ]
+  "exclude": ["node_modules"],
+  "plugins": ["typescript-eslint-language-service"]
 }

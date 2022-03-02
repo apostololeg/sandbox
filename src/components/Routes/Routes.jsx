@@ -1,16 +1,16 @@
-import { withStore } from 'justorm/preact';
+import { withStore } from 'justorm/react';
+import { Lazy } from 'components/Lazy/Lazy';
 
-import Router from 'components/Router';
-import LazyComponent from 'components/LazyComponent';
-import Home from 'components/Home';
-import Auth from 'components/Auth';
+import Router from 'components/Router/Router';
+import Home from 'components/Home/Home';
+import Auth from 'components/App/Auth/Auth';
 
 import NoMatch from './NoMatch';
 
 export default withStore({
-  user: ['isLogged', 'isAdmin'],
-})(function Routes() {
-  const { isLogged, isAdmin } = this.props.store.user;
+  user: ['isLogged', 'isEditor', 'isAdmin'],
+})(function Routes({ store }) {
+  const { isLogged, isEditor, isAdmin } = store.user;
 
   return (
     <Router>
@@ -19,40 +19,40 @@ export default withStore({
       <Auth path="/login" type="login" />
       <Auth path="/logout" type="logout" />
 
-      <LazyComponent
+      <Lazy
         path="/posts"
         exact
-        loading={() => import('components/PostList')}
+        loader={() => import('components/PostList/PostList')}
       />
-      <LazyComponent
-        path="/posts/:slug"
-        loading={() => import('components/Post')}
-      />
+      <Lazy path="/posts/:slug" loader={() => import('components/Post/Post')} />
 
       {isLogged && (
-        <LazyComponent
+        <Lazy
           path="/profile"
-          loading={() => import('components/Profile')}
+          loader={() => import('components/Profile/Profile')}
         />
       )}
 
-      {isAdmin && [
-        <LazyComponent
-          path="/admin"
-          loading={() => import('components/Admin')}
-        />,
-        <LazyComponent
+      {isAdmin && (
+        <Lazy path="/admin" loader={() => import('components/Admin/Admin')} />
+      )}
+
+      {isEditor && [
+        <Lazy
+          key="/posts/new"
           path="/posts/new"
           exact
-          loading={() => import('components/Post/PostEditor')}
+          loader={() => import('components/Post/PostEditor/PostEditor')}
         />,
-        <LazyComponent
+        <Lazy
+          key="/posts/:slug/edit"
           path="/posts/:slug/edit"
-          loading={() => import('components/Post/PostEditor')}
+          loader={() => import('components/Post/PostEditor/PostEditor')}
         />,
-        <LazyComponent
+        <Lazy
+          key="/posts/:slug/preview"
           path="/posts/:slug/preview"
-          loading={() => import('components/Post')}
+          loader={() => import('components/Post/Post')}
           preview
         />,
       ]}

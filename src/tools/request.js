@@ -1,42 +1,84 @@
-import client from 'apollo/client';
+import { stringify } from 'tools/queryParams';
 
-const gag = () => false;
-
-async function request({
-  getProgress = gag,
-  setProgress = gag,
-  method,
-  dataAccessor,
-  ...params
-}) {
-  if (getProgress()) {
-    console.warn('✋ Request in progress');
-    return;
-  }
-
-  setProgress(true);
-
+function parseResponse(res) {
   try {
-    const res = await client[method](params);
-    const data = dataAccessor ? res.data[dataAccessor] : res.data;
+    return JSON.parse(res);
+  } catch (e) {} // eslint-disable-line
 
-    setProgress(false);
-    return data; // eslint-disable-line
-  } catch (error) {
-    setProgress(false);
-    throw error;
+  return res;
+}
+
+function setHeaders(xhr, headers) {
+  Object.entries(headers).forEach(([name, value]) =>
+    xhr.setRequestHeader(name, value)
+  );
+}
+
+function setProgressCallback(xhr, callback, isGet) {
+  if (isGet) {
+    xhr.onprogress = callback;
+  } else {
+    xhr.upload.onprogress = callback;
   }
+}
+
+/**
+ * https://github.com/github/fetch/issues/89
+ *
+ * @param  {String} url
+ * @param  {String} options.method
+ * @param  {Object} options.headers
+ * @param  {*} options.data
+ * @param  {Function} onProgress
+ *
+ * @return {Promise}
+ */
+function request(url, params = {}, onProgress) {
+  const xhr = new XMLHttpRequest();
+  const { method, headers = {}, data } = params;
+  const isGet = method === 'GET';
+  const hasData = data && Object.keys(data).length > 0;
+
+  if (data) headers['Content-Type'] = 'application/json;charset=UTF-8';
+
+  if (isGet && hasData) url += stringify(data); // eslint-disable-line
+
+  return new Promise((resolve, reject) => {
+    xhr.open(method, url);
+    xhr.onreadystatechange = () => {
+      const { readyState, status } = xhr;
+
+      if (readyState === XMLHttpRequest.DONE) {
+        /200|201/.test(status)
+          ? resolve(parseResponse(xhr.response))
+          : reject(xhr);
+      }
+    };
+
+    setHeaders(xhr, headers);
+
+    if (onProgress) setProgressCallback(xhr, onProgress, isGet);
+
+    xhr.send(JSON.stringify(data));
+  });
+}
+
+const requestInterface = {
+  get: (url, params = {}, onProgress) => {
+    return request(url, { ...params, method: 'GET' }, onProgress);
+  },
+  post: (url, params = {}, onProgress) => {
+    return request(url, { ...params, method: 'POST' }, onProgress);
+  },
+  delete: (url, params = {}, onProgress) => {
+    return request(url, { ...params, method: 'DELETE' }, onProgress);
+  },
 };
 
-export const query = (gql, params) => request({
-  ...params,
-  method: 'query',
-  query: gql
-});
-export const mutate = (gql, params) => request({
-  ...params,
-  method: 'mutate',
-  mutation: gql
-});
+export const api = {
+  get: (url, ...args) => requestInterface.get(`/api${url}`, ...args),
+  post: (url, ...args) => requestInterface.post(`/api${url}`, ...args),
+  delete: (url, ...args) => requestInterface.delete(`/api${url}`, ...args),
+};
 
-export default {};
+export default requestInterface;
