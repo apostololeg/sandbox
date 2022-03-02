@@ -1,4 +1,4 @@
-import { createStore } from 'justorm/preact';
+import { createStore } from 'justorm/react';
 import { mutate, query } from 'tools/request';
 
 import {

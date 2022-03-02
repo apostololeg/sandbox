@@ -1,4 +1,4 @@
-@import '~theme/theme.styl'
+@import '~theme'
 
 .root
   position relative
@@ -14,7 +14,7 @@
   borderRadius()
 
   opacity .6
-  background-color $activeColor
+  background-color var(--active-color)
   transition all .2s ease-out
   pointer-events none
 

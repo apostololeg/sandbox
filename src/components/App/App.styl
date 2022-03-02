@@ -1,10 +1,7 @@
-@import '~theme/theme.styl'
+@import '~theme'
 
 .root
   height 100vh
-
-.header
-  background-color rgba(0,0,0,.03);
 
 .content
   flex-grow 1
@@ -15,8 +12,5 @@
   align-items center
   justify-content center
 
-*::selection
-  background-color $activeColor
-
 * strong
-  text-shadow 0 0 1px $accentColor
+  text-shadow 0 0 1px var(--accent-color)

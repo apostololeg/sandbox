@@ -1,4 +1,4 @@
-@import '~theme/theme.styl';
+@import '~theme';
 
 .root
   display flex
@@ -16,7 +16,8 @@
   height 30px
   width @height
   background no-repeat center;
-  margin-left $indent_s
+  margin-left var(--indent-s)
 
 .menu
   justify-content flex-end
+  padding var(--indent-s)

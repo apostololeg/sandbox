@@ -9,8 +9,15 @@
   -webkit-tap-highlight-color: transparent;
 }
 
+*::selection {
+  background-color: var(--active-color);
+  color: var(--decent-color);
+}
+
 body {
   font-size: 16px;
+  color: var(--accent-color);
+  background-color: var(--decent-color);
 }
 
 h1 {

@@ -1,5 +1,5 @@
 import pick from 'lodash.pick';
-import { createStore } from 'justorm/preact';
+import { createStore } from 'justorm/react';
 
 import LS from 'tools/localStorage';
 import { setListMap, delListMap } from 'tools/array';

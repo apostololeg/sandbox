@@ -1,4 +1,4 @@
 import './page';
-import './user';
+import './user/user';
 import './notifications';
-import './post';
+import './post/post';

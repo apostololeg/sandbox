@@ -1,4 +1,4 @@
-import Post from 'components/Post';
+import Post from 'components/Post/Post';
 
 function NoMatch() {
   return <Post slug="not-found" />;

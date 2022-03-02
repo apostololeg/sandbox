@@ -13,13 +13,13 @@ const proxyConfig = {
   target: {
     host: 'localhost',
     protocol: 'http:',
-    port: 3000
-  }
+    port: 3000,
+  },
 };
 
 const plugins = [
   new webpack.HotModuleReplacementPlugin(),
-  new webpack.NoEmitOnErrorsPlugin()
+  new webpack.NoEmitOnErrorsPlugin(),
 ];
 
 if (process.env.ANALYZE) {
@@ -29,7 +29,7 @@ if (process.env.ANALYZE) {
 module.exports = merge(common, {
   mode: 'development',
   output: {
-    publicPath: '/'
+    publicPath: '/',
   },
   plugins,
   devtool: 'source-map',
@@ -40,15 +40,15 @@ module.exports = merge(common, {
       'Access-Control-Allow-Credentials': true,
       'Access-Control-Max-Age': '3600',
       'Access-Control-Allow-Headers': 'Content-Type, Cookie',
-      'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS, PATCH'
+      'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS, PATCH',
     },
-    contentBase: paths.build,
+    // contentBase: paths.build,
     compress: true,
     historyApiFallback: true,
     port: 9006,
     proxy: {
       '/graphql': proxyConfig,
-      '/upload': proxyConfig
-    }
-  }
+      '/upload': proxyConfig,
+    },
+  },
 });

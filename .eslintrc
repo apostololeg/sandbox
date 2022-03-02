@@ -1,6 +1,7 @@
 {
   "extends": [
     "airbnb",
+    "preact",
     "prettier",
     "prettier/react",
     "eslint:recommended",
@@ -32,6 +33,7 @@
     // Allowing importing from dev deps (for stories and tests)
     "import/no-extraneous-dependencies": "off",
     "import/prefer-default-export": "off",
+    "lines-between-class-members": "off",
     "no-case-declarations": "off",
     "no-console": "off",
     // Allowing ++ on numbers
@@ -44,14 +46,6 @@
       }
     ],
     "no-shadow": 1,
-    // Enforce ES5 or ES6 class for React Components
-    "react/prefer-es6-class": [1],
-    // Prevent missing props validation in a React component definition
-    "react/prop-types": ["off"],
-    // Prevent missing React when using JSX
-    "react/react-in-jsx-scope": ["off"],
-    // Enforces where React component static properties should be positioned
-    "react/static-property-placement": ["off"],
     // Enforce consistent usage of destructuring assignment of props, state, and context
     "react/destructuring-assignment": ["off"],
     // Allowing jsx in files with any file extension (old components have jsx but not the extension)
@@ -61,11 +55,20 @@
     "react/jsx-sort-props": "off",
     // Disallow JSX props spreading
     "react/jsx-props-no-spreading": 0,
+    // Prevent using this.state within a this.setState
+    "react/no-access-state-in-setstate": ["off"],
     // Allow use setState in componentDidUpdate
     "react/no-did-update-set-state": "off",
     // This was turned off for wc - but should be re-enabled eventually
     "react/no-unknown-property": ["off"],
+    // Prevent missing props validation in a React component definition
+    "react/prop-types": ["off"],
+    // Enforce ES5 or ES6 class for React Components
+    "react/prefer-es6-class": [1],
+    // Prevent missing React when using JSX
+    "react/react-in-jsx-scope": ["off"],
     "react/state-in-constructor": ["off"],
+    "react/static-property-placement": ["off"],
     "no-continue": "off",
     "no-nested-ternary": 1,
     // Disallow more than 1 empty lines
@@ -75,10 +78,13 @@
         "max": 1
       }
     ],
-    "no-unused-expressions": ["off"],
-    "no-unused-vars": [1, {
-      "args": "none"
-    }],
+    "no-unused-expressions": "off", // see "@typescript-eslint/no-unused-expressions"
+    "no-unused-vars": [
+      1,
+      {
+        "args": "none"
+      }
+    ],
     // Enforce no padding within blocks
     "padded-blocks": ["error", "never"],
     // Adding 'skipShapeProps' as the rule has issues with correctly handling PropTypes.shape
@@ -93,15 +99,18 @@
     "react/prefer-stateless-function": "off",
     // default props not required for optional values
     "react/require-default-props": "off",
-    "react/sort-comp": [1, {
-      "order": [
-        "instance-variables",
-        "constructor",
-        "lifecycle",
-        "everything-else",
-        "render"
-      ]
-    }],
+    "react/sort-comp": [
+      1,
+      {
+        "order": [
+          "instance-variables",
+          "constructor",
+          "lifecycle",
+          "everything-else",
+          "render"
+        ]
+      }
+    ],
     // Disallowing the use of variables starting with `_` unless it called on `this`.
     // Allowed: `this._secret = Symbol()`
     // Not allowed: `const _secret = Symbol()`
@@ -115,7 +124,7 @@
     // Preventing if(condition) return;
     "curly": 0,
     // Allowing Math.pow rather than forcing `**`
-    "no-restricted-globals": ["warn"],
+    "no-restricted-globals": "warn",
     "no-restricted-properties": [
       "off",
       {
@@ -130,13 +139,23 @@
     "object-curly-newline": "off",
     // Opting out of specific paren styles for now
     "function-paren-newline": "off",
-    "jsx-a11y/anchor-is-valid": [ "error", {
-      "components": [ "Link" ],
-      "specialLink": [ "to" ]
-    }],
+    "jsx-a11y/anchor-is-valid": [
+      "error",
+      {
+        "components": ["Link"],
+        "specialLink": ["to"]
+      }
+    ],
     "jsx-a11y/no-redundant-roles": ["off"],
+    "jsx-a11y/control-has-associated-label": ["off"],
     "@typescript-eslint/explicit-function-return-type": ["off"],
     "@typescript-eslint/ban-ts-ignore": ["off"],
+    "@typescript-eslint/no-unused-expressions": [
+      "error",
+      {
+        "allowTernary": true
+      }
+    ],
     "@typescript-eslint/no-use-before-define": ["off"]
   }
 }

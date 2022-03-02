@@ -1,13 +1,14 @@
-@import '~theme/theme.styl'
+@import '~theme'
 
 .root
+  z-index 10
   display flex
   align-items flex-start
-  z-index 10
+  margin 0
 
 .title
   display flex
   align-items center
   flex-grow 1
   min-width 0
-  padding 0 $indent_s
+  padding 0 var(--indent-s)
