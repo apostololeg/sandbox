@@ -16,7 +16,7 @@
     "build:dev": "NODE_ENV=development webpack --mode=development --config ./config/webpack/dev.js --progress",
     "build:prod": "NODE_ENV=production webpack --mode=production --config ./config/webpack/prod.js --progress",
     "server:dev": "NODE_ENV=development nodemon --ignore ./config --ignore ./src --exec babel-node server/index.js --inspect",
-    "server:prod": "NODE_ENV=production babel server",
+    "server:prod": "NODE_ENV=production babel-node server",
     "db:admin": "BROWSER=none prisma studio",
     "db:reset": "prisma migrate reset --skip-seed",
     "client:dev": "DEV_ENV=client webpack-dev-server --config ./config/webpack/dev.js --progress",
