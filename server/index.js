@@ -32,7 +32,7 @@ app.use(redirectToHTTPS([/localhost:(\d{4})/], [], 301));
 
 app.use(compression());
 app.use(cookieParser());
-app.use(bodyParser.json());
+app.use(bodyParser.json({ limit: '2mb' }));
 app.use(methodOverride());
 app.use(session({ secret: JWT_SECRET, resave: true, saveUninitialized: true }));
 
@@ -47,7 +47,7 @@ if (PRODUCTION) {
     expressStaticGzip(paths.build, {
       enableBrotli: true,
       orderPreference: ['br', 'gz'],
-      setHeaders: (res) => {
+      setHeaders: res => {
         res.setHeader('Cache-Control', 'public, max-age=31536000');
       },
     })

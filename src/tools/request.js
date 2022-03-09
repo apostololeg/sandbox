@@ -38,8 +38,9 @@ function request(url, params = {}, onProgress) {
   const { method, headers = {}, data } = params;
   const isGet = method === 'GET';
   const hasData = data && Object.keys(data).length > 0;
+  const isFormData = data && data instanceof FormData;
 
-  if (data) headers['Content-Type'] = 'application/json;charset=UTF-8';
+  if (!isFormData) headers['Content-Type'] = 'application/json;charset=UTF-8';
 
   if (isGet && hasData) url += stringify(data); // eslint-disable-line
 
@@ -59,7 +60,9 @@ function request(url, params = {}, onProgress) {
 
     if (onProgress) setProgressCallback(xhr, onProgress, isGet);
 
-    xhr.send(JSON.stringify(data));
+    const sendData = isFormData ? data : JSON.stringify(data);
+
+    xhr.send(sendData);
   });
 }
 

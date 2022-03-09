@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import { Component, HTMLProps } from 'react';
 import { createStore } from 'justorm/react';
 import cn from 'classnames';
 import { bind } from 'decko';
@@ -15,6 +15,8 @@ type Props = {
   prefix: string;
   onChange?: (files: string | Blob) => void;
   onUpload: (src: string) => void;
+  accept?: HTMLProps<HTMLInputElement>['accept'];
+  limit?: number; // megabytes
 };
 
 class FileUploader extends Component<Props> {
@@ -72,7 +74,17 @@ class FileUploader extends Component<Props> {
   };
 
   async upload(file) {
-    const { prefix, onUpload } = this.props;
+    const { limit, prefix, onUpload } = this.props;
+
+    if (limit) {
+      const sizeMb = file.size / 1024 / 1024;
+
+      if (sizeMb > limit) {
+        console.error(`Max file size - ${limit}Mb`);
+        return;
+      }
+    }
+
     const formData = new FormData();
     const ext = file.type.split('/')[1];
     const fileName = `${prefix}/${nanoid()}.${ext}`;
@@ -80,7 +92,7 @@ class FileUploader extends Component<Props> {
     formData.append('file', file);
 
     const params = {
-      body: formData,
+      data: formData,
       headers: {
         'x-filename': fileName,
       },
@@ -98,7 +110,7 @@ class FileUploader extends Component<Props> {
   }
 
   render() {
-    const { className, size } = this.props;
+    const { className, size, accept } = this.props;
     const { isComplete, isError, total, loaded } = this.store;
 
     const classes = cn(S.root, className, S[`size-${size}`]);
@@ -115,6 +127,7 @@ class FileUploader extends Component<Props> {
           className={S.input}
           controlProps={{ className: S.control }}
           type="file"
+          accept={accept}
           onChange={this.onChange}
         />
         <div

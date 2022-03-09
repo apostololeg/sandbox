@@ -17,6 +17,7 @@ const spacesEndpoint = new aws.Endpoint(DO_SPACE_NS);
 const s3 = new aws.S3({ endpoint: spacesEndpoint });
 
 export default multer({
+  limits: { fileSize: 2097152 }, // 2mb
   storage: multerS3({
     s3,
     bucket: DO_SPACE_NAME,

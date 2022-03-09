@@ -52,11 +52,13 @@ class PostList extends Component<Props> {
   render() {
     const { user, posts } = this.props.store;
     const { loadingList, list } = posts;
+    const { isAdmin, isEditor } = user;
+    const canCreateNew = isEditor || isAdmin;
 
     return (
       <Fragment>
         <Title text="Posts">
-          {user.roles?.includes('EDITOR') && <Link href="new">Create New</Link>}
+          {canCreateNew && <Link href="new">Create New</Link>}
         </Title>
         <Flex scrolled centered={loadingList}>
           {loadingList ? (

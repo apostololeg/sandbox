@@ -86,6 +86,8 @@ class Image extends Component<Props> {
               prefix="post"
               onChange={this.onFileChoose}
               onUpload={this.onUpload}
+              accept="image/png, image/jpeg, image/svg+xml"
+              limit={2} // 2mb
             />
             <Input
               className={s.item}
