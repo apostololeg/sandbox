@@ -1652,10 +1652,10 @@
     react-dom "^17.0.2"
     timen "^0.0.9"
 
-"@foreverido/uilib@^0.0.21":
-  version "0.0.21"
-  resolved "https://registry.yarnpkg.com/@foreverido/uilib/-/uilib-0.0.21.tgz#3e305b1f9c9875141314d05bb2d592e027f6e1bf"
-  integrity sha512-VJTVnC8He6m4WyMwoBHZgTtK3Ig02N8eJzUUZdTrr5kUp3klT+TLCjyrCl5OCrhHqoHulCC1ezpvYVAodySqSw==
+"@foreverido/uilib@^0.0.23":
+  version "0.0.23"
+  resolved "https://registry.yarnpkg.com/@foreverido/uilib/-/uilib-0.0.23.tgz#975ca9e28ebdf65d8efb66b4159ddce70e635e87"
+  integrity sha512-eRLbsp8sCflJVGkyUSHjzyNMwdrcsset5IaS4t+geFmAVHYYufZ9dU+Rb8e5dtCXcMIxct+Qx8l6OZNZ0Z75eA==
   dependencies:
     "@babel/core" "^7.16.0"
     "@babel/plugin-proposal-optional-chaining" "^7.16.7"

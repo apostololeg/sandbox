@@ -70,7 +70,7 @@ createStore('posts', {
     const res = await api.get('/posts', params);
     this.loadingList = false;
 
-    res.forEach((data) => setListMap(this.list, POST_BY_SLUG, data, 'slug'));
+    res.forEach(data => setListMap(this.list, POST_BY_SLUG, data, 'slug'));
   },
 
   async createPost(data) {

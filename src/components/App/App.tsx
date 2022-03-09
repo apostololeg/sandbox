@@ -6,8 +6,8 @@ import cn from 'classnames';
 import 'store';
 
 import Flex from 'components/UI/Flex/Flex';
-import { Container } from 'uilib';
-import Notifications from 'components/UI/Notifications/Notifications';
+import { Container, Notifications } from 'uilib';
+// import Notifications from 'components/UI/Notifications/Notifications';
 
 import Routes from 'components/Routes/Routes';
 import Header from 'components/Header/Header';

@@ -29,13 +29,14 @@ class PostList extends Component<Props> {
   renderItem = ({ slug, title }) => {
     const { user, posts } = this.props.store;
     const { isAdmin, isEditor } = user;
+    const allowEdit = isEditor || isAdmin;
 
     return (
       <MenuItem key={slug}>
         <Link href={slug} isClear>
           <h2>{title || `[${slug}]`}</h2>
         </Link>
-        {isEditor && <Link href={`${slug}/edit`}>Edit</Link>}
+        {allowEdit && <Link href={`${slug}/edit`}>Edit</Link>}
         {isAdmin && (
           <Button
             onClick={() => posts.deletePost(slug)}

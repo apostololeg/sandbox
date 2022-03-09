@@ -37,7 +37,7 @@ export default withStore({
         <Lazy path="/admin" loader={() => import('components/Admin/Admin')} />
       )}
 
-      {isEditor && [
+      {(isEditor || isAdmin) && [
         <Lazy
           key="/posts/new"
           path="/posts/new"

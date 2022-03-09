@@ -33,7 +33,7 @@
     }
   },
   "dependencies": {
-    "@foreverido/uilib": "^0.0.21",
+    "@foreverido/uilib": "^0.0.23",
     "@graphql-modules/core": "0.7.7",
     "@lcdp/offline-plugin": "^5.1.1",
     "@prisma/client": "^3.10.0",
