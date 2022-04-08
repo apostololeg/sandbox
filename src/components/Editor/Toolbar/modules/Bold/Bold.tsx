@@ -12,9 +12,15 @@ export default {
 
     editor.formatText(index, length, 'bold', !format.bold);
   },
-  Module({ format, action }) {
+  Module({ className, format, action }) {
     return (
-      <Button onClick={action} checked={format.bold} size="m" isSquare>
+      <Button
+        className={className}
+        onClick={action}
+        checked={format.bold}
+        size="m"
+        isSquare
+      >
         <SvgIcon icon={Icon} size={20} />
       </Button>
     );

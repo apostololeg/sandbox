@@ -1,9 +1,11 @@
 import { useCallback, useMemo } from 'react';
 import { Select } from 'uilib';
+import cn from 'classnames';
 
 import SvgIcon from 'components/UI/SvgIcon/SvgIcon';
 
 import icons from './icons';
+import S from './Headers.styl';
 
 const OPTIONS = [
   { id: 'h1', label: 'H1' },
@@ -23,10 +25,10 @@ export default {
 
     editor.formatText(index, length, 'bold', !format.bold);
   },
-  Module({ editor, format, selection }) {
+  Module({ className, editor, format, selection }) {
     const currFormat = format?.header;
     const onChange = useCallback(
-      (val) => {
+      val => {
         if (!selection) return;
         const { index, length } = selection;
         const newVal = val === getValue(currFormat) ? false : val;
@@ -42,11 +44,12 @@ export default {
 
     return (
       <Select
+        className={cn(S.root, className)}
         options={OPTIONS}
         label="Header"
         popupProps={{ horizontal: 'left' }}
         menuProps={{ highlighted: true, padded: true }}
-        value={val || 'h1'}
+        value={val || ' '}
         onChange={onChange}
         renderLabel={() => <SvgIcon icon={icon} size={20} />}
       />

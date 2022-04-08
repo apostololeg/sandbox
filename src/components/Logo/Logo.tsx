@@ -1,4 +1,4 @@
-import { Link } from 'components/Router/Router';
+import { Link } from 'uilib';
 
 import LogoSvg from './logo.svg';
 

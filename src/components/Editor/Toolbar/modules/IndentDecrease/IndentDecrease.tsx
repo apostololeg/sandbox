@@ -11,9 +11,15 @@ export default {
 
     editor.formatLine(index, length, 'indent', '-1');
   },
-  Module({ action, format }) {
+  Module({ className, action, format }) {
     return (
-      <Button onClick={action} disabled={!format?.indent} size="m" isSquare>
+      <Button
+        className={className}
+        onClick={action}
+        disabled={!format?.indent}
+        size="m"
+        isSquare
+      >
         <SvgIcon icon={Icon} size={20} />
       </Button>
     );

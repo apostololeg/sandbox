@@ -1,6 +1,7 @@
+import { Link } from 'uilib';
+
 import Menu, { MenuItem } from 'components/UI/Menu/Menu';
 import { Title } from 'components/Header/Header';
-import { Link } from 'components/Router/Router';
 
 function Home() {
   return [

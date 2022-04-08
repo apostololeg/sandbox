@@ -1,9 +1,8 @@
 import { Fragment, Component } from 'react';
 import { withStore } from 'justorm/react';
 
-import { Spinner, Button } from 'uilib';
+import { Spinner, Button, Link } from 'uilib';
 
-import { Link } from 'components/Router/Router';
 import { Title } from 'components/Header/Header';
 import Flex from 'components/UI/Flex/Flex';
 import Menu, { MenuItem } from 'components/UI/Menu/Menu';

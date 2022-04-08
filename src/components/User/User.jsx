@@ -1,8 +1,7 @@
 import { withStore } from 'justorm/react';
 
-import { Popup } from 'uilib';
+import { Popup, Link } from 'uilib';
 
-import { Link } from 'components/Router/Router';
 import Menu, { MenuItem } from 'components/UI/Menu/Menu';
 
 import DefaultIcon from './icons/avatar.svg';

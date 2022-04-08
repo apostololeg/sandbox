@@ -2,11 +2,10 @@ import { Component, Fragment, createRef } from 'react';
 import { withStore } from 'justorm/react';
 import Time from 'timen';
 
-import { Spinner } from 'uilib';
+import { Spinner, Link } from 'uilib';
 
 import { Title } from 'components/Header/Header';
 import { hydrateComponents, PostRenderHelpers } from 'components/Editor/Editor';
-import { Link } from 'components/Router/Router';
 import Flex, { mix as flex } from 'components/UI/Flex/Flex';
 
 import s from './Post.styl';

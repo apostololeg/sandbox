@@ -17,11 +17,11 @@ export default {
 
     editor.formatLine(index, length, 'align', getValue(format));
   },
-  Module({ format, action }) {
+  Module({ className, format, action }) {
     const icon = icons[format.align] || icons.left;
 
     return (
-      <Button onClick={action} size="m" isSquare>
+      <Button className={className} onClick={action} size="m" isSquare>
         <SvgIcon icon={icon} size={20} />
       </Button>
     );

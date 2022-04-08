@@ -1,7 +1,6 @@
 {
   "extends": [
     "airbnb",
-    "preact",
     "prettier",
     "prettier/react",
     "eslint:recommended",

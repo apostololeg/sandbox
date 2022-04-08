@@ -12,9 +12,15 @@ export default {
 
     editor.formatText(index, length, 'italic', !format.italic);
   },
-  Module({ format, action }) {
+  Module({ className, format, action }) {
     return (
-      <Button onClick={action} checked={format.italic} size="m" isSquare>
+      <Button
+        className={className}
+        onClick={action}
+        checked={format.italic}
+        size="m"
+        isSquare
+      >
         <SvgIcon icon={Icon} size={20} />
       </Button>
     );

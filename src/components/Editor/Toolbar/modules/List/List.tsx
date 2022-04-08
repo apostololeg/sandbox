@@ -23,11 +23,17 @@ export default {
 
     return editor.formatLine(index, length, 'list', getValue(format));
   },
-  Module({ format, action }) {
+  Module({ className, format, action }) {
     const icon = icons[format.list] || icons.bullet;
 
     return (
-      <Button onClick={action} checked={format.list} size="m" isSquare>
+      <Button
+        className={className}
+        onClick={action}
+        checked={format.list}
+        size="m"
+        isSquare
+      >
         <SvgIcon icon={icon} size={20} />
       </Button>
     );

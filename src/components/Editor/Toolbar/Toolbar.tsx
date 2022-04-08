@@ -4,7 +4,7 @@ import { debounce } from 'uilib';
 import { DEFAULT_SELECTION } from '../tools';
 import MODULES from './modules';
 
-import s from './Toolbar.styl';
+import S from './Toolbar.styl';
 
 const actionByHotkey = MODULES.reduce(
   (acc, { hotkey, action }) => (hotkey ? { ...acc, [hotkey]: action } : acc),
@@ -40,7 +40,7 @@ class Toolbar extends Component<Props> {
     editor.off('editor-change', this.updateState);
   }
 
-  onKeyDown = (e) => {
+  onKeyDown = e => {
     const isMeta = e.ctrlKey || e.metaKey;
     const action = actionByHotkey[e.key];
 
@@ -92,7 +92,7 @@ class Toolbar extends Component<Props> {
     const { format, selection } = this.state;
     const { editor, tools } = this.props;
     const moduleProps = {
-      className: s.item,
+      className: S.item,
       editor,
       format,
       selection,
@@ -105,7 +105,7 @@ class Toolbar extends Component<Props> {
     };
 
     return (
-      <div className={s.toolbar}>
+      <div className={S.root}>
         {MODULES.map(({ name, action, Module }) => (
           <Module
             {...moduleProps}

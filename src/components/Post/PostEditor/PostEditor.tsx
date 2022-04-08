@@ -1,14 +1,13 @@
-import { Component, memo } from 'react';
+import { Component } from 'react';
 import { createStore, withStore } from 'justorm/react';
-import nanoid from 'nanoid';
+import { nanoid } from 'nanoid';
 import compare from 'compareq';
 
-import { Form, Spinner, Checkbox, Button, debounce } from 'uilib';
+import { Form, Spinner, Checkbox, Button, Link, debounce } from 'uilib';
 
 import Flex, { mix as flex } from 'components/UI/Flex/Flex';
 
 import { Title } from 'components/Header/Header';
-import { Link } from 'components/Router/Router';
 import Editor from 'components/Editor/Editor';
 
 import s from './PostEditor.styl';
@@ -31,7 +30,9 @@ class PostEditor extends Component<Props> {
 
   validationSchema = {
     slug: { type: 'string' },
+    slugLock: { type: 'boolean' },
     content: { type: 'string' },
+    published: { type: 'boolean' },
   };
 
   constructor(props) {
@@ -126,7 +127,7 @@ class PostEditor extends Component<Props> {
     setLocalVersion({ ...this.getViewData(), ...patch });
   }
 
-  onKeyDown = (e) => {
+  onKeyDown = e => {
     if ((e.ctrlKey || e.metaKey) && e.key === 's') {
       e.preventDefault();
       e.stopPropagation();
@@ -134,13 +135,13 @@ class PostEditor extends Component<Props> {
     }
   };
 
-  onChange = (values) => {
+  onChange = values => {
     this.updateLocalVersion(values);
     this.store.showLocalVersion = true;
     this.store.isSaved = false;
   };
 
-  onEditorChange = (content) => {
+  onEditorChange = content => {
     const title = H.parseTitleFromContent(content);
     const { values } = this.form;
 
@@ -221,7 +222,7 @@ class PostEditor extends Component<Props> {
     ];
   }
 
-  renderForm = (form) => {
+  renderForm = form => {
     const { isDirty, isValid, Field } = form;
     const { updating } = this.props.store.posts;
     const { showLocalVersion, isSaved } = this.store;
@@ -234,7 +235,7 @@ class PostEditor extends Component<Props> {
         <Field name="slug" className={s.slug} key="slug" />
         <Field
           name="slugLock"
-          key="slug-lock"
+          key="slugLock"
           component={Checkbox}
           size="m"
           type="checkbox"
@@ -268,7 +269,7 @@ class PostEditor extends Component<Props> {
             checked={showLocalVersion}
             disabled={!this.localVersion || !this.remoteVersion}
             onClick={this.toggleLocalVersion}
-            key="local-version"
+            key="localVersion"
           >
             Local version
           </Button>

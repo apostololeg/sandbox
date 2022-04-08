@@ -2,10 +2,9 @@ import { Component, Fragment } from 'react';
 import { bind } from 'decko';
 import { withStore } from 'justorm/react';
 
-import { Form, SubmitButtons } from 'uilib';
+import { Form, SubmitButtons, Link } from 'uilib';
 
 import { Title } from 'components/Header/Header';
-import { Link } from 'components/Router/Router';
 import Flex from 'components/UI/Flex/Flex';
 
 import Login from './Login';
@@ -71,12 +70,12 @@ class Auth extends Component<Props> {
         </div>
         <Form
           className={s.form}
-          onSubmit={(payload) => this.onSubmit(onSubmit, payload)}
+          onSubmit={payload => this.onSubmit(onSubmit, payload)}
           {...formProps}
         >
           {({ Field, isValid, isDirty, isLoading }) => (
             <Fragment>
-              {fields.map((props) => (
+              {fields.map(props => (
                 <Field {...props} key={props.name} />
               ))}
               <div className={s.footer}>

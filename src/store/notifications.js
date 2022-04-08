@@ -1,5 +1,5 @@
 import { createStore } from 'justorm/react';
-import nanoid from 'nanoid';
+import { nanoid } from 'nanoid';
 
 import time from 'timen';
 import { sliceWhere } from 'tools/array';

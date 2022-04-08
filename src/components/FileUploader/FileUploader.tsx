@@ -1,8 +1,7 @@
 import { Component, HTMLProps } from 'react';
 import { createStore } from 'justorm/react';
 import cn from 'classnames';
-import { bind } from 'decko';
-import nanoid from 'nanoid';
+import { nanoid } from 'nanoid';
 
 import { Input } from 'uilib';
 

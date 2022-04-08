@@ -13,9 +13,10 @@ export default {
 
     editor.formatLine(index, length, 'indent', '+1');
   },
-  Module({ action, format }) {
+  Module({ className, action, format }) {
     return (
       <Button
+        className={className}
         onClick={action}
         disabled={format?.indent >= MAX_INDENT}
         size="m"

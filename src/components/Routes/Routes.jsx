@@ -1,7 +1,7 @@
 import { withStore } from 'justorm/react';
-import { Lazy } from 'components/Lazy/Lazy';
 
-import Router from 'components/Router/Router';
+import { Router, Lazy } from 'uilib';
+
 import Home from 'components/Home/Home';
 import Auth from 'components/App/Auth/Auth';
 

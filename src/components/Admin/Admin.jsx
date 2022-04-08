@@ -1,6 +1,7 @@
 import { withStore } from 'justorm/react';
 
-import { Redirect } from 'components/Router/Router';
+import { Redirect } from 'uilib';
+
 import { Title } from 'components/Header/Header';
 import Flex from 'components/UI/Flex/Flex';
 

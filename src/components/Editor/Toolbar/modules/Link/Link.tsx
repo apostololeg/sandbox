@@ -26,11 +26,17 @@ export default {
       href,
     });
   },
-  Module({ selection, action }) {
+  Module({ className, selection, action }) {
     const isDisabled = selection?.length === 0;
 
     return (
-      <Button onClick={action} disabled={isDisabled} size="m" isSquare>
+      <Button
+        className={className}
+        onClick={action}
+        disabled={isDisabled}
+        size="m"
+        isSquare
+      >
         <SvgIcon icon={Icon} size={20} />
       </Button>
     );

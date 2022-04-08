@@ -1,5 +1,5 @@
 import ReactDOM from 'react-dom';
-import { Link } from 'components/Router/Router';
+import { Link } from 'uilib';
 
 const COMPONENTS_TO_HYDRATE = {
   Link,
