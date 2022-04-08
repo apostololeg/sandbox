@@ -32,10 +32,10 @@ class PostList extends Component<Props> {
 
     return (
       <MenuItem key={slug}>
-        <Link href={slug} isClear>
+        <Link href={`/posts/${slug}`} isClear>
           <h2>{title || `[${slug}]`}</h2>
         </Link>
-        {allowEdit && <Link href={`${slug}/edit`}>Edit</Link>}
+        {allowEdit && <Link href={`/posts/${slug}/edit`}>Edit</Link>}
         {isAdmin && (
           <Button
             onClick={() => posts.deletePost(slug)}
@@ -57,7 +57,7 @@ class PostList extends Component<Props> {
     return (
       <Fragment>
         <Title text="Posts">
-          {canCreateNew && <Link href="new">Create New</Link>}
+          {canCreateNew && <Link href="/posts/new">Create New</Link>}
         </Title>
         <Flex scrolled centered={loadingList}>
           {loadingList ? (

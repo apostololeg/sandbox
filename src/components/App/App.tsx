@@ -30,7 +30,7 @@ const App = withStore(['app', { user: [] }])(({ store }) => {
       <VH />
       <Theme config={currThemeConfig} />
       <Header />
-      <Container className={S.content} vertical fullWidth size="m">
+      <Container className={S.content} vertical fullWidth fullHeight size="m">
         <Routes />
       </Container>
       <Notifications />

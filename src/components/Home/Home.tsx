@@ -8,7 +8,7 @@ function Home() {
     <Title text="~/apostol" key="title" />,
     <Menu key="menu">
       <MenuItem>
-        <Link href="posts">Posts</Link>
+        <Link href="/posts">Posts</Link>
       </MenuItem>
     </Menu>,
   ];

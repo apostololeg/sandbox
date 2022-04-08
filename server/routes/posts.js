@@ -25,7 +25,7 @@ router
 
     res.json(items);
   })
-  .get('/:id', async (req, res) => {
+  .get('/:slug', async (req, res) => {
     const { slug } = req.params;
     const params = { where: { slug } };
     const allowEdit = await canEdit(req);

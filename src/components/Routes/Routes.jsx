@@ -14,14 +14,13 @@ export default withStore({
 
   return (
     <Router>
-      <Home path="/" exact />
+      <Home path="/" />
       <Auth path="/register" type="register" />
       <Auth path="/login" type="login" />
       <Auth path="/logout" type="logout" />
 
       <Lazy
         path="/posts"
-        exact
         loader={() => import('components/PostList/PostList')}
       />
       <Lazy path="/posts/:slug" loader={() => import('components/Post/Post')} />

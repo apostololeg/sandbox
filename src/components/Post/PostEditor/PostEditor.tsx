@@ -111,7 +111,7 @@ class PostEditor extends Component<Props> {
         author: H.connectAuthor(user.email),
         content: 'start writing here...',
       });
-      router.navigate(`/posts/${data.slug}/edit`, { replace: true });
+      router.go(`/posts/${data.slug}/edit`, { replace: true });
     } catch (e) {
       notifications.show({
         type: 'error',
@@ -232,7 +232,7 @@ class PostEditor extends Component<Props> {
     return [
       this.renderTitle(isDirty),
       <div className={s.slugWrap} key="slug-line">
-        <Field name="slug" className={s.slug} key="slug" />
+        <Field name="slug" label="Slug" className={s.slug} key="slug" />
         <Field
           name="slugLock"
           key="slugLock"
