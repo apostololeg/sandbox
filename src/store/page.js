@@ -1,6 +1,6 @@
 import { createStore } from 'justorm/react';
 
-const Page = createStore('page', {
+export default createStore('page', {
   title: 'Home',
   isAuth: false,
   setTitle(title) {
@@ -12,5 +12,3 @@ const Page = createStore('page', {
     return prevTitle;
   },
 });
-
-export default Page;

@@ -1,8 +1,9 @@
-import { ThemeHelpers } from 'uilib';
+import { ThemeHelpers, queryParams } from 'uilib';
 import { createStore } from 'justorm/react';
 
 import { config as themeConfig, colors } from './theme';
 
+const qParams = queryParams.parseQueryParams();
 const initialThemeType = localStorage.getItem('theme') ?? 'dark';
 
 function getInitialActiveColor() {
@@ -29,6 +30,7 @@ createStore('app', {
   theme: initialThemeType,
   currThemeConfig: getThemeConfig(initialThemeType, initialActiveColor),
   activeColor: initialActiveColor,
+  isEmbed: Boolean(qParams.embed),
 
   setTheme(theme) {
     this.theme = theme;

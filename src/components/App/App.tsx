@@ -19,11 +19,11 @@ require('./store');
 
 const App = withStore(['app', { user: [] }])(({ store }) => {
   const { app, user } = store;
-  const { currThemeConfig, theme } = app.originalObject;
+  const { currThemeConfig, theme, isEmbed } = app.originalObject;
 
   useEffect(() => {
-    user.init();
-  }, []);
+    if (!isEmbed) user.init();
+  }, [isEmbed]);
 
   return (
     <Flex className={cn(S.root, `theme-${theme}`)}>
