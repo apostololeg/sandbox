@@ -18,11 +18,12 @@ const VARS = [
 
 const { parsed } = require('dotenv').config();
 
-const { NODE_ENV } = process.env;
+const { NODE_ENV, NOMINIFY } = process.env;
 const PRODUCTION = NODE_ENV === 'production';
 
 const env = {
   PRODUCTION,
+  NOMINIFY,
   ...pick(parsed, VARS),
 };
 

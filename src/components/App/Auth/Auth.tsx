@@ -36,7 +36,7 @@ class Auth extends Component<Props> {
 
     try {
       await onSubmit(payload);
-      router.navigate('/');
+      router.go('/');
     } catch (err) {
       notifications.show({
         type: 'error',

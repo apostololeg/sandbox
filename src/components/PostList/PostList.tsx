@@ -1,11 +1,14 @@
 import { Fragment, Component } from 'react';
 import { withStore } from 'justorm/react';
 
-import { Spinner, Button, Link } from 'uilib';
+import { Scroll, Button, Link } from 'uilib';
+
+import Menu, { MenuItem } from 'components/UI/Menu/Menu';
+import { PageLoader } from 'components/UI/Loader/Loader';
+import { Gap } from 'components/UI/Flex/Flex';
 
 import { Title } from 'components/Header/Header';
-import Flex from 'components/UI/Flex/Flex';
-import Menu, { MenuItem } from 'components/UI/Menu/Menu';
+import LangSwitcher from 'components/Post/LangSwitcher/LangSwitcher';
 
 // import S from './PostList.styl';
 
@@ -15,7 +18,7 @@ type Props = {
 
 @withStore({
   user: ['isAdmin', 'isEditor'],
-  posts: ['list', 'loadingList', 'deleting'],
+  posts: ['items', 'lang', 'loadingList', 'deleting'],
   notifications: [],
 })
 class PostList extends Component<Props> {
@@ -25,21 +28,24 @@ class PostList extends Component<Props> {
     posts.loadPosts();
   }
 
-  renderItem = ({ slug, title }) => {
+  renderItem = id => {
     const { user, posts } = this.props.store;
     const { isAdmin, isEditor } = user;
     const allowEdit = isEditor || isAdmin;
+    const { byId, lang } = posts;
+    const { slug, texts } = byId[id];
+    const title = texts.find(t => t.lang === lang)?.title?.trim();
 
     return (
       <MenuItem key={slug}>
-        <Link href={`/posts/${slug}`} isClear>
+        <Link href={`/post/${slug}?lang=${lang.toLowerCase()}`} isClear>
           <h2>{title || `[${slug}]`}</h2>
         </Link>
-        {allowEdit && <Link href={`/posts/${slug}/edit`}>Edit</Link>}
+        {allowEdit && <Link href={`/post/${id}/edit`}>Edit</Link>}
         {isAdmin && (
           <Button
-            onClick={() => posts.deletePost(slug)}
-            isLoading={posts.deleting[slug]}
+            onClick={() => posts.deletePost(id)}
+            isLoading={posts.deleting[id]}
           >
             Remove
           </Button>
@@ -50,7 +56,7 @@ class PostList extends Component<Props> {
 
   render() {
     const { user, posts } = this.props.store;
-    const { loadingList, list } = posts;
+    const { loadingList, items } = posts;
     const { isAdmin, isEditor } = user;
     const canCreateNew = isEditor || isAdmin;
 
@@ -59,13 +65,19 @@ class PostList extends Component<Props> {
         <Title text="Posts">
           {canCreateNew && <Link href="/posts/new">Create New</Link>}
         </Title>
-        <Flex scrolled centered={loadingList}>
-          {loadingList ? (
-            <Spinner size="l" />
-          ) : (
-            <Menu>{list.map(this.renderItem)}</Menu>
-          )}
-        </Flex>
+        {loadingList ? (
+          <PageLoader />
+        ) : (
+          <>
+            <Scroll y>
+              <Menu>{items.map(this.renderItem)}</Menu>
+            </Scroll>
+            <Gap />
+            <div>
+              <LangSwitcher popupProps={{ direction: 'top' }} />
+            </div>
+          </>
+        )}
       </Fragment>
     );
   }

@@ -1,79 +1,85 @@
 import { Component } from 'react';
 import { createStore, withStore } from 'justorm/react';
-import { nanoid } from 'nanoid';
 import compare from 'compareq';
+import { Form, Spinner, Checkbox, Button, Link, debounce, array } from 'uilib';
 
-import { Form, Spinner, Checkbox, Button, Link, debounce } from 'uilib';
+import { DEFAULT_LANG } from 'shared/langs';
 
-import Flex, { mix as flex } from 'components/UI/Flex/Flex';
+import { getTextsFromData } from 'tools/posts';
 
+import Flex from 'components/UI/Flex/Flex';
 import { Title } from 'components/Header/Header';
 import Editor from 'components/Editor/Editor';
 
-import s from './PostEditor.styl';
+import S from './PostEditor.styl';
 import * as H from './PostEditor.helpers';
+import { EmptyPage } from 'components/UI/EmptyPage/EmptyPage';
+
+import LangSwitcher from '../LangSwitcher/LangSwitcher';
 
 type Props = {
   store?: any;
-  router?: any;
-  slug: string;
+  id: string;
 };
 
 @withStore({
-  posts: ['list', 'loading', 'updating'],
-  user: [],
+  posts: ['items', 'textsById', 'creatingTexts', 'loading', 'updating', 'lang'],
   notifications: [],
 })
 class PostEditor extends Component<Props> {
   store;
   form;
+  editedLangs: string[] = [];
 
   validationSchema = {
     slug: { type: 'string' },
     slugLock: { type: 'boolean' },
-    content: { type: 'string' },
     published: { type: 'boolean' },
   };
 
   constructor(props) {
     super(props);
 
+    const postData = this.localVersion ?? this.remoteVersion ?? {};
+
     this.store = createStore(this, {
       showLocalVersion: Boolean(this.localVersion),
-      initialValues: H.pickFormData(this.localVersion || this.remoteVersion),
+      initialValues: H.pickFormData(postData),
+      isLoaded: false,
       isSaved: true,
+      activeLang: DEFAULT_LANG,
     });
 
     this.onChange = debounce(this.onChange, 600);
   }
 
   componentDidMount() {
-    console.log('Editor mount');
-
-    if (this.props.slug) {
-      this.loadPostData();
-    } else {
-      this.createNewPost();
-    }
+    this.editedLangs = [];
+    this.loadPostData();
 
     document.addEventListener('keydown', this.onKeyDown);
   }
 
   componentWillUnmount() {
-    console.log('Editor UNmount');
-
     document.removeEventListener('keydown', this.onKeyDown);
   }
 
   isLoading() {
-    const { slug, store } = this.props;
-    return Boolean(store.posts.loading[slug]);
+    const { id, store } = this.props;
+    return Boolean(store.posts.loading[id]);
   }
 
   async loadPostData() {
-    const { slug, store } = this.props;
+    const { id, store } = this.props;
+    const { loadPost, loadCurrentTexts, loadTexts, byId } = store.posts;
 
-    await store.posts.loadPost(slug);
+    await loadPost(id);
+    await loadCurrentTexts(id);
+    // const textsLoaders = byId[id].texts.map(text => loadTexts(text.id));
+    // await Promise.all(textsLoaders);
+
+    this.store.isLoaded = true;
+
     const formData = H.pickFormData(this.remoteVersion);
     this.store.initialValues = formData;
 
@@ -87,13 +93,21 @@ class PostEditor extends Component<Props> {
   }
 
   get localVersion() {
-    const { slug, store } = this.props;
-    return store.posts.getLocalVersion(slug);
+    const { id, store } = this.props;
+    return store.posts.getLocalVersion(id);
   }
 
   get remoteVersion() {
-    const { slug, store } = this.props;
-    return store.posts.getPostBySlug(slug);
+    const { id, store } = this.props;
+    const { byId, textsById } = store.posts;
+
+    if (!byId[id]) return null;
+
+    const data = { ...byId[id] };
+
+    data.texts = data.texts.map(text => ({ ...text, ...textsById[text.id] }));
+
+    return data;
   }
 
   getViewData() {
@@ -101,30 +115,45 @@ class PostEditor extends Component<Props> {
     return this.remoteVersion;
   }
 
-  createNewPost = async () => {
-    const { router, store } = this.props;
-    const { user, notifications, posts } = store;
+  getActiveTexts(values = this.localVersion) {
+    const { textsById, lang } = this.props.store.posts;
+    const text = values.texts.find(item => item.lang === lang);
 
-    try {
-      const data = await posts.createPost({
-        slug: nanoid(),
-        author: H.connectAuthor(user.email),
-        content: 'start writing here...',
-      });
-      router.go(`/posts/${data.slug}/edit`, { replace: true });
-    } catch (e) {
-      notifications.show({
-        type: 'error',
-        title: 'Create post failed',
-        content: e?.message,
-      });
-    }
+    if (!text) return null;
+
+    return textsById[text.id];
+  }
+
+  createText = async () => {
+    const { store, id } = this.props;
+    const { createText } = store.posts;
+
+    await createText(id);
+
+    this.store.initialValues = H.pickFormData(this.remoteVersion);
   };
 
-  updateLocalVersion(patch) {
+  updateActiveContent(content) {
+    const { lang } = this.props.store.posts;
+    const { slugLock } = this.form.values;
+
+    const texts = [...this.form.values.texts];
+    const index = array.indexWhere(texts, lang, 'lang');
+    const title = H.parseTitleFromContent(content);
+
+    texts[index] = { ...texts[index], content, title };
+
+    this.form.setValue('texts', texts);
+
+    if (lang === 'EN' && title && !slugLock) {
+      this.form.setValue('slug', H.titleToSlug(title));
+    }
+  }
+
+  updateLocalVersion() {
     const { setLocalVersion } = this.props.store.posts;
 
-    setLocalVersion({ ...this.getViewData(), ...patch });
+    setLocalVersion({ ...this.form.values });
   }
 
   onKeyDown = e => {
@@ -135,40 +164,35 @@ class PostEditor extends Component<Props> {
     }
   };
 
-  onChange = values => {
-    this.updateLocalVersion(values);
+  onLangChange = lang => (this.store.lang = lang);
+
+  onChange = () => {
+    this.updateLocalVersion();
     this.store.showLocalVersion = true;
     this.store.isSaved = false;
   };
 
-  onEditorChange = content => {
-    const title = H.parseTitleFromContent(content);
-    const { values } = this.form;
+  onEditorChange = (value: string) => {
+    const { lang } = this.props.store.posts;
+    const texts = this.getActiveTexts(this.form.values);
 
-    if (values.content === content) {
-      return;
-    }
+    if (texts.content === value) return;
 
-    if (this.localVersion.title && !values.slugLock) {
-      this.form.setValue('slug', H.titleToSlug(title));
-    }
-
-    this.updateLocalVersion({
-      title,
-      content,
-    });
+    array.addUniq(this.editedLangs, lang);
+    this.updateActiveContent(value);
+    this.updateLocalVersion();
   };
 
   onSave = async (values = this.form.values) => {
-    const { router, store } = this.props;
-    const { user, notifications, posts } = store;
-    const { slug } = values;
-    const { id, title } = this.localVersion;
-    const data = {
-      ...values,
-      title,
-      author: H.connectAuthor(user.email),
-    };
+    const { store } = this.props;
+    const { notifications, posts } = store;
+    const { id } = this.localVersion;
+    const data = { ...values };
+
+    data.texts = data.texts.filter(
+      ({ lang, title, content }) =>
+        this.editedLangs.includes(lang) && (title || content)
+    );
 
     await posts.updatePost({ id, data });
 
@@ -182,57 +206,57 @@ class PostEditor extends Component<Props> {
       showLocalVersion: false,
       isSaved: true,
     });
-
-    if (slug !== this.props.slug) {
-      router.replaceState(`/posts/${slug}/edit`, { quiet: true });
-    }
   };
 
   toggleLocalVersion = () => {
-    this.store.showLocalVersion = !this.store.showLocalVersion;
+    const { showLocalVersion } = this.store;
+
+    this.store.showLocalVersion = !showLocalVersion;
     this.form.setValues(H.pickFormData(this.getViewData()));
   };
 
-  renderTitle(showOriginal) {
-    const postData = this.getViewData();
+  renderTitle() {
+    const { lang } = this.props.store.posts;
+    const postData = getTextsFromData(this.form.values, lang);
 
-    if (this.isLoading() || !postData) {
-      return null;
-    }
+    if (this.isLoading() || !postData) return null;
 
     return (
       <Title text={postData.title || 'New post'} key="title">
-        {this.renderTitleLinks(showOriginal, postData)}
+        {this.renderTitleLinks(postData)}
       </Title>
     );
   }
 
-  renderTitleLinks(showOriginal, postData) {
-    const { slug } = this.props;
+  renderTitleLinks({ slug }) {
+    const { isDirty } = this.form;
 
-    if (!showOriginal) return null;
-    if (slug !== postData.slug) return '[Save new slug before preview]';
+    if (!isDirty) return null;
+
     return [
-      <Link href={`/posts/${slug}/preview`} key="preview">
+      <Link href={`/post/${slug}/preview`} key="preview">
         Preview
       </Link>,
-      <Link href={`/posts/${slug}`} key="original">
+      <Link href={`/post/${slug}`} key="original">
         Original
       </Link>,
     ];
   }
 
   renderForm = form => {
-    const { isDirty, isValid, Field } = form;
-    const { updating } = this.props.store.posts;
+    const { id, store } = this.props;
+    const { updating, isTextCreating } = store.posts;
     const { showLocalVersion, isSaved } = this.store;
+    const { isDirty, isValid, Field, values } = form;
+    const texts = this.getActiveTexts(values);
 
     this.form = form;
 
     return [
-      this.renderTitle(isDirty),
-      <div className={s.slugWrap} key="slug-line">
-        <Field name="slug" label="Slug" className={s.slug} key="slug" />
+      this.renderTitle(),
+
+      <div className={S.slugWrap} key="slug-line">
+        <Field name="slug" label="Slug" className={S.slug} key="slug" />
         <Field
           name="slugLock"
           key="slugLock"
@@ -244,15 +268,23 @@ class PostEditor extends Component<Props> {
         />
       </div>,
 
-      <Field
-        className={flex('scrolled')}
-        name="content"
-        component={Editor}
-        onChange={this.onEditorChange}
-        key="content"
-      />,
+      texts ? (
+        <Editor
+          value={texts.content}
+          onChange={this.onEditorChange}
+          key="content"
+          toolbarAddons={<LangSwitcher postId={id} />}
+        />
+      ) : (
+        <EmptyPage title="There are no texts for this language">
+          <LangSwitcher postId={id} className={S.langSwitcherEmpty} />
+          <Button onClick={this.createText} isLoading={isTextCreating(id)}>
+            Create
+          </Button>
+        </EmptyPage>
+      ),
 
-      <div className={s.footer} key="footer">
+      <div className={S.footer} key="footer">
         <Field
           name="published"
           key="published"
@@ -261,10 +293,10 @@ class PostEditor extends Component<Props> {
           type="checkbox"
           label="Published"
         />
-        <div className={s.gap} />
+        <div className={S.gap} />
         {!isSaved && (
           <Button
-            className={s.versionButton}
+            className={S.versionButton}
             size="m"
             checked={showLocalVersion}
             disabled={!this.localVersion || !this.remoteVersion}
@@ -288,9 +320,9 @@ class PostEditor extends Component<Props> {
   };
 
   render() {
-    const { initialValues } = this.store;
+    const { isLoaded, initialValues } = this.store;
 
-    if (this.isLoading())
+    if (!isLoaded)
       return (
         <Flex centered>
           <Spinner size="l" />
@@ -301,7 +333,7 @@ class PostEditor extends Component<Props> {
 
     return (
       <Form
-        className={flex()}
+        className={S.root}
         initialValues={initialValues.originalObject}
         validationSchema={this.validationSchema}
         onChange={this.onChange}

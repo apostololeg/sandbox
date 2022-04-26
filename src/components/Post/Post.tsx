@@ -1,14 +1,21 @@
 import { Component, Fragment, createRef } from 'react';
 import { withStore } from 'justorm/react';
 import Time from 'timen';
+import cn from 'classnames';
 
-import { Spinner, Link } from 'uilib';
+import { Link, Scroll } from 'uilib';
+
+import { getTextsFromData } from 'tools/posts';
+
+import { PageLoader } from 'components/UI/Loader/Loader';
 
 import { Title } from 'components/Header/Header';
 import { hydrateComponents, PostRenderHelpers } from 'components/Editor/Editor';
-import Flex, { mix as flex } from 'components/UI/Flex/Flex';
 
-import s from './Post.styl';
+import LangSwitcher from './LangSwitcher/LangSwitcher';
+
+import S from './Post.styl';
+import { Gap } from 'components/UI/Flex/Flex';
 
 type Props = {
   store?: any;
@@ -19,7 +26,7 @@ type Props = {
 
 @withStore({
   user: ['isAdmin'],
-  posts: ['list', 'localEdits', 'loading'],
+  posts: ['bySlug', 'textsById', 'localEdits', 'loading', 'lang'],
 })
 class Post extends Component<Props> {
   container = createRef();
@@ -39,7 +46,7 @@ class Post extends Component<Props> {
 
     if (isSlugChanged || isPreviewChanged) {
       this.init();
-    } else if (!this.isHydrated && this.getData()) {
+    } else if (!this.isHydrated && this.data) {
       this.hydrate();
     }
   }
@@ -48,34 +55,48 @@ class Post extends Component<Props> {
     this.clearHydrateTimer?.();
   }
 
-  isLoading() {
+  get isLoading() {
     const { slug, store } = this.props;
     return store.posts.loading[slug];
   }
 
   async init() {
-    const { preview, slug, store } = this.props;
-    const { getPostBySlug, getLocalVersion, loadPost } = store.posts;
+    const { slug, store } = this.props;
+    const { loadPost, loadCurrentTexts, bySlug } = store.posts;
 
-    if (preview) {
-      getLocalVersion(slug);
-      this.hydrate();
-      return;
-    }
+    await loadPost(slug);
+    await loadCurrentTexts(bySlug[slug]?.id);
 
-    if (getPostBySlug(slug)) {
+    if (this.texts) {
       this.hydrate();
     } else {
       this.isHydrated = false;
-      loadPost(slug);
     }
   }
 
-  getData() {
-    const { slug, preview, store } = this.props;
-    const { localEdits, getPostBySlug } = store.posts;
+  loadTexts() {
+    const { slug, store } = this.props;
+    const { bySlug, lang, loadTexts } = store.posts;
+    const { id } = getTextsFromData(bySlug[slug], lang);
 
-    return preview ? localEdits[slug] : getPostBySlug(slug);
+    loadTexts(id);
+  }
+
+  get data() {
+    const { slug, preview, store } = this.props;
+    const { localEdits, bySlug } = store.posts;
+    const post = preview ? localEdits[slug] : bySlug[slug];
+
+    if (!post) return null;
+
+    return post;
+  }
+
+  get texts() {
+    const { lang, textsById } = this.props.store.posts;
+    const { id } = getTextsFromData(this.data, lang);
+
+    return textsById[id];
   }
 
   hydrate() {
@@ -87,53 +108,52 @@ class Post extends Component<Props> {
     );
   }
 
-  renderContent(data) {
-    const { author, createdAt, content } = data;
+  renderContent() {
+    // const { author, createdAt } = this.data;
+
+    if (!this.texts) return null;
 
     return (
       <Fragment>
-        <div
-          ref={this.container}
-          dangerouslySetInnerHTML={{ __html: content }} // eslint-disable-line
-        />
-        <div className={s.footer}>
-          {author && (author.name || author.email)}
+        <Scroll y>
+          <div
+            className={S.content}
+            ref={this.container}
+            dangerouslySetInnerHTML={{ __html: this.texts.content }} // eslint-disable-line
+          />
+        </Scroll>
+        <Gap />
+        <div className={S.footer}>
+          {/* {author && (author.name || author.email)} */}
           {/* {new Date(createdAt).toString()} */}
+          <LangSwitcher
+            postId={this.data.id}
+            popupProps={{ direction: 'right-top' }}
+          />
         </div>
       </Fragment>
     );
   }
 
   render() {
-    const data = this.getData();
+    if (!this.data) return null;
+    if (this.isLoading) return <PageLoader />;
 
-    if (!data) return null;
-    if (this.isLoading()) {
-      return (
-        <Flex>
-          <Spinner />
-        </Flex>
-      );
-    }
-
-    const { className, slug, preview, store } = this.props;
+    const { className, preview, store } = this.props;
     const { user } = store;
+    const { id, slug } = this.data;
 
     return (
       <Fragment>
         <PostRenderHelpers />
-        <Title text={data.title}>
+        <Title text={this.texts?.title}>
           {user.isAdmin && [
-            <Link href={`/posts/${slug}/edit`}>Edit</Link>,
-            preview && <Link href={`/posts/${slug}`}>Original</Link>,
+            <Link href={`/post/${id}/edit`}>Edit</Link>,
+            preview && <Link href={`/post/${slug}`}>Original</Link>,
           ]}
+          <Gap />
         </Title>
-        <div
-          className={flex('scrolled', className, s.root)}
-          // onScroll={this.onScroll}
-        >
-          {this.renderContent(data)}
-        </div>
+        <div className={cn(className, S.root)}>{this.renderContent()}</div>
       </Fragment>
     );
   }

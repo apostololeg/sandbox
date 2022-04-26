@@ -1,8 +1,17 @@
 @import '~theme';
 
 .root
-  padding-bottom var(--indent-l)
+  display flex
+  flex-direction column
+  flex 1
   postStyles()
+  overflow hidden
 
   & h1
     display none
+
+.content
+  padding-bottom var(--indent-l)
+
+.footer
+  padding-top var(--indent-l)

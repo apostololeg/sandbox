@@ -1,12 +1,15 @@
-import { Component, memo } from 'react';
-import { debounce } from 'uilib';
+import { Component, ReactNode } from 'react';
+import { Button, Icon, debounce } from 'uilib';
+import { withStore } from 'justorm/react';
+import cn from 'classnames';
+import Time from 'timen';
+import compare from 'compareq';
 
-import Flex from 'components/UI/Flex/Flex';
 import Quill from './Quill';
 import Toolbar from './Toolbar/Toolbar';
 import Tools from './tools';
 
-import s from './Editor.styl';
+import S from './Editor.styl';
 import { hydrateComponents } from './Editor.helpers';
 import PostRenderHelpers from './PostRenderHelpers';
 
@@ -14,13 +17,17 @@ type Props = {
   store?: any;
   value: string;
   onChange?: (value: string) => void;
+  toolbarAddons?: ReactNode;
 };
 
-class Editor extends Component<Props> {
-  state = { showToolbar: false };
+@withStore({ router: ['query'] })
+export default class Editor extends Component<Props> {
   editor;
   tools;
   domParser;
+  store;
+
+  state = { showToolbar: false, isFullscreen: false };
 
   componentDidMount() {
     const { value } = this.props;
@@ -30,13 +37,19 @@ class Editor extends Component<Props> {
     this.domParser = new DOMParser();
 
     this.setValue(value);
-    this.setState({ showToolbar: true }); // eslint-disable-line
+    this.setState({ showToolbar: true });
 
     this.editor.on('editor-change', this.onChange);
   }
 
-  shouldComponentUpdate(nextProps) {
-    return nextProps.value !== this.props.value;
+  shouldComponentUpdate(nextProps, nextState) {
+    const { value, toolbarAddons } = this.props;
+
+    return (
+      nextProps.value !== value ||
+      (nextProps.toolbarAddons && !toolbarAddons) ||
+      !compare(nextState, this.state)
+    );
   }
 
   componentDidUpdate() {
@@ -46,12 +59,12 @@ class Editor extends Component<Props> {
   }
 
   componentWillUnmount() {
-    this.editor.off('editor.change', this.onChange);
+    this.editor.off('editor-change', this.onChange);
   }
 
   hydrateComponents = debounce(() => hydrateComponents(this.editor.root), 500);
 
-  setValue = (value) => {
+  setValue = value => {
     this.editor.root.innerHTML = value;
     this.hydrateComponents();
   };
@@ -60,7 +73,7 @@ class Editor extends Component<Props> {
     const { innerHTML } = this.editor.root;
     const tree = this.domParser.parseFromString(innerHTML, 'text/html');
 
-    tree.querySelectorAll('[data-props]').forEach((node) => {
+    tree.querySelectorAll('[data-props]').forEach(node => {
       node.innerHTML = '';
       node.removeAttribute('data-inited');
     });
@@ -72,25 +85,45 @@ class Editor extends Component<Props> {
     const { value, onChange } = this.props;
     const newVal = this.getValue();
 
-    if (value === newVal) return;
+    if (value !== newVal) onChange?.(newVal);
+  };
 
-    onChange?.(newVal);
-    this.hydrateComponents();
+  toggleFullscreen = () => {
+    const content = editor.innerHTML;
+    const { isFullscreen } = this.state;
+
+    this.setState({ isFullscreen: !isFullscreen });
+    Time.after(100, () => (editor.innerHTML = content));
   };
 
   render() {
-    const { showToolbar } = this.state;
+    const { toolbarAddons } = this.props;
+    const { showToolbar, isFullscreen } = this.state;
 
     return (
-      <Flex className={s.root}>
+      <div className={cn(S.root, isFullscreen && S.fullscreen)}>
         <PostRenderHelpers />
-        {showToolbar && <Toolbar editor={this.editor} tools={this.tools} />}
-        <Flex scrolled id="editor" className={s.editor} />
-      </Flex>
+        {showToolbar && (
+          <Toolbar
+            className={S.toolbar}
+            editor={this.editor}
+            tools={this.tools}
+          >
+            {toolbarAddons}
+            <Button
+              className={S.fullscreenButton}
+              isSquare
+              variant="clear"
+              onClick={this.toggleFullscreen}
+            >
+              <Icon type="fullscreen" size="l" />
+            </Button>
+          </Toolbar>
+        )}
+        <div id="editor" className={S.editor} />
+      </div>
     );
   }
 }
-
-export default memo(Editor);
 
 export { hydrateComponents, PostRenderHelpers };

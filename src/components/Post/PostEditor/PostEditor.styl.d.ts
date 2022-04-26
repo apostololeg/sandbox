@@ -3,6 +3,8 @@
 interface CssExports {
   'footer': string;
   'gap': string;
+  'langSwitcherEmpty': string;
+  'root': string;
   'slug': string;
   'slugWrap': string;
   'versionButton': string;

@@ -12,6 +12,12 @@ enum Role {
   ADMIN
 }
 
+enum Lang {
+  EN
+  UA
+  RU
+}
+
 model User {
   id Int @default(autoincrement()) @id
   joinedAt DateTime @default(now())
@@ -22,16 +28,25 @@ model User {
   posts Post[]
 }
 
+model PostTexts {
+  id Int @default(autoincrement()) @id
+  lang Lang
+  title String
+  content String
+
+  Post    Post  @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postId  Int
+}
+
 model Post {
   id Int @default(autoincrement()) @id
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  author User @relation(fields: [authorId], references: [id])
+  author User @relation(fields: [authorId], references: [id], onDelete: SetNull)
   authorId Int
-  title String
   slug String
   slugLock Boolean @default(value: false)
-  content String
+  texts PostTexts[]
   tags String[]
   published Boolean
 }
