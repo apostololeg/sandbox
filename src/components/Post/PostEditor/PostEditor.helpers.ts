@@ -1,23 +1,15 @@
 import pick from 'lodash.pick';
 
-import { clone } from 'tools/object'
-
-const FORM_FIELDS = ['slug', 'slugLock', 'content', 'published'];
+import { clone } from 'tools/object';
 
 export function pickFormData(data) {
-  return pick(clone(data), FORM_FIELDS);
-}
-
-export function connectAuthor(email) {
-  return { connect: { email } };
+  return pick(clone(data), ['slug', 'slugLock', 'texts', 'published']);
 }
 
 export function titleToSlug(str) {
   const explicitSymbols = ['&nbsp;'];
 
-  if (!str) {
-    return '';
-  }
+  if (!str) return '';
 
   return str
     .replace(new RegExp(`(${explicitSymbols.join('|')})`), '')
@@ -26,7 +18,7 @@ export function titleToSlug(str) {
     .toLowerCase();
 }
 
-export function parseTitleFromContent(content) {
+export function parseTitleFromContent(content: string) {
   const h1 = content.replace(/(<br>|&nbsp;)/g, '').match('<h1.*?>(.*?)</h1>');
   return h1?.[1] || '';
 }

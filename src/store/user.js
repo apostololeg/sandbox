@@ -1,12 +1,6 @@
 import { createStore } from 'justorm/react';
 import { api } from 'tools/request';
 
-const DEFAULT_DATA = {
-  inProgress: false,
-  isLogged: false,
-  isAdmin: false,
-};
-
 const STORE = createStore('user', {
   id: null,
   avatar: '',
@@ -14,7 +8,7 @@ const STORE = createStore('user', {
   role: 'GUEST',
   permissions: {},
 
-  inProgress: true,
+  isInited: false,
   isLogged: false,
   isAdmin: false,
   isEditor: false,
@@ -23,8 +17,8 @@ const STORE = createStore('user', {
     try {
       const res = await api.get('/users/me');
 
-      if (res) setUser(res);
-      else if (/^localhost/.test(location.host)) this.loginas(1);
+      if (!res && /^localhost/.test(location.host)) this.loginas(1);
+      else setUser(res);
     } catch (e) {
       console.error('store/user:init()', e?.message);
     }
@@ -32,13 +26,11 @@ const STORE = createStore('user', {
 
   async register(data) {
     const res = await api.post('/auth/register', { data });
-
     console.log('res', res);
   },
 
   async login(data) {
     const res = await api.post('/auth/login', { data });
-    debugger;
     setUser(res);
   },
 
@@ -54,17 +46,16 @@ const STORE = createStore('user', {
 });
 
 function setUser(data) {
-  if (!data) {
-    Object.assign(STORE, { ...DEFAULT_DATA });
-    return;
+  if (data) {
+    Object.assign(STORE, {
+      ...data,
+      isAdmin: data.roles.includes('ADMIN'),
+      isEditor: data.roles.includes('EDITOR'),
+      isLogged: true,
+    });
   }
 
-  Object.assign(STORE, data, {
-    inProgress: false,
-    isLogged: true,
-    isAdmin: data.roles.includes('ADMIN'),
-    isEditor: data.roles.includes('EDITOR'),
-  });
+  STORE.isInited = true;
 }
 
 export default STORE;

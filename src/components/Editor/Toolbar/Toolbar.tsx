@@ -1,5 +1,6 @@
 import { Component } from 'react';
 import { debounce } from 'uilib';
+import cn from 'classnames';
 
 import { DEFAULT_SELECTION } from '../tools';
 import MODULES from './modules';
@@ -12,6 +13,7 @@ const actionByHotkey = MODULES.reduce(
 );
 
 type Props = {
+  className?: string;
   editor: any;
   tools: any;
 };
@@ -89,8 +91,8 @@ class Toolbar extends Component<Props> {
   };
 
   render() {
+    const { editor, tools, className, children } = this.props;
     const { format, selection } = this.state;
-    const { editor, tools } = this.props;
     const moduleProps = {
       className: S.item,
       editor,
@@ -105,7 +107,7 @@ class Toolbar extends Component<Props> {
     };
 
     return (
-      <div className={S.root}>
+      <div className={cn(S.root, className)}>
         {MODULES.map(({ name, action, Module }) => (
           <Module
             {...moduleProps}
@@ -113,6 +115,12 @@ class Toolbar extends Component<Props> {
             action={() => action(actionProps)}
           />
         ))}
+        {children && (
+          <>
+            <div className={S.gap} />
+            <div className={S.addons}>{children}</div>
+          </>
+        )}
       </div>
     );
   }

@@ -1,5 +1,12 @@
 @import '~theme'
 
+.root
+  display flex
+  flex-grow 1
+  flex-direction column
+  overflow hidden
+  padding-top var(--indent-s)
+
 .slugWrap
   display flex
 
@@ -16,3 +23,7 @@
 .versionButton
   margin-right var(--indent-s)
 
+.langSwitcherEmpty
+  position absolute
+  right 10px
+  top 10px

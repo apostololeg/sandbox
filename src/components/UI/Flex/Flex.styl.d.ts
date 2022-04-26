@@ -2,6 +2,7 @@
 // Please do not change this file!
 interface CssExports {
   'centered': string;
+  'gap': string;
   'root': string;
   'scrolled': string;
 }

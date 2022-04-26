@@ -2,7 +2,11 @@
 // Please do not change this file!
 interface CssExports {
   'editor': string;
+  'fullscreen': string;
+  'fullscreenButton': string;
   'root': string;
+  'toolbar': string;
+  'toolbarAddons': string;
 }
 export const cssExports: CssExports;
 export default cssExports;

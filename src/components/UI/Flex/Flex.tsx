@@ -27,3 +27,7 @@ function Flex({ children, Elem = 'div', ...props }) {
 }
 
 export default Flex;
+
+export function Gap({ className = '', ...rest }) {
+  return <div className={cn(S.gap, className)} {...rest} />;
+}

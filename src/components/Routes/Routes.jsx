@@ -8,9 +8,11 @@ import Auth from 'components/App/Auth/Auth';
 import NoMatch from './NoMatch';
 
 export default withStore({
-  user: ['isLogged', 'isEditor', 'isAdmin'],
+  user: ['isInited', 'isLogged', 'isEditor', 'isAdmin'],
 })(function Routes({ store }) {
-  const { isLogged, isEditor, isAdmin } = store.user;
+  const { isInited, isLogged, isEditor, isAdmin } = store.user;
+
+  if (!isInited) return null;
 
   return (
     <Router>
@@ -23,7 +25,7 @@ export default withStore({
         path="/posts"
         loader={() => import('components/PostList/PostList')}
       />
-      <Lazy path="/posts/:slug" loader={() => import('components/Post/Post')} />
+      <Lazy path="/post/:slug" loader={() => import('components/Post/Post')} />
 
       {isLogged && (
         <Lazy
@@ -41,16 +43,16 @@ export default withStore({
           key="/posts/new"
           path="/posts/new"
           exact
+          loader={() => import('components/Post/New')}
+        />,
+        <Lazy
+          key="/post/:id/edit"
+          path="/post/:id/edit"
           loader={() => import('components/Post/PostEditor/PostEditor')}
         />,
         <Lazy
-          key="/posts/:slug/edit"
-          path="/posts/:slug/edit"
-          loader={() => import('components/Post/PostEditor/PostEditor')}
-        />,
-        <Lazy
-          key="/posts/:slug/preview"
-          path="/posts/:slug/preview"
+          key="/post/:id/preview"
+          path="/post/:id/preview"
           loader={() => import('components/Post/Post')}
           preview
         />,
