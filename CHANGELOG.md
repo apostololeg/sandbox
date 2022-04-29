@@ -2,6 +2,40 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.0.0](https://github.com/apostololeg/sandboxt/compare/v0.0.6...v1.0.0) (2022-04-29)
+
+
+### Features
+
+* ?embed=1 ([5ff5e2a](https://github.com/apostololeg/sandboxt/commit/5ff5e2ae24076592aa7aebc42435143a6e3fed4c))
+* 📡 Connect stat services ([4a5a40d](https://github.com/apostololeg/sandboxt/commit/4a5a40d61b753b69d4ac95c0b6ccee709c651807))
+* add <SvgIcon/> ([3efc80d](https://github.com/apostololeg/sandboxt/commit/3efc80d911ab87b08b881f55e6f072641f261a95))
+* generate manifest.json by FaviconWebpackPlugin ([089b97a](https://github.com/apostololeg/sandboxt/commit/089b97a4ae8ad297179a721fce8f355094f4f2c1))
+* Improove editor toolbar (lists, indents, align) ([43c3a82](https://github.com/apostololeg/sandboxt/commit/43c3a82c10ba079dda85388313129d8a21b60593))
+* Multilingual posts ([43f8f6f](https://github.com/apostololeg/sandboxt/commit/43f8f6f918f20eba781741fa21eb35a759acf3a0))
+* optimization (terser) ([cd41810](https://github.com/apostololeg/sandboxt/commit/cd41810430f60e229ba75de977499f95b5e232ab))
+* secret prisma in production ([ce565d2](https://github.com/apostololeg/sandboxt/commit/ce565d2b362413612a545b55b708750f95d2015c))
+* uilib@1.3.1 ([6d51df1](https://github.com/apostololeg/sandboxt/commit/6d51df19116aea3f085428152cb02f5867e63c76))
+* update editor selection handling and hotkeys ([4d103d1](https://github.com/apostololeg/sandboxt/commit/4d103d1fb2f024d466c74244e1084c392eae071f))
+* Use app components in editor ([d933da0](https://github.com/apostololeg/sandboxt/commit/d933da0b9e12f23053994b28f335973b908cf082))
+
+
+### Bug Fixes
+
+* checkbox styles ([caa5921](https://github.com/apostololeg/sandboxt/commit/caa592108383f8eed42abc735760d227fc2302f8))
+* delete posts, uilib@0.0.23 ([0a81a1a](https://github.com/apostololeg/sandboxt/commit/0a81a1aca4acdf70994bb82ca59ec6fcd4b41059))
+* Enable stats only in production ([339b6dd](https://github.com/apostololeg/sandboxt/commit/339b6ddede5de717a6fddd7e4cfb14acab0f0518))
+* FileUploader ([775ac7c](https://github.com/apostololeg/sandboxt/commit/775ac7cf67d7bd521a72d0bfbe6c95dd2bb05e40))
+* loadable components ([164d719](https://github.com/apostololeg/sandboxt/commit/164d719878f17df9b1220544e0e7039785a4ea8b))
+* Popup closing ([2b2b8f5](https://github.com/apostololeg/sandboxt/commit/2b2b8f540d543a01360852b6373253f11d12d03d))
+* popup content z-index ([4f1e456](https://github.com/apostololeg/sandboxt/commit/4f1e456b2eee06359d7e1b11596557543d06e0d3))
+* Post/Editor: cleanup and hydrate components ([5409e1e](https://github.com/apostololeg/sandboxt/commit/5409e1e62a438a141398c70bf8c4b74bd2f0e797))
+* Post/Editor: cleanup and hydrate components ([885278b](https://github.com/apostololeg/sandboxt/commit/885278bd8879fa11810e7f885abbc9d561b0cbc2))
+* render page title ([5ef52e3](https://github.com/apostololeg/sandboxt/commit/5ef52e3c5986d9982e6bde96f3fa406952f41d69))
+* Routings ([42e282f](https://github.com/apostololeg/sandboxt/commit/42e282fb4aa769c00f659d419f612257a246fad1))
+* toolbar 'headers' ([9235f8d](https://github.com/apostololeg/sandboxt/commit/9235f8dd300fcede945b6a1353d983c333a358b9))
+* Use secret for Prisma client ([45b64e2](https://github.com/apostololeg/sandboxt/commit/45b64e206d836bdf8d5a3ad665c38ee76489f350))
+
 ### [0.0.8](https://github.com/apostololeg/sandboxt/compare/v0.0.7...v0.0.8) (2020-05-04)
 
 ### Features
