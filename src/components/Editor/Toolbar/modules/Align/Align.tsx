@@ -21,7 +21,7 @@ export default {
     const icon = icons[format.align] || icons.left;
 
     return (
-      <Button className={className} onClick={action} size="m" isSquare>
+      <Button className={className} onClick={action} size="m" square>
         <SvgIcon icon={icon} size={20} />
       </Button>
     );

@@ -75,7 +75,7 @@ class Image extends Component<Props> {
         onClose={this.onPopupClose}
         idOpen={isOpen}
         trigger={
-          <Button size="m" isSquare>
+          <Button size="m" square>
             <SvgIcon icon={Icon} size={20} />
           </Button>
         }

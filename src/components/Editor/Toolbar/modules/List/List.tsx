@@ -32,7 +32,7 @@ export default {
         onClick={action}
         checked={format.list}
         size="m"
-        isSquare
+        square
       >
         <SvgIcon icon={icon} size={20} />
       </Button>

@@ -20,7 +20,7 @@ export default {
         onClick={action}
         disabled={format?.indent >= MAX_INDENT}
         size="m"
-        isSquare
+        square
       >
         <SvgIcon icon={Icon} size={20} />
       </Button>

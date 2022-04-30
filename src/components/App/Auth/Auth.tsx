@@ -89,7 +89,7 @@ class Auth extends Component<Props> {
                       type: 'submit',
                       size: 'm',
                       key: 'submit',
-                      isLoading: isLoading,
+                      loading: isLoading,
                       disabled: !isDirty || !isValid,
                     },
                   ]}

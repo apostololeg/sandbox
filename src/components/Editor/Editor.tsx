@@ -112,7 +112,7 @@ export default class Editor extends Component<Props> {
             {toolbarAddons}
             <Button
               className={S.fullscreenButton}
-              isSquare
+              square
               variant="clear"
               onClick={this.toggleFullscreen}
             >

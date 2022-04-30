@@ -19,7 +19,7 @@ export default {
         onClick={action}
         checked={format.italic}
         size="m"
-        isSquare
+        square
       >
         <SvgIcon icon={Icon} size={20} />
       </Button>

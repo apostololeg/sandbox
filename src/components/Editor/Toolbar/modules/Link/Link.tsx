@@ -35,7 +35,7 @@ export default {
         onClick={action}
         disabled={isDisabled}
         size="m"
-        isSquare
+        square
       >
         <SvgIcon icon={Icon} size={20} />
       </Button>

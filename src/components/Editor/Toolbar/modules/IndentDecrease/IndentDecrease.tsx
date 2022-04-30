@@ -18,7 +18,7 @@ export default {
         onClick={action}
         disabled={!format?.indent}
         size="m"
-        isSquare
+        square
       >
         <SvgIcon icon={Icon} size={20} />
       </Button>
