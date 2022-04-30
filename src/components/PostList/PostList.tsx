@@ -34,18 +34,18 @@ class PostList extends Component<Props> {
     const allowEdit = isEditor || isAdmin;
     const { byId, lang } = posts;
     const { slug, texts } = byId[id];
-    const title = texts.find(t => t.lang === lang)?.title?.trim();
+    const title = texts.find(t => t.lang === lang)?.title ?? texts[0]?.title;
 
     return (
       <MenuItem key={slug}>
         <Link href={`/post/${slug}?lang=${lang.toLowerCase()}`} isClear>
-          <h2>{title || `[${slug}]`}</h2>
+          <h2>{title?.trim() || `[${slug}]`}</h2>
         </Link>
         {allowEdit && <Link href={`/post/${id}/edit`}>Edit</Link>}
         {isAdmin && (
           <Button
             onClick={() => posts.deletePost(id)}
-            isLoading={posts.deleting[id]}
+            loading={posts.deleting[id]}
           >
             Remove
           </Button>

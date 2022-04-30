@@ -23,7 +23,15 @@ type Props = {
 };
 
 @withStore({
-  posts: ['items', 'textsById', 'creatingTexts', 'loading', 'updating', 'lang'],
+  posts: [
+    'items',
+    'textsById',
+    'creatingTexts',
+    'localEdits',
+    'loading',
+    'updating',
+    'lang',
+  ],
   notifications: [],
 })
 class PostEditor extends Component<Props> {
@@ -34,6 +42,7 @@ class PostEditor extends Component<Props> {
   validationSchema = {
     slug: { type: 'string' },
     slugLock: { type: 'boolean' },
+    content: { type: 'string' },
     published: { type: 'boolean' },
   };
 
@@ -71,12 +80,10 @@ class PostEditor extends Component<Props> {
 
   async loadPostData() {
     const { id, store } = this.props;
-    const { loadPost, loadCurrentTexts, loadTexts, byId } = store.posts;
+    const { loadPost, loadCurrentTexts } = store.posts;
 
     await loadPost(id);
     await loadCurrentTexts(id);
-    // const textsLoaders = byId[id].texts.map(text => loadTexts(text.id));
-    // await Promise.all(textsLoaders);
 
     this.store.isLoaded = true;
 
@@ -180,7 +187,7 @@ class PostEditor extends Component<Props> {
 
     array.addUniq(this.editedLangs, lang);
     this.updateActiveContent(value);
-    this.updateLocalVersion();
+    this.onChange();
   };
 
   onSave = async (values = this.form.values) => {
@@ -208,12 +215,13 @@ class PostEditor extends Component<Props> {
     });
   };
 
-  toggleLocalVersion = () => {
-    const { showLocalVersion } = this.store;
+  // toggleLocalVersion = () => {
+  //   const { showLocalVersion } = this.store;
 
-    this.store.showLocalVersion = !showLocalVersion;
-    this.form.setValues(H.pickFormData(this.getViewData()));
-  };
+  //   this.store.showLocalVersion = !showLocalVersion;
+
+  //   this.form.setValues(H.pickFormData(this.getViewData()));
+  // };
 
   renderTitle() {
     const { lang } = this.props.store.posts;
@@ -270,15 +278,15 @@ class PostEditor extends Component<Props> {
 
       texts ? (
         <Editor
+          key="content"
           value={texts.content}
           onChange={this.onEditorChange}
-          key="content"
-          toolbarAddons={<LangSwitcher postId={id} />}
+          toolbarAddons={<LangSwitcher />}
         />
       ) : (
         <EmptyPage title="There are no texts for this language">
-          <LangSwitcher postId={id} className={S.langSwitcherEmpty} />
-          <Button onClick={this.createText} isLoading={isTextCreating(id)}>
+          <LangSwitcher className={S.langSwitcherEmpty} />
+          <Button onClick={this.createText} loading={isTextCreating(id)}>
             Create
           </Button>
         </EmptyPage>
@@ -294,18 +302,18 @@ class PostEditor extends Component<Props> {
           label="Published"
         />
         <div className={S.gap} />
-        {!isSaved && (
+        {/* {!isSaved && (
           <Button
             className={S.versionButton}
             size="m"
             checked={showLocalVersion}
-            disabled={!this.localVersion || !this.remoteVersion}
+            disabled={!this.localVersion}
             onClick={this.toggleLocalVersion}
             key="localVersion"
           >
             Local version
           </Button>
-        )}
+        )} */}
         <Button
           size="m"
           key="submit"

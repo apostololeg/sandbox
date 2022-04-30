@@ -19,7 +19,7 @@ const WRITABLE_FIELDS = [
 ];
 
 function prefixEdits(slug) {
-  return `editor-post-${slug}`;
+  return `edited-post-${slug}`;
 }
 
 const LS_LANG_FIELD = 'post-lang';
@@ -42,10 +42,10 @@ const STORE = createStore('posts', {
   deleting: {},
   creatingTexts: {},
 
-  getLocalVersion(slug) {
-    if (!slug) return null;
-    this.localEdits[slug] = LS.get(prefixEdits(slug));
-    return this.localEdits[slug]?.originalObject;
+  getLocalVersion(id) {
+    if (!id) return null;
+    if (!this.localEdits[id]) this.localEdits[id] = LS.get(prefixEdits(id));
+    return this.localEdits[id]?.originalObject;
   },
 
   setLocalVersion(data) {
