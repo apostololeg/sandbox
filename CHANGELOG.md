@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.1.0](https://github.com/apostololeg/sandboxt/compare/v1.0.0...v1.1.0) (2022-05-01)
+
+
+### Features
+
+* hide user/auth menu ([493afbf](https://github.com/apostololeg/sandboxt/commit/493afbf0497d6e9658962170b875157cd022950e))
+* Home - show version ([70f8b02](https://github.com/apostololeg/sandboxt/commit/70f8b02e755b9b92241576d47f63785373263000))
+
+
+### Bug Fixes
+
+* loaders ([1de4435](https://github.com/apostololeg/sandboxt/commit/1de4435be52f8d603ae880690c6f204e8a63efeb))
+* Post - hydration ([84825e0](https://github.com/apostololeg/sandboxt/commit/84825e0030678222bddae49d48866e93c3b6a371))
+* PostEditor - disable localVersion feature ([aa2888e](https://github.com/apostololeg/sandboxt/commit/aa2888e8cdeade66cc211689369b4eca8f24f0b6))
+
 ## [1.0.0](https://github.com/apostololeg/sandboxt/compare/v0.0.6...v1.0.0) (2022-04-29)
 
 
