@@ -39,6 +39,9 @@ export default withStore({
 })(function User({ store }) {
   const { isLogged, isAdmin, email, name, avatar } = store.user;
   const { isAuth } = store.page;
+
+  if (!isLogged) return null;
+
   const items = getMenuLinks({ isLogged, isAdmin, isAuth });
 
   return (

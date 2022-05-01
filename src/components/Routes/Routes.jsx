@@ -17,9 +17,6 @@ export default withStore({
   return (
     <Router>
       <Home path="/" />
-      <Auth path="/register" type="register" />
-      <Auth path="/login" type="login" />
-      <Auth path="/logout" type="logout" />
 
       <Lazy
         path="/posts"
@@ -27,12 +24,19 @@ export default withStore({
       />
       <Lazy path="/post/:slug" loader={() => import('components/Post/Post')} />
 
-      {isLogged && (
-        <Lazy
-          path="/profile"
-          loader={() => import('components/Profile/Profile')}
-        />
-      )}
+      {isLogged
+        ? [
+            <Lazy
+              key="/profile"
+              path="/profile"
+              loader={() => import('components/Profile/Profile')}
+            />,
+            <Auth path="/logout" key="/logout" type="logout" />,
+          ]
+        : [
+            <Auth path="/register" key="/register" type="register" />,
+            <Auth path="/login" key="/login" type="login" />,
+          ]}
 
       {isAdmin && (
         <Lazy path="/admin" loader={() => import('components/Admin/Admin')} />
