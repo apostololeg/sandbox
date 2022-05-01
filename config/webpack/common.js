@@ -6,6 +6,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 // const ComponentDirectoryPlugin = require('component-directory-webpack-plugin');
 const FaviconWebpackPlugin = require('favicons-webpack-plugin');
 
+const pkg = require('../../package.json');
 const paths = require('../paths');
 const {
   PRODUCTION,
@@ -138,6 +139,7 @@ module.exports = {
       PORT: JSON.stringify(PORT),
       DO_SPACE_NS: JSON.stringify(DO_SPACE_NS),
       DO_SPACE_NAME: JSON.stringify(DO_SPACE_NAME),
+      VERSION: JSON.stringify(pkg.version),
     }),
     new webpack.ProvidePlugin({
       React: 'react',
