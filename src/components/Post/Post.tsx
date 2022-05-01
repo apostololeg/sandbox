@@ -31,8 +31,6 @@ type Props = {
 class Post extends Component<Props> {
   container = createRef();
 
-  isHydrated = false;
-
   clearHydrateTimer;
 
   componentDidMount() {
@@ -46,8 +44,6 @@ class Post extends Component<Props> {
 
     if (isSlugChanged || isPreviewChanged) {
       this.init();
-    } else if (!this.isHydrated && this.data) {
-      this.hydrate();
     }
   }
 
@@ -67,11 +63,7 @@ class Post extends Component<Props> {
     await loadPost(slug);
     await loadCurrentTexts(bySlug[slug]?.id);
 
-    if (this.texts) {
-      this.hydrate();
-    } else {
-      this.isHydrated = false;
-    }
+    if (this.texts) this.hydrate();
   }
 
   loadTexts() {
@@ -100,9 +92,6 @@ class Post extends Component<Props> {
   }
 
   hydrate() {
-    if (this.isHydrated) return;
-
-    this.isHydrated = true;
     this.clearHydrateTimer = Time.after(100, () =>
       hydrateComponents(this.container.current)
     );
