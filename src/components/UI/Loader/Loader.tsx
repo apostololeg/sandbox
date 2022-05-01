@@ -16,7 +16,7 @@ export const Loader = ({ className, size, ...props }: Props) => (
 );
 
 export const PageLoader = props => (
-  <Container>
+  <Container alignItemsCenter justifyContentCenter fullHeight fullWidth>
     <Loader {...props} />
   </Container>
 );

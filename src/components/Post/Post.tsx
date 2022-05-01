@@ -126,7 +126,7 @@ class Post extends Component<Props> {
 
   render() {
     if (!this.data) return null;
-    if (this.isLoading) return <PageLoader />;
+    if (this.isLoading) return <PageLoader size="l" />;
 
     const { className, preview, store } = this.props;
     const { user } = store;

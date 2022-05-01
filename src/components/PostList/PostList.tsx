@@ -66,7 +66,7 @@ class PostList extends Component<Props> {
           {canCreateNew && <Link href="/posts/new">Create New</Link>}
         </Title>
         {loadingList ? (
-          <PageLoader />
+          <PageLoader size="l" />
         ) : (
           <>
             <Scroll y>
