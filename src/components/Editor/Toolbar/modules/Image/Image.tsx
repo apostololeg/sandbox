@@ -1,7 +1,7 @@
 import { Component } from 'react';
 import { createStore } from 'justorm/react';
 
-import { Input, Button, Popup, debounce } from 'uilib';
+import { Input, Button, Popup, debounce } from '@foreverido/uilib';
 
 import SvgIcon from 'components/UI/SvgIcon/SvgIcon';
 import FileUploader from 'components/FileUploader/FileUploader';

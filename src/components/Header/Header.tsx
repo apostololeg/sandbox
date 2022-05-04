@@ -1,4 +1,4 @@
-import { Container } from 'uilib';
+import { Container } from '@foreverido/uilib';
 import { withStore } from 'justorm/react';
 
 import User from 'components/User/User';

@@ -1,6 +1,6 @@
 import { withStore } from 'justorm/react';
 
-import { Popup, Link } from 'uilib';
+import { Popup, Link } from '@foreverido/uilib';
 
 import Menu, { MenuItem } from 'components/UI/Menu/Menu';
 

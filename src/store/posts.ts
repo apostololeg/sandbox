@@ -1,6 +1,6 @@
 import pick from 'lodash.pick';
 import { createStore } from 'justorm/react';
-import { LS, RouterStore, array, queryParams } from 'uilib';
+import { LS, RouterStore, array, queryParams } from '@foreverido/uilib';
 
 import { DEFAULT_LANG } from 'shared/langs';
 
@@ -76,10 +76,9 @@ const STORE = createStore('posts', {
     }
   },
 
-  async loadPosts(where) {
+  async loadPosts(params?) {
     this.loadingList = true;
-    const params = where ? { data: { where } } : null;
-    const res = await api.get('/posts', params);
+    const res = await api.get('/posts', params ? { data: params } : null);
     this.loadingList = false;
 
     res.forEach(data => setItem({ data }));

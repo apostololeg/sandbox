@@ -1,4 +1,4 @@
-import { ThemeHelpers, queryParams } from 'uilib';
+import { ThemeHelpers, queryParams } from '@foreverido/uilib';
 import { createStore } from 'justorm/react';
 
 import { config as themeConfig, colors } from './theme';

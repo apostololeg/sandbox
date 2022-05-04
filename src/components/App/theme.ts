@@ -1,4 +1,4 @@
-import { ThemeHelpers } from 'uilib';
+import { ThemeHelpers } from '@foreverido/uilib';
 
 const { colorsConfigToVars } = ThemeHelpers;
 

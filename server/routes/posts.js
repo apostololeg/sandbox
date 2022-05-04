@@ -33,7 +33,7 @@ const select = {
 
 router
   .get('/', async (req, res) => {
-    const params = { ...req.params, where: {}, select };
+    const params = { ...req.query, where: {}, select };
     const allowEdit = await canEdit(req);
 
     if (!allowEdit) params.where.published = true;

@@ -2,7 +2,7 @@ import { Component, Fragment } from 'react';
 import { bind } from 'decko';
 import { withStore } from 'justorm/react';
 
-import { Form, SubmitButtons, Link } from 'uilib';
+import { Form, SubmitButtons, Link } from '@foreverido/uilib';
 
 import { Title } from 'components/Header/Header';
 import Flex from 'components/UI/Flex/Flex';

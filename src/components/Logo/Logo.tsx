@@ -1,4 +1,4 @@
-import { Link } from 'uilib';
+import { Link } from '@foreverido/uilib';
 
 import LogoSvg from './logo.svg';
 

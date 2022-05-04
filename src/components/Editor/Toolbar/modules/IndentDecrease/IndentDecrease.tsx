@@ -1,4 +1,4 @@
-import { Button } from 'uilib';
+import { Button } from '@foreverido/uilib';
 
 import SvgIcon from 'components/UI/SvgIcon/SvgIcon';
 

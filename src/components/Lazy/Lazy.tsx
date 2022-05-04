@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import omit from 'lodash.omit';
-import { Container, Spinner } from 'uilib';
+import { Container, Spinner } from '@foreverido/uilib';
 
 type Loader = () => Promise<any>;
 type Props = { loader: Loader };

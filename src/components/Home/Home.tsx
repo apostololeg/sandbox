@@ -1,4 +1,4 @@
-import { Link } from 'uilib';
+import { Link } from '@foreverido/uilib';
 
 import Menu, { MenuItem } from 'components/UI/Menu/Menu';
 import { Title } from 'components/Header/Header';
@@ -15,7 +15,7 @@ function Home() {
       </MenuItem>
     </Menu>,
     <Gap />,
-    <div className={S.version}>{VERSION}</div>,
+    <div className={S.version}>v{VERSION}</div>,
   ];
 }
 

@@ -1,6 +1,6 @@
 import { withStore } from 'justorm/react';
 
-import { Router, Lazy } from 'uilib';
+import { Router, Lazy } from '@foreverido/uilib';
 
 import Home from 'components/Home/Home';
 import Auth from 'components/App/Auth/Auth';

@@ -1,5 +1,5 @@
-import { Spinner, Container } from 'uilib';
-import type { Size } from 'uilib';
+import { Spinner, Container } from '@foreverido/uilib';
+import type { Size } from '@foreverido/uilib';
 import cn from 'classnames';
 
 import S from './Loader.styl';

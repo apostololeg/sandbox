@@ -2,8 +2,8 @@ import { useCallback, useEffect } from 'react';
 import { withStore } from 'justorm/react';
 import cn from 'classnames';
 
-import { Select } from 'uilib';
-// import type { SelectProps } from 'uilib';
+import { Select } from '@foreverido/uilib';
+// import type { SelectProps } from '@foreverido/uilib';
 
 import { LANGS } from 'shared/langs';
 

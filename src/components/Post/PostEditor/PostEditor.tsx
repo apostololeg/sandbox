@@ -1,7 +1,15 @@
 import { Component } from 'react';
 import { createStore, withStore } from 'justorm/react';
 import compare from 'compareq';
-import { Form, Spinner, Checkbox, Button, Link, debounce, array } from 'uilib';
+import {
+  Form,
+  Spinner,
+  Checkbox,
+  Button,
+  Link,
+  debounce,
+  array,
+} from '@foreverido/uilib';
 
 import { DEFAULT_LANG } from 'shared/langs';
 

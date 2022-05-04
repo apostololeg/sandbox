@@ -1,5 +1,5 @@
 import { Component, ReactNode } from 'react';
-import { Button, Icon, debounce } from 'uilib';
+import { Button, Icon, debounce } from '@foreverido/uilib';
 import { withStore } from 'justorm/react';
 import cn from 'classnames';
 import Time from 'timen';

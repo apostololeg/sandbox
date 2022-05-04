@@ -3,7 +3,7 @@ import { withStore } from 'justorm/react';
 import Time from 'timen';
 import cn from 'classnames';
 
-import { Link, Scroll } from 'uilib';
+import { Link, Scroll, DateTime } from '@foreverido/uilib';
 
 import { getTextsFromData } from 'tools/posts';
 
@@ -98,7 +98,7 @@ class Post extends Component<Props> {
   }
 
   renderContent() {
-    // const { author, createdAt } = this.data;
+    const { createddAt } = this.data;
 
     if (!this.texts) return null;
 
@@ -119,6 +119,7 @@ class Post extends Component<Props> {
             postId={this.data.id}
             popupProps={{ direction: 'right-top' }}
           />
+          <DateTime value={createddAt} format="fromNow" />
         </div>
       </Fragment>
     );

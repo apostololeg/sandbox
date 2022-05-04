@@ -1,5 +1,5 @@
 import ReactDOM from 'react-dom';
-import { Link } from 'uilib';
+import { Link } from '@foreverido/uilib';
 
 const COMPONENTS_TO_HYDRATE = {
   Link,

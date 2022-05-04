@@ -1,7 +1,7 @@
 {
   "compileOnSave": true,
   "compilerOptions": {
-    "exportDefaultFrom": true,
+    // "exportDefaultFrom": true,
     "allowSyntheticDefaultImports": true,
     "jsx": "react-jsx",
     "target": "es6",

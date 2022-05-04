@@ -1,7 +1,7 @@
 import { Fragment, Component } from 'react';
 import { withStore } from 'justorm/react';
 
-import { Scroll, Button, Link } from 'uilib';
+import { Scroll, Button, Link } from '@foreverido/uilib';
 
 import Menu, { MenuItem } from 'components/UI/Menu/Menu';
 import { PageLoader } from 'components/UI/Loader/Loader';
@@ -25,7 +25,7 @@ class PostList extends Component<Props> {
   componentDidMount() {
     const { posts } = this.props.store;
 
-    posts.loadPosts();
+    posts.loadPosts({ orderBy: { updatedAt: 'desc' } });
   }
 
   renderItem = id => {
