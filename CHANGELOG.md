@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.1.2](https://github.com/apostololeg/sandboxt/compare/v1.1.1...v1.1.2) (2022-05-04)
+
+
+### Features
+
+* ScreenSaver ([eb2553c](https://github.com/apostololeg/sandboxt/commit/eb2553cfce9389644cd37c145ae2359ab4ee2bf3))
+* Update uilib; Posts: ordering, created date in footer ([3294a87](https://github.com/apostololeg/sandboxt/commit/3294a874a4d302893cb50ca74ab047a65c2e6186))
+
 ### [1.1.1](https://github.com/apostololeg/sandboxt/compare/v1.1.0...v1.1.1) (2022-05-03)
 
 
