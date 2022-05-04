@@ -1620,10 +1620,10 @@
   resolved "https://registry.yarnpkg.com/@discoveryjs/json-ext/-/json-ext-0.5.6.tgz#d5e0706cf8c6acd8c6032f8d54070af261bbbb2f"
   integrity sha512-ws57AidsDvREKrZKYffXddNkyaF14iHNHm8VQnZH6t99E8gczjNN0GpvcGny0imC80yQ0tHz1xVUKk/KFQSUyA==
 
-"@foreverido/uilib@^2.0.0":
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/@foreverido/uilib/-/uilib-2.0.0.tgz#a545705cffa6d43a8f6e285fffc0984fdc633224"
-  integrity sha512-FjoCs9qm9hcjaewl6XhCGVIF9xFmTrDN6vJtA7ryGm1iEhtnYdktJ8Yn5YFj8z4mLWFJK0Irx07oYTzPb0Fdhw==
+"@foreverido/uilib@^2.0.1":
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@foreverido/uilib/-/uilib-2.0.1.tgz#198abbd20478f3a17bef9c60bb887a84a2accbd4"
+  integrity sha512-B52MkjN4Efy9hob87LY9f1nyvzlEww7+HbGGnzink3Ovr7FeU0+cyUwrtO27FbOYs5VdZIe00A9cHFSmyiJZUA==
   dependencies:
     "@babel/core" "^7.16.0"
     "@babel/plugin-proposal-optional-chaining" "^7.16.7"

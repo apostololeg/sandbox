@@ -98,7 +98,7 @@ class Post extends Component<Props> {
   }
 
   renderContent() {
-    const { createddAt } = this.data;
+    const { createdAt } = this.data;
 
     if (!this.texts) return null;
 
@@ -119,7 +119,10 @@ class Post extends Component<Props> {
             postId={this.data.id}
             popupProps={{ direction: 'right-top' }}
           />
-          <DateTime value={createddAt} format="fromNow" />
+          <Gap />
+          <span className={S.date}>
+            <DateTime value={createdAt} format="fromNow" />
+          </span>
         </div>
       </Fragment>
     );
