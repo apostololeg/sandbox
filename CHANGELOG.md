@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.1.3](https://github.com/apostololeg/sandboxt/compare/v1.1.2...v1.1.3) (2022-05-05)
+
+
+### Features
+
+* Post - EmptyState ([2a2a20c](https://github.com/apostololeg/sandboxt/commit/2a2a20cc89d8fcdd06181f7c9306f79fbe8be46e))
+
+
+### Bug Fixes
+
+* PostList loading logic ([7fc5373](https://github.com/apostololeg/sandboxt/commit/7fc5373f3fc5c2dc0d302e5169f29bac17f8fa75))
+* ScreenSaver - touch action ([5980a08](https://github.com/apostololeg/sandboxt/commit/5980a0898bff149a54cfff19f835f8f974a22bdb))
+
 ### [1.1.2](https://github.com/apostololeg/sandboxt/compare/v1.1.1...v1.1.2) (2022-05-04)
 
 
