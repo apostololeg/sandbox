@@ -51,11 +51,6 @@ class Post extends Component<Props> {
     this.clearHydrateTimer?.();
   }
 
-  get isLoading() {
-    const { slug, store } = this.props;
-    return store.posts.loading[slug];
-  }
-
   async init() {
     const { slug, store } = this.props;
     const { loadPost, loadCurrentTexts, bySlug } = store.posts;
@@ -72,6 +67,14 @@ class Post extends Component<Props> {
     const { id } = getTextsFromData(bySlug[slug], lang);
 
     loadTexts(id);
+  }
+
+  get isLoading() {
+    const { slug, store } = this.props;
+
+    if (!this.data) return store.posts.loading[slug];
+
+    return !this.texts;
   }
 
   get data() {

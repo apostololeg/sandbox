@@ -23,9 +23,11 @@ type Props = {
 })
 class PostList extends Component<Props> {
   componentDidMount() {
-    const { posts } = this.props.store;
+    const { items, loadPosts } = this.props.store.posts;
 
-    posts.loadPosts({ orderBy: { updatedAt: 'desc' } });
+    if (items.length) return;
+
+    loadPosts({ orderBy: { updatedAt: 'desc' } });
   }
 
   renderItem = id => {
