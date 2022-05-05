@@ -16,14 +16,14 @@ export function ScreenSaver() {
       const y = rangeMap(e.y, 0, h, ROTATE, -ROTATE);
 
       setTransform(`rotateX(${y}deg) rotateY(${x}deg)`);
-    }, 50),
+    }, 100),
     []
   );
 
   useEffect(() => {
-    document.addEventListener('pointermove', updateTransform);
+    document.body.addEventListener('pointermove', updateTransform);
     return () => {
-      document.removeEventListener('pointermove', updateTransform);
+      document.body.removeEventListener('pointermove', updateTransform);
     };
   }, []);
 

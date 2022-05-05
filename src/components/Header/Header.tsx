@@ -5,7 +5,6 @@ import User from 'components/User/User';
 import Logo from 'components/Logo/Logo';
 
 import s from './Header.styl';
-import { Router } from 'express';
 
 const Header = withStore({
   app: 'isEmbed',
