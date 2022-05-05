@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.1.4](https://github.com/apostololeg/sandboxt/compare/v1.1.3...v1.1.4) (2022-05-05)
+
+
+### Bug Fixes
+
+* Post - loading ([6e0762a](https://github.com/apostololeg/sandboxt/commit/6e0762aa6e9ea785451dfca04654e8452b5dd818))
+
 ### [1.1.3](https://github.com/apostololeg/sandboxt/compare/v1.1.2...v1.1.3) (2022-05-05)
 
 
