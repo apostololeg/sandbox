@@ -16,6 +16,8 @@ type Props = {
   store?: any;
 };
 
+let isFirstLoaded = false;
+
 @withStore({
   user: ['isAdmin', 'isEditor'],
   posts: ['items', 'lang', 'loadingList', 'deleting'],
@@ -23,10 +25,11 @@ type Props = {
 })
 class PostList extends Component<Props> {
   componentDidMount() {
-    const { items, loadPosts } = this.props.store.posts;
+    const { loadPosts } = this.props.store.posts;
 
-    if (items.length) return;
+    if (isFirstLoaded) return;
 
+    isFirstLoaded = true;
     loadPosts({ orderBy: { updatedAt: 'desc' } });
   }
 

@@ -40,7 +40,7 @@ class Post extends Component<Props> {
 
   componentDidUpdate(prevProps) {
     const { slug, preview } = this.props;
-    const isSlugChanged = prevProps.slug !== slug;
+    const isSlugChanged = prevProps.slug !== slug && slug;
     const isPreviewChanged = prevProps.preview !== preview;
 
     if (isSlugChanged || isPreviewChanged) {
