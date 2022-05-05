@@ -16,6 +16,7 @@ import LangSwitcher from './LangSwitcher/LangSwitcher';
 
 import S from './Post.styl';
 import { Gap } from 'components/UI/Flex/Flex';
+import { EmptyState } from 'components/UI/EmptyState/EmptyState';
 
 type Props = {
   store?: any;
@@ -105,13 +106,17 @@ class Post extends Component<Props> {
 
     if (!this.texts) return null;
 
+    const { content } = this.texts;
+
+    if (!content) return <EmptyState title="Empty" />;
+
     return (
       <Fragment>
         <Scroll y>
           <div
             className={S.content}
             ref={this.container}
-            dangerouslySetInnerHTML={{ __html: this.texts.content }} // eslint-disable-line
+            dangerouslySetInnerHTML={{ __html: content }} // eslint-disable-line
           />
         </Scroll>
         <Gap />

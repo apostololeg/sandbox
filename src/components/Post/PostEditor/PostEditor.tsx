@@ -21,7 +21,7 @@ import Editor from 'components/Editor/Editor';
 
 import S from './PostEditor.styl';
 import * as H from './PostEditor.helpers';
-import { EmptyPage } from 'components/UI/EmptyPage/EmptyPage';
+import { EmptyState } from 'components/UI/EmptyState/EmptyState';
 
 import LangSwitcher from '../LangSwitcher/LangSwitcher';
 
@@ -292,12 +292,12 @@ class PostEditor extends Component<Props> {
           toolbarAddons={<LangSwitcher />}
         />
       ) : (
-        <EmptyPage title="There are no texts for this language">
+        <EmptyState title="There are no texts for this language">
           <LangSwitcher className={S.langSwitcherEmpty} />
           <Button onClick={this.createText} loading={isTextCreating(id)}>
             Create
           </Button>
-        </EmptyPage>
+        </EmptyState>
       ),
 
       <div className={S.footer} key="footer">

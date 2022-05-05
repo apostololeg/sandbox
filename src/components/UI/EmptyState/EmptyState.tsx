@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 import cn from 'classnames';
 
-import S from './EmptyPage.styl';
+import S from './EmptyState.styl';
 
 type Props = {
   className?: string;
@@ -11,7 +11,7 @@ type Props = {
   children?: ReactNode;
 };
 
-export function EmptyPage(props: Props) {
+export function EmptyState(props: Props) {
   const { className, image, title, subtitle, children } = props;
 
   return (

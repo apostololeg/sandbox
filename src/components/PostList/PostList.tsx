@@ -76,7 +76,7 @@ class PostList extends Component<Props> {
             </Scroll>
             <Gap />
             <div className={S.footer}>
-              <LangSwitcher popupProps={{ direction: 'top' }} />
+              <LangSwitcher popupProps={{ direction: 'right-top' }} />
             </div>
           </>
         )}
