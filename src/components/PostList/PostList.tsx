@@ -1,7 +1,7 @@
 import { Fragment, Component } from 'react';
 import { withStore } from 'justorm/react';
 
-import { Scroll, Button, Link } from '@foreverido/uilib';
+import { Scroll, Button, Link } from 'uilib';
 
 import Menu, { MenuItem } from 'components/UI/Menu/Menu';
 import { PageLoader } from 'components/UI/Loader/Loader';
@@ -43,10 +43,10 @@ class PostList extends Component<Props> {
 
     return (
       <MenuItem key={slug}>
-        <Link href={`/post/${slug}?lang=${lang.toLowerCase()}`} isClear>
+        <Link href={`//post/${slug}?lang=${lang.toLowerCase()}`} isClear>
           <h2>{title?.trim() || `[${slug}]`}</h2>
         </Link>
-        {allowEdit && <Link href={`/post/${id}/edit`}>Edit</Link>}
+        {allowEdit && <Link href={`//post/${id}/edit`}>Edit</Link>}
         {isAdmin && (
           <Button
             onClick={() => posts.deletePost(id)}
@@ -68,7 +68,7 @@ class PostList extends Component<Props> {
     return (
       <Fragment>
         <Title text="Posts">
-          {canCreateNew && <Link href="/posts/new">Create New</Link>}
+          {canCreateNew && <Link href="/new">Create New</Link>}
         </Title>
         {loadingList ? (
           <PageLoader size="l" />

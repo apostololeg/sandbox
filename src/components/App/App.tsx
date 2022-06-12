@@ -1,14 +1,11 @@
 import { hot } from 'react-hot-loader/root';
-import { Theme, VH } from '@foreverido/uilib';
+import { Theme, VH, Container, Notifications } from 'uilib';
 import { withStore } from 'justorm/react';
 import cn from 'classnames';
 
 import 'store';
 
 import Flex from 'components/UI/Flex/Flex';
-import { Container, Notifications } from '@foreverido/uilib';
-// import Notifications from 'components/UI/Notifications/Notifications';
-
 import Routes from 'components/Routes/Routes';
 import Header from 'components/Header/Header';
 

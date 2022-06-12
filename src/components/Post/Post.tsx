@@ -3,7 +3,7 @@ import { withStore } from 'justorm/react';
 import Time from 'timen';
 import cn from 'classnames';
 
-import { Link, Scroll, DateTime } from '@foreverido/uilib';
+import { Link, Scroll, DateTime } from 'uilib';
 
 import { getTextsFromData } from 'tools/posts';
 
@@ -20,17 +20,19 @@ import { EmptyState } from 'components/UI/EmptyState/EmptyState';
 
 type Props = {
   store?: any;
-  slug: string;
+  pathParams: { slug: string };
   preview?: boolean;
   className?: string;
 };
+
+const getSlug = props => props.pathParams.slug;
 
 @withStore({
   user: ['isAdmin'],
   posts: ['bySlug', 'textsById', 'localEdits', 'loading', 'lang'],
 })
 class Post extends Component<Props> {
-  container = createRef();
+  container = createRef<HTMLDivElement>();
 
   clearHydrateTimer;
 
@@ -39,8 +41,8 @@ class Post extends Component<Props> {
   }
 
   componentDidUpdate(prevProps) {
-    const { slug, preview } = this.props;
-    const isSlugChanged = prevProps.slug !== slug && slug;
+    const { preview } = this.props;
+    const isSlugChanged = getSlug(prevProps) !== this.slug && this.slug;
     const isPreviewChanged = prevProps.preview !== preview;
 
     if (isSlugChanged || isPreviewChanged) {
@@ -53,35 +55,35 @@ class Post extends Component<Props> {
   }
 
   async init() {
-    const { slug, store } = this.props;
-    const { loadPost, loadCurrentTexts, bySlug } = store.posts;
+    const { loadPost, loadCurrentTexts, bySlug } = this.props.store.posts;
 
-    await loadPost(slug);
-    await loadCurrentTexts(bySlug[slug]?.id);
+    await loadPost(this.slug);
+    await loadCurrentTexts(bySlug[this.slug].id);
 
     if (this.texts) this.hydrate();
   }
 
-  loadTexts() {
-    const { slug, store } = this.props;
-    const { bySlug, lang, loadTexts } = store.posts;
-    const { id } = getTextsFromData(bySlug[slug], lang);
-
-    loadTexts(id);
+  get slug() {
+    return getSlug(this.props);
   }
 
   get isLoading() {
-    const { slug, store } = this.props;
+    const { loading } = this.props.store.posts;
 
-    if (!this.data) return store.posts.loading[slug];
+    if (!this.data) return Boolean(loading[this.slug]);
 
     return !this.texts;
   }
 
   get data() {
-    const { slug, preview, store } = this.props;
+    const { preview, store } = this.props;
+
     const { localEdits, bySlug } = store.posts;
-    const post = preview ? localEdits[slug] : bySlug[slug];
+    const remotePost = bySlug[this.slug];
+
+    if (!remotePost) return null;
+
+    const post = preview ? localEdits[remotePost.id] : remotePost;
 
     if (!post) return null;
 
@@ -149,8 +151,8 @@ class Post extends Component<Props> {
         <PostRenderHelpers />
         <Title text={this.texts?.title}>
           {user.isAdmin && [
-            <Link href={`/post/${id}/edit`}>Edit</Link>,
-            preview && <Link href={`/post/${slug}`}>Original</Link>,
+            <Link href={`//post/${id}/edit`}>Edit</Link>,
+            // preview && <Link href={`//post/${slug}`}>Original</Link>,
           ]}
           <Gap />
         </Title>

@@ -1,6 +1,6 @@
 import { withStore } from 'justorm/react';
 
-import { Link } from '@foreverido/uilib';
+import { Link } from 'uilib';
 
 export default withStore({ user: [] })(function Login({ children, store }) {
   return children({

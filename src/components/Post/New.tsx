@@ -7,14 +7,14 @@ export default withStore({
   router: [],
   posts: [],
   notifications: [],
-})(function PostNew({ router, store }) {
+})(function PostNew({ store }) {
   const loadPost = useCallback(async () => {
-    const { notifications, posts } = store;
+    const { router, notifications, posts } = store;
 
     try {
       const data = await posts.createPost();
       router.replaceState(`/post/${data.id}/edit`);
-    } catch (e) {
+    } catch (e: any) {
       notifications.show({
         type: 'error',
         title: 'Create post failed',

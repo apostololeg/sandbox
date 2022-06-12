@@ -1,12 +1,12 @@
-import 'react-hot-loader';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 
-import ErrorBoundary from 'components/ErrorBoundary/ErrorBoundary';
-import App from 'components/App/App';
+import App from './components/App/App';
 
 if (PRODUCTION) {
-  import('./pwa');
-  // import('@sentry/react').then(Sentry => Sentry.init({ dsn: SENTRY_DSN }));
+  import('pwa');
 }
 
-ReactDOM.render(<App />, document.getElementById('app-root'));
+const elem = document.getElementById('app-root') as HTMLElement;
+const root = createRoot(elem);
+
+root.render(<App />);

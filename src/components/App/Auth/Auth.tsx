@@ -2,7 +2,7 @@ import { Component, Fragment } from 'react';
 import { bind } from 'decko';
 import { withStore } from 'justorm/react';
 
-import { Form, SubmitButtons, Link } from '@foreverido/uilib';
+import { Form, SubmitButtons, Link } from 'uilib';
 
 import { Title } from 'components/Header/Header';
 import Flex from 'components/UI/Flex/Flex';
@@ -11,7 +11,7 @@ import Login from './Login';
 import Logout from './Logout';
 import Register from './Register';
 
-import s from './Auth.styl';
+import S from './Auth.styl';
 
 const Forms = {
   '/login': Login,
@@ -25,29 +25,28 @@ type Props = {
 };
 
 @withStore({
+  router: ['path'],
   page: [],
   notifications: [],
 })
 class Auth extends Component<Props> {
-  @bind
-  async onSubmit(onSubmit, payload) {
-    const { router, store } = this.props;
-    const { notifications } = store;
+  onSubmit = async (onSubmit, payload) => {
+    const { store } = this.props;
+    const { router, notifications } = store;
 
     try {
       await onSubmit(payload);
       router.go('/');
-    } catch (err) {
+    } catch (err: any) {
       notifications.show({
         type: 'error',
         title: 'Login',
         content: err.message,
       });
     }
-  }
+  };
 
-  @bind
-  renderAuthForm({
+  renderAuthForm = ({
     title,
     titleContent,
     titleLink,
@@ -56,54 +55,54 @@ class Auth extends Component<Props> {
     submitText,
     onSubmit,
     ...formProps
-  }) {
-    return (
-      <div className={s.root}>
-        <div className={s.header}>
-          <h2>{title}</h2>
-          {titleContent}
-          {titleLink && (
-            <Link href={titleLink.to} className={s.link}>
-              {titleLink.text}
-            </Link>
-          )}
-        </div>
-        <Form
-          className={s.form}
-          onSubmit={payload => this.onSubmit(onSubmit, payload)}
-          {...formProps}
-        >
-          {({ Field, isValid, isDirty, isLoading }) => (
-            <Fragment>
-              {fields.map(props => (
-                <Field {...props} key={props.name} />
-              ))}
-              <div className={s.footer}>
-                {footerContent}
-                <div className={s.gap} />
-                <SubmitButtons
-                  className={s.submitButtons}
-                  buttons={[
-                    {
-                      children: submitText,
-                      type: 'submit',
-                      size: 'm',
-                      key: 'submit',
-                      loading: isLoading,
-                      disabled: !isDirty || !isValid,
-                    },
-                  ]}
-                />
-              </div>
-            </Fragment>
-          )}
-        </Form>
+  }) => (
+    <div className={S.root}>
+      <div className={S.header}>
+        <h2>{title}</h2>
+        {titleContent}
+        {titleLink && (
+          <Link href={titleLink.to} className={S.link}>
+            {titleLink.text}
+          </Link>
+        )}
       </div>
-    );
-  }
+      <Form
+        className={S.form}
+        onSubmit={payload => this.onSubmit(onSubmit, payload)}
+        {...formProps}
+      >
+        {({ Field, isValid, isDirty, isLoading }) => (
+          <Fragment>
+            {fields.map(props => (
+              <Field {...props} key={props.name} />
+            ))}
+            <div className={S.footer}>
+              {footerContent}
+              <div className={S.gap} />
+              <SubmitButtons
+                className={S.submitButtons}
+                buttons={[
+                  {
+                    children: submitText,
+                    type: 'submit',
+                    size: 'm',
+                    key: 'submit',
+                    loading: isLoading,
+                    disabled: !isDirty || !isValid,
+                  },
+                ]}
+              />
+            </div>
+          </Fragment>
+        )}
+      </Form>
+    </div>
+  );
 
   render() {
-    const { router } = this.props;
+    const {
+      store: { router },
+    } = this.props;
     const AuthForm = Forms[router.path];
 
     return (

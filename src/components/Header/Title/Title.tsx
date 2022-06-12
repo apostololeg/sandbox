@@ -1,4 +1,4 @@
-import { Component, Fragment } from 'react';
+import { Component, ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 
 import { withStore } from 'justorm/react';
@@ -16,7 +16,7 @@ function getNode() {
 }
 
 function waitForNode() {
-  return new Promise((resolve) => {
+  return new Promise<void>(resolve => {
     function checkNode() {
       if (getNode()) {
         resolve();
@@ -32,6 +32,7 @@ function waitForNode() {
 type Props = {
   store?: any;
   text: string;
+  children?: ReactNode;
 };
 
 @withStore({ page: ['title'] })
@@ -77,10 +78,10 @@ class Title extends Component<Props> {
     if (!targetNode) return null;
 
     return createPortal(
-      <Fragment>
+      <>
         {title && <h1 className={s.title}>{title}</h1>}
         {children}
-      </Fragment>,
+      </>,
       targetNode
     );
   }

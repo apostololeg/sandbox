@@ -3,7 +3,7 @@ import { createStore } from 'justorm/react';
 import cn from 'classnames';
 import { nanoid } from 'nanoid';
 
-import { Input } from '@foreverido/uilib';
+import { Input } from 'uilib';
 
 import S from './FileUploader.styl';
 import { api } from 'tools/request';

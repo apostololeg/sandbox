@@ -1,5 +1,5 @@
 import cn from 'classnames';
-import { Link } from '@foreverido/uilib';
+import { Link } from 'uilib';
 
 import LogoSvg from './logo.svg';
 
@@ -12,13 +12,7 @@ type Props = HTMLAttributes<HTMLAnchorElement> & {
 
 export default function Logo({ className, ...props }: Props) {
   return (
-    <Link
-      href="/"
-      className={cn(S.root, className)}
-      isClear
-      isClearPadding
-      {...props}
-    >
+    <Link href="/" className={cn(S.root, className)} isClear inline {...props}>
       <LogoSvg />
     </Link>
   );

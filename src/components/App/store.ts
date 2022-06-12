@@ -1,27 +1,16 @@
-import { ThemeHelpers, queryParams } from '@foreverido/uilib';
+import { queryParams, LS } from 'uilib';
 import { createStore } from 'justorm/react';
 
-import { config as themeConfig, colors } from './theme';
+import { colorsConfig, getThemeConfig } from './theme';
 
 const qParams = queryParams.parseQueryParams();
-const initialThemeType = localStorage.getItem('theme') ?? 'dark';
+const initialThemeType = (LS.get('theme') as 'light' | 'dark') ?? 'dark';
 
 function getInitialActiveColor() {
   return (
     localStorage.getItem('activeColor') ??
-    themeConfig[initialThemeType]['active-color']
+    colorsConfig[initialThemeType]['active-color']
   );
-}
-
-function getThemeConfig(theme, activeColor) {
-  return {
-    ...themeConfig[theme],
-    ...ThemeHelpers.colorsConfigToVars({
-      ...colors,
-      // @ts-ignore
-      active: [activeColor, colors.active[1]],
-    }),
-  };
 }
 
 const initialActiveColor = getInitialActiveColor();
@@ -46,6 +35,7 @@ createStore('app', {
     localStorage.setItem('activeColor', color);
   },
 
+  // @ts-ignore
   updateTheme(theme = this.theme) {
     this.currThemeConfig = getThemeConfig(theme, this.activeColor);
   },

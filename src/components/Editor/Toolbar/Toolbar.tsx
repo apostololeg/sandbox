@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import { debounce } from '@foreverido/uilib';
+import { debounce } from 'uilib';
 import cn from 'classnames';
 
 import { DEFAULT_SELECTION } from '../tools';

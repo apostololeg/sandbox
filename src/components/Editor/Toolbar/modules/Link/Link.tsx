@@ -1,4 +1,4 @@
-import { Button } from '@foreverido/uilib';
+import { Button } from 'uilib';
 
 import SvgIcon from 'components/UI/SvgIcon/SvgIcon';
 
@@ -21,7 +21,7 @@ export default {
     editor.deleteText(index, length);
     editor.insertEmbed(index, 'component', {
       component: 'Link',
-      isClearPadding: true,
+      inline: true,
       children,
       href,
     });

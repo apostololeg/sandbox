@@ -22,7 +22,7 @@ export default function Menu({
   return <ul className={classes}>{children}</ul>;
 }
 
-export function MenuItem({ children, selected, As = 'li', ...props }) {
+export function MenuItem({ children, selected = false, As = 'li', ...props }) {
   const classes = cn(
     s.item,
     selected && s.selected,

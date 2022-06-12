@@ -3,7 +3,7 @@ import { bind } from 'decko';
 import { withStore } from 'justorm/react';
 import Time from 'timen';
 
-import { Spinner } from '@foreverido/uilib';
+import { Spinner } from 'uilib';
 
 import s from './Auth.styl';
 

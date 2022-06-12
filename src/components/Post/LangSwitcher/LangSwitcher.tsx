@@ -2,8 +2,8 @@ import { useCallback, useEffect } from 'react';
 import { withStore } from 'justorm/react';
 import cn from 'classnames';
 
-import { Select } from '@foreverido/uilib';
-// import type { SelectProps } from '@foreverido/uilib';
+import { Select } from 'uilib';
+// import type { SelectProps } from 'uilib';
 
 import { LANGS } from 'shared/langs';
 
@@ -14,6 +14,7 @@ type Props = {
   store?: any;
   postId: string | number;
   popupProps?: object; // SelectProps['popupProps'];
+  showAllLangs?: boolean;
 };
 
 export default withStore({
@@ -24,32 +25,31 @@ export default withStore({
     postId,
     store: { posts },
     popupProps,
+    showAllLangs,
   } = props;
-  const { lang, byId } = posts;
-  const data = byId[postId];
-  const isVisible = !data || data.texts.length > 1;
 
-  const onChange = useCallback(
-    val => {
-      if (!val) return;
-      posts.setLang(val, postId);
-    },
-    [postId]
-  );
+  const { byId, lang } = posts;
+  const data = byId[postId];
+  const isVisible = showAllLangs || data?.texts.length > 1;
+  const noCurrentLangTexts =
+    !showAllLangs && data && !data.texts.some(t => t.lang === lang);
 
   useEffect(() => {
-    if (isVisible) {
-      if (data && !data.texts.find(t => t.lang === lang)) {
-        posts.setLang(data.texts[0].lang, postId);
-      }
+    if (isVisible && noCurrentLangTexts) {
+      posts.setLang(data.texts[0].lang); // set first available lang
     }
-  }, [postId]);
+  }, [noCurrentLangTexts]);
 
   if (!isVisible) return null;
 
-  const options = data
-    ? data.texts.map(t => ({ id: t.lang, label: t.lang }))
-    : LANGS.map(id => ({ id, label: id }));
+  const onChange = val => {
+    if (val) posts.setLang(val, postId);
+  };
+
+  const options =
+    !showAllLangs && data
+      ? data.texts.map(t => ({ id: t.lang, label: t.lang }))
+      : LANGS.map(id => ({ id, label: id }));
 
   return (
     <Select
@@ -57,6 +57,8 @@ export default withStore({
       label="Language"
       options={options}
       value={lang}
+      required
+      hideRequiredStar
       onChange={onChange}
       popupProps={popupProps}
     />

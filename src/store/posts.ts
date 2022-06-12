@@ -1,6 +1,6 @@
 import pick from 'lodash.pick';
 import { createStore } from 'justorm/react';
-import { LS, RouterStore, array, queryParams } from '@foreverido/uilib';
+import { LS, RouterStore, array, queryParams } from 'uilib';
 
 import { DEFAULT_LANG } from 'shared/langs';
 
@@ -61,8 +61,9 @@ const STORE = createStore('posts', {
     return this.byId[slug];
   },
 
+  // @ts-ignore
   async loadPost(id) {
-    if (!id || this.loading[id] || this.byId[id] || this.bySlug[id]) return;
+    if (!id || this.byId[id] || this.bySlug[id]) return;
 
     this.loading[id] = true;
 
@@ -106,20 +107,26 @@ const STORE = createStore('posts', {
 
   async updatePost({ id, data }) {
     this.updating[id] = true;
-    const { lang } = this;
 
     const res = await api.post(`/posts/${id}`, {
       data: pick(data, WRITABLE_FIELDS),
     });
 
-    delete this.updating[id];
-
-    data.texts.map(text => {
-      const textId = text.id ?? res.texts.find(t => t.lang === lang)?.id;
-      STORE.textsById[textId] = text;
-    });
+    this.updateTexts(data.texts, res.texts);
 
     setItem({ data: res });
+
+    delete this.updating[id];
+  },
+
+  updateTexts(texts, resTexts) {
+    texts?.map(({ lang, title, content }) => {
+      const id = resTexts.find(({ lang: l }) => l === lang)?.id;
+
+      if (!this.textsById[id]) this.textsById[id] = {};
+
+      Object.assign(this.textsById[id], { title, content });
+    });
   },
 
   async deletePost(id) {
@@ -143,22 +150,27 @@ const STORE = createStore('posts', {
     }
   },
 
-  isTextCreating(id) {
-    return this.creatingTexts[this.getTextStateKey(id)];
+  isTextCreating(posId) {
+    return this.creatingTexts[this.getTextStateKey(posId)];
   },
 
-  getTextStateKey(id) {
-    return `${id}-${this.lang}`;
+  getTextStateKey(postId) {
+    return `${postId}-${this.lang}`;
   },
 
-  loadCurrentTexts(id) {
-    const data = this.byId[id];
+  loadCurrentTexts(postId) {
+    const data = this.byId[postId];
     const texts = getTextsFromData(data, this.lang);
 
     return this.loadTexts(texts.id);
   },
 
   async loadTexts(id) {
+    if (id === undefined) {
+      debugger;
+      return;
+    }
+
     if (this.textsById[id]) return;
 
     const data = await api.get(`/posts/texts/${id}`);

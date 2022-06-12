@@ -1,3 +1,4 @@
+import { HTMLProps } from 'react';
 import cn from 'classnames';
 
 import S from './Flex.styl';
@@ -11,7 +12,15 @@ export function mix(...args) {
   );
 }
 
-function Flex({ children, Elem = 'div', ...props }) {
+interface Props {
+  className?: string;
+  children: React.ReactNode;
+  Elem?: keyof JSX.IntrinsicElements;
+  centered?: boolean;
+  scrolled?: boolean;
+}
+
+function Flex({ children, Elem = 'div', ...props }: Props) {
   const { className, centered, scrolled, ...other } = props;
   const classes = mix(
     className,

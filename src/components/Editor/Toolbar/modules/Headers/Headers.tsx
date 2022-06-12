@@ -1,5 +1,5 @@
 import { useCallback, useMemo } from 'react';
-import { Select } from '@foreverido/uilib';
+import { Select } from 'uilib';
 import cn from 'classnames';
 
 import SvgIcon from 'components/UI/SvgIcon/SvgIcon';

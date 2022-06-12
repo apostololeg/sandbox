@@ -1,4 +1,4 @@
-import { Link } from '@foreverido/uilib';
+import { Link } from 'uilib';
 
 import { ScreenSaver } from 'components/ScreenSaver/ScreenSaver';
 import Menu, { MenuItem } from 'components/UI/Menu/Menu';

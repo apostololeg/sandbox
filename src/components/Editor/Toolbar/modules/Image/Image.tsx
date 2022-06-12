@@ -1,7 +1,7 @@
 import { Component } from 'react';
 import { createStore } from 'justorm/react';
 
-import { Input, Button, Popup, debounce } from '@foreverido/uilib';
+import { Input, Button, Popup, debounce } from 'uilib';
 
 import SvgIcon from 'components/UI/SvgIcon/SvgIcon';
 import FileUploader from 'components/FileUploader/FileUploader';
@@ -90,7 +90,8 @@ class Image extends Component<Props> {
               limit={2} // 2mb
             />
             <Input
-              className={s.item}
+              classN
+              ame={s.item}
               onInput={e => this.onAltChange(e.target.value)}
               placeholder="alt"
             />

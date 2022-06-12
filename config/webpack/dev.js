@@ -3,9 +3,6 @@ const merge = require('webpack-merge');
 const common = require('./common.js');
 const paths = require('../paths');
 
-const BundleAnalyzerPlugin =
-  require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-
 const proxyConfig = {
   secure: false,
   changeOrigin: true,
@@ -17,10 +14,6 @@ const plugins = [
   new webpack.HotModuleReplacementPlugin(),
   new webpack.NoEmitOnErrorsPlugin(),
 ];
-
-if (process.env.ANALYZE) {
-  plugins.push(new BundleAnalyzerPlugin());
-}
 
 module.exports = merge(common, {
   mode: 'development',

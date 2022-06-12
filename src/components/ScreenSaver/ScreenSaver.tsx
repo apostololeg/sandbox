@@ -1,6 +1,6 @@
 import Logo from 'components/Logo/Logo';
 import { useCallback, useEffect, useState } from 'react';
-import { rangeMap, debounce } from '@foreverido/uilib';
+import { rangeMap, debounce } from 'uilib';
 
 import S from './ScreenSaver.styl';
 
