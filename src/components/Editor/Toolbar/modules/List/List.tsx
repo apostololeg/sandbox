@@ -2,6 +2,7 @@ import { Button } from 'uilib';
 
 import SvgIcon from 'components/UI/SvgIcon/SvgIcon';
 
+import type { Module } from '..';
 import icons from './icons';
 
 function getValue(format) {
@@ -17,7 +18,7 @@ function getValue(format) {
 
 export default {
   name: 'list',
-  hotkey: 'l',
+  // hotkey: 'l',
   action({ editor, format, selection }) {
     const { index, length } = selection;
 
@@ -38,4 +39,4 @@ export default {
       </Button>
     );
   },
-};
+} as Module;

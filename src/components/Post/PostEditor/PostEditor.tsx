@@ -51,12 +51,13 @@ class PostEditor extends Component<Props> {
     super(props);
 
     const postData = this.localVersion ?? this.remoteVersion ?? {};
+    const hasLocalVersion = Boolean(this.localVersion);
 
     this.store = createStore(this, {
-      showLocalVersion: Boolean(this.localVersion),
+      showLocalVersion: hasLocalVersion,
       initialValues: H.pickFormData(postData),
       isLoaded: false,
-      isSaved: true,
+      isSaved: !hasLocalVersion,
       activeLang: DEFAULT_LANG,
     });
 
@@ -120,16 +121,20 @@ class PostEditor extends Component<Props> {
 
     this.store.isLoaded = true;
 
+    // const { showLocalVersion } = this.store;
     const formData = H.pickFormData(this.remoteVersion);
+
     this.store.initialValues = formData;
 
     if (!compare(this.localVersion, this.remoteVersion)) {
       this.store.isSaved = false;
     }
 
-    if (!this.store.showLocalVersion) {
-      this.form.setValues(formData);
-    }
+    // if (showLocalVersion) {
+    //   Time.after(200, () => {
+    //     this.updateActiveContent(this.getContent());
+    //   });
+    // }
   }
 
   get viewData() {
@@ -137,13 +142,18 @@ class PostEditor extends Component<Props> {
     return this.remoteVersion;
   }
 
-  getActiveTexts(values = this.localVersion) {
+  getContent() {
     const { textsById, lang } = this.props.store.posts;
+    const { showLocalVersion } = this.store;
+
+    const values = showLocalVersion ? this.localVersion : this.form.values;
     const text = values.texts.find(item => item.lang === lang);
 
-    if (!text) return null;
+    if (!text) return '';
 
-    return textsById[text.id];
+    const { id, content } = text;
+
+    return content ?? textsById[id]?.content ?? '';
   }
 
   createText = async () => {
@@ -201,9 +211,9 @@ class PostEditor extends Component<Props> {
 
   onEditorChange = (value: string) => {
     const { lang } = this.props.store.posts;
-    const texts = this.getActiveTexts(this.form.values);
+    const content = this.getContent();
 
-    if (texts.content === value) return;
+    if (content === value) return;
 
     array.addUniq(this.editedLangs, lang);
     this.updateActiveContent(value);
@@ -276,7 +286,7 @@ class PostEditor extends Component<Props> {
     const { updating, isTextCreating } = store.posts;
     const { showLocalVersion, isSaved } = this.store;
     const { isDirty, isValid, Field, values } = form;
-    const texts = this.getActiveTexts(values);
+    const content = this.getContent();
 
     this.form = form;
 
@@ -302,10 +312,10 @@ class PostEditor extends Component<Props> {
         />
       </div>,
 
-      texts ? (
+      content ? (
         <Editor
           key="content"
-          value={texts.content}
+          value={content}
           onChange={this.onEditorChange}
           toolbarAddons={<LangSwitcher postId={this.id} showAllLangs />}
         />

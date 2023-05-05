@@ -3,11 +3,13 @@ import { Button } from 'uilib';
 import SvgIcon from 'components/UI/SvgIcon/SvgIcon';
 
 import { MAX_INDENT } from '../../../PostRenderHelpers';
+import type { Module } from '..';
 
 import Icon from './IndentIncrease.svg';
 
 export default {
   name: 'indent-increase',
+  hotkey: 'BracketRight',
   action({ editor, selection }) {
     const { index, length } = selection;
 
@@ -26,4 +28,4 @@ export default {
       </Button>
     );
   },
-};
+} as Module;

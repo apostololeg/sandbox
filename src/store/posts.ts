@@ -70,7 +70,8 @@ const STORE = createStore('posts', {
     try {
       const data = await api.get(`/posts/${id}`);
 
-      this.setLocalVersion({ ...data });
+      if (!this.getLocalVersion(id)) this.setLocalVersion({ ...data });
+
       setItem({ data });
     } finally {
       delete this.loading[id];

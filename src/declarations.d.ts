@@ -7,3 +7,4 @@ declare module '*.svg';
 declare module 'uilib';
 
 declare var PRODUCTION: boolean;
+declare var editor: HTMLDivElement;

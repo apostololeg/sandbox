@@ -2,11 +2,12 @@ import { Button } from 'uilib';
 
 import SvgIcon from 'components/UI/SvgIcon/SvgIcon';
 
+import type { Module } from '..';
 import Icon from './Link.svg';
 
 export default {
   name: 'link',
-  hotkey: 'k',
+  hotkey: 'KeyL',
   action({ editor, selection }) {
     const { index, length } = selection;
     const children = editor.getText(index, length);
@@ -41,4 +42,4 @@ export default {
       </Button>
     );
   },
-};
+} as Module;

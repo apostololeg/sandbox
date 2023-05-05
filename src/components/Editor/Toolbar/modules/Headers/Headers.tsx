@@ -4,6 +4,7 @@ import cn from 'classnames';
 
 import SvgIcon from 'components/UI/SvgIcon/SvgIcon';
 
+import type { Module } from '..';
 import icons from './icons';
 import S from './Headers.styl';
 
@@ -55,4 +56,4 @@ export default {
       />
     );
   },
-};
+} as Module;

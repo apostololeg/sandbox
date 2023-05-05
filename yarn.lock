@@ -1139,10 +1139,10 @@
   resolved "https://registry.yarnpkg.com/@discoveryjs/json-ext/-/json-ext-0.5.6.tgz#d5e0706cf8c6acd8c6032f8d54070af261bbbb2f"
   integrity sha512-ws57AidsDvREKrZKYffXddNkyaF14iHNHm8VQnZH6t99E8gczjNN0GpvcGny0imC80yQ0tHz1xVUKk/KFQSUyA==
 
-"@foreverido/uilib@^4.6.11":
-  version "4.6.11"
-  resolved "https://registry.yarnpkg.com/@foreverido/uilib/-/uilib-4.6.11.tgz#243ec5b829968d1e066d9453a17ce27a5e6d146e"
-  integrity sha512-JtRZ6ijW1IjAycMPkiTnHscbl327rBrt4kfMOXnZBDGg+M6kue+klO+uziB9/lztMhsB8Dj3Qdxo0IWk2nYKpw==
+"@foreverido/uilib@^4.6.12":
+  version "4.6.12"
+  resolved "https://registry.yarnpkg.com/@foreverido/uilib/-/uilib-4.6.12.tgz#70dded4e0fbfc770e3c3531964f1ee0409ba91f0"
+  integrity sha512-WwB5Fv54hmjuAC8kN61TNOLYK3xvU+S+YhMc24AXO11dCITepIV0l54kJk/FZSV25idylrpBMKVYryddeAt3PQ==
   dependencies:
     "@pmmmwh/react-refresh-webpack-plugin" "^0.5.10"
     "@rollup/plugin-typescript" "^11.0.0"

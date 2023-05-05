@@ -6,7 +6,7 @@ import Icon from './Bold.svg';
 
 export default {
   name: 'bold',
-  hotkey: 'b',
+  hotkey: 'KeyB',
   action({ editor, format, selection }) {
     const { index, length } = selection;
 

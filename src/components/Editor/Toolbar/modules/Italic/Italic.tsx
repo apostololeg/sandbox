@@ -2,11 +2,12 @@ import { Button } from 'uilib';
 
 import SvgIcon from 'components/UI/SvgIcon/SvgIcon';
 
+import type { Module } from '..';
 import Icon from './Italic.svg';
 
 export default {
   name: 'italic',
-  hotkey: 'i',
+  hotkey: 'KeyI',
   action({ editor, format, selection }) {
     const { index, length } = selection;
 
@@ -25,4 +26,4 @@ export default {
       </Button>
     );
   },
-};
+} as Module;

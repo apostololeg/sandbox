@@ -16,6 +16,7 @@ type Props = {
   className?: string;
   editor: any;
   tools: any;
+  children?: any;
 };
 
 class Toolbar extends Component<Props> {
@@ -44,7 +45,7 @@ class Toolbar extends Component<Props> {
 
   onKeyDown = e => {
     const isMeta = e.ctrlKey || e.metaKey;
-    const action = actionByHotkey[e.key];
+    const action = actionByHotkey[e.code];
 
     const { editor } = this.props;
     const { format, selection } = this.state;

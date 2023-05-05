@@ -37,7 +37,7 @@
     }
   },
   "dependencies": {
-    "@foreverido/uilib": "^4.6.11",
+    "@foreverido/uilib": "^4.6.12",
     "@prisma/client": "^4.14.0-dev.2",
     "aws-sdk": "2.493.0",
     "babel-node": "^0.0.1-security",
@@ -88,11 +88,6 @@
   },
   "description": "",
   "devDependencies": {
-    "@lcdp/offline-plugin": "^5.1.1",
-    "@types/react": "^18.0.37",
-    "@typescript-eslint/eslint-plugin": "^2.26.0",
-    "@typescript-eslint/parser": "^2.26.0",
-    "autoprefixer": "^10.4.2",
     "@babel/cli": "^7.8.4",
     "@babel/core": "7.9.0",
     "@babel/node": "7.8.7",
@@ -116,6 +111,11 @@
     "@babel/runtime-corejs2": "7.9.2",
     "@babel/runtime-corejs3": "^7.9.2",
     "@gfx/zopfli": "1.0.14",
+    "@lcdp/offline-plugin": "^5.1.1",
+    "@types/react": "^18.0.37",
+    "@typescript-eslint/eslint-plugin": "^2.26.0",
+    "@typescript-eslint/parser": "^2.26.0",
+    "autoprefixer": "^10.4.2",
     "babel-eslint": "10.0.3",
     "babel-loader": "^8.2.3",
     "babel-plugin-transform-react-jsx": "6.24.1",

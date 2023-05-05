@@ -1,5 +1,5 @@
 import { Component, ReactNode } from 'react';
-import { Button, Icon, debounce } from 'uilib';
+import { Button, Icon, Scroll, debounce } from 'uilib';
 import { withStore } from 'justorm/react';
 import cn from 'classnames';
 import Time from 'timen';
@@ -120,7 +120,9 @@ export default class Editor extends Component<Props> {
             </Button>
           </Toolbar>
         )}
-        <div id="editor" className={S.editor} />
+        <Scroll y>
+          <div id="editor" className={S.editor} />
+        </Scroll>
       </div>
     );
   }

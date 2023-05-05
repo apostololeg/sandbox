@@ -2,10 +2,12 @@ import { Button } from 'uilib';
 
 import SvgIcon from 'components/UI/SvgIcon/SvgIcon';
 
+import type { Module } from '..';
 import Icon from './IndentDecrease.svg';
 
 export default {
   name: 'indent-decrease',
+  hotkey: 'BracketLeft',
   action({ editor, selection }) {
     const { index, length } = selection;
 
@@ -24,4 +26,4 @@ export default {
       </Button>
     );
   },
-};
+} as Module;
