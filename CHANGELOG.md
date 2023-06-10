@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0](https://github.com/apostololeg/sandboxt/compare/v1.1.4...v2.0.0) (2023-06-10)
+
+
+### Features
+
+* update UILIB ([eecc75a](https://github.com/apostololeg/sandboxt/commit/eecc75a30d4b95ea6d8b6814ae46fa9628d03bf3))
+* Upload files to disk storage ([118177c](https://github.com/apostololeg/sandboxt/commit/118177cfd3d436f64cf8c5e859a7a615dbde1dac))
+
+
+### Bug Fixes
+
+* PostEditor - manage local/remote version ([c2726e9](https://github.com/apostololeg/sandboxt/commit/c2726e94f5eab8feea2e9b9596064c00b3ada4dc))
+
 ### [1.1.4](https://github.com/apostololeg/sandboxt/compare/v1.1.3...v1.1.4) (2022-05-05)
 
 
