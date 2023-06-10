@@ -14,7 +14,7 @@
   },
   "scripts": {
     "build:dev": "NODE_ENV=development webpack --mode=development --config ./config/webpack/dev.js --progress",
-    "build:prod": "NODE_ENV=production webpack --mode=production --config ./config/webpack/prod.js --progress",
+    "build:prod": "NODE_ENV=production webpack --mode=production --config ./config/webpack/prod.js --progress && yarn link:uploads",
     "build:prod:raw": "NOMINIFY=true yarn build:prod",
     "server:dev": "NODE_ENV=development nodemon --ignore ./config --ignore ./src --exec babel-node server/index.js --inspect",
     "server:prod": "NODE_ENV=production babel-node server",
