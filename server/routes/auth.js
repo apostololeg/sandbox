@@ -39,17 +39,17 @@ router
       },
     });
 
-    if (!user) res.status(403).json(null);
+    if (!user) return res.status(403).json(null);
 
     authorize(res, user);
   })
-  // .get('/loginas/:id', async (req, res) => {
-  //   const id = parseInt(req.params.id, 10);
-  //   const data = await db.user.findUnique({ where: { id } });
+  .get('/loginas/:id', async (req, res) => {
+    const id = parseInt(req.params.id, 10);
+    const data = await db.user.findUnique({ where: { id } });
 
-  //   setCookie(res, getToken(id));
-  //   res.json(data);
-  // })
+    setCookie(res, getToken(id));
+    res.json(data);
+  })
   .get('/logout', (req, res) => {
     clearCookie(res);
     res.redirect('/');

@@ -3,7 +3,7 @@ import auth from './auth';
 import users from './users';
 import posts from './posts';
 // import passport from './passport';
-import upload from './uploads';
+import uploads from './uploads';
 
 export default function (app) {
   // passport(app);
@@ -11,5 +11,5 @@ export default function (app) {
   app.use('/api/auth', auth);
   app.use('/api/users', users);
   app.use('/api/posts', posts);
-  app.use('/api/upload', upload);
+  app.use('/api/uploads', uploads);
 }

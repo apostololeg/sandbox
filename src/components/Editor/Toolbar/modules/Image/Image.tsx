@@ -1,116 +1,73 @@
-import { Component } from 'react';
-import { createStore } from 'justorm/react';
-
-import { Input, Button, Popup, debounce } from 'uilib';
+import { useCallback, useEffect } from 'react';
+import { nanoid } from 'nanoid';
+import { Button } from 'uilib';
 
 import SvgIcon from 'components/UI/SvgIcon/SvgIcon';
-import FileUploader from 'components/FileUploader/FileUploader';
+import { FILES_TO_UPLOAD } from 'components/Editor/embeds/components/Img/Img.helpers';
 
 import Icon from './Image.svg';
-import s from './Image.styl';
+// import S from './Image.styl';
 
-type Props = {
-  className?: string;
-  tools?: any;
-};
+let filesToAppend: File[] = [];
 
-class Image extends Component<Props> {
-  store;
+function appendFiles(action) {
+  const file = filesToAppend.shift();
 
-  constructor(props) {
-    super(props);
-    this.store = createStore(this, {
-      alt: '',
-      url: '',
-      isInserted: false,
-      isUploaded: false,
-      isOpen: false,
-    });
-
-    this.onAltChange = debounce(this.onAltChange, 500);
-  }
-
-  onOpen = () => (this.store.isOpen = true);
-  onClose = () => (this.store.isOpen = false);
-
-  onFileChoose = () => {
-    Object.assign(this.store, { url: '', isUploaded: false });
-  };
-
-  onUpload = url => {
-    Object.assign(this.store, { url, isUploaded: true });
-  };
-
-  onAltChange = alt => (this.store.alt = alt);
-
-  onPopupClose = () => {
-    if (!this.store.isInserted) {
-      // TODO: remove file from DO Space
-    }
-
-    Object.assign(this.store, {
-      url: '',
-      alt: '',
-      isInserted: false,
-    });
-  };
-
-  insert = () => {
-    const { tools } = this.props;
-    const { alt, url } = this.store;
-
-    tools.insertEmbed('image', { alt, url });
-    this.store.isOpen = false;
-  };
-
-  render() {
-    const { className } = this.props;
-    const { isUploaded, isOpen } = this.store;
-
-    return (
-      <Popup
-        className={className}
-        direction="left"
-        onOpen={this.onOpen}
-        onClose={this.onPopupClose}
-        idOpen={isOpen}
-        trigger={
-          <Button size="m" square>
-            <SvgIcon icon={Icon} size={20} />
-          </Button>
-        }
-        content={
-          <div className={s.popupContainer}>
-            <FileUploader
-              className={s.item}
-              prefix="post"
-              onChange={this.onFileChoose}
-              onUpload={this.onUpload}
-              accept="image/png, image/jpeg, image/svg+xml"
-              limit={2} // 2mb
-            />
-            <Input
-              classN
-              ame={s.item}
-              onInput={e => this.onAltChange(e.target.value)}
-              placeholder="alt"
-            />
-            <Button
-              size="m"
-              className={s.item}
-              onClick={this.insert}
-              disabled={!isUploaded}
-            >
-              Insert
-            </Button>
-          </div>
-        }
-      />
-    );
+  if (file) {
+    action(file);
+    setTimeout(() => appendFiles(action), 100);
   }
 }
 
 export default {
   name: 'image',
-  Module: Image,
+  action({ editor, selection }, file) {
+    const { index, length } = selection;
+    const props = {
+      component: 'Img',
+      inline: true,
+      photoKey: '', // full URL will be built by the component
+      alt: '',
+    } as any;
+
+    if (file) {
+      props.uploadKey = nanoid();
+      FILES_TO_UPLOAD[props.uploadKey] = file;
+    }
+
+    if (length) editor.deleteText(index, length);
+
+    const strtIndex = editor.selection.lastRange?.index ?? index;
+
+    editor.insertEmbed(strtIndex, 'component', props);
+  },
+  Module({ className, action }) {
+    const onDrop = useCallback(
+      (e: any) => {
+        [...e.dataTransfer.files].forEach(file => {
+          if (file.type.startsWith('image/')) {
+            filesToAppend.push(file);
+          }
+        });
+
+        if (filesToAppend.length) {
+          e.preventDefault();
+          e.stopPropagation();
+
+          appendFiles(action);
+        }
+      },
+      [action]
+    );
+
+    useEffect(() => {
+      editor.addEventListener('drop', onDrop);
+    }, []);
+
+    return (
+      <Button className={className} size="m" square onClick={() => action()}>
+        <SvgIcon icon={Icon} size={20} />
+      </Button>
+    );
+  },
 };

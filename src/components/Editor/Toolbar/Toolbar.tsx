@@ -113,7 +113,7 @@ class Toolbar extends Component<Props> {
           <Module
             {...moduleProps}
             key={name}
-            action={() => action(actionProps)}
+            action={props => action(actionProps, props)}
           />
         ))}
         {children && (

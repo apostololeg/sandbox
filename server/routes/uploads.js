@@ -1,14 +1,16 @@
 import { Router } from 'express';
 
-import upload from '../api/upload';
+import { getUploadAndResizeMiddleware } from '../api/upload';
+import { adminMiddleware } from '../api/auth';
+
+export const uploadPhoto = getUploadAndResizeMiddleware('photos', [
+  { path: 'l', width: 1600, height: 1600 },
+]);
 
 const router = Router();
 
-router.post('/', async (req, res) => {
-  upload(req, res, error => {
-    if (error) return res.status(400).send(error);
-    return res.sendStatus(200);
-  });
+router.post('/photos', adminMiddleware, uploadPhoto, (req, res) => {
+  res.json({ key: req.body.key });
 });
 
 export default router;

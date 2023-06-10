@@ -15,8 +15,8 @@ const {
   PROTOCOL,
   HOST,
   PORT,
-  DO_SPACE_NS,
-  DO_SPACE_NAME,
+  UPLOADS_DOMAIN,
+  UPLOADS_DIR,
 } = require('../const');
 
 module.exports = {
@@ -137,8 +137,8 @@ module.exports = {
       PROTOCOL: JSON.stringify(PROTOCOL),
       HOST: JSON.stringify(HOST),
       PORT: JSON.stringify(PORT),
-      DO_SPACE_NS: JSON.stringify(DO_SPACE_NS),
-      DO_SPACE_NAME: JSON.stringify(DO_SPACE_NAME),
+      UPLOADS_DOMAIN: JSON.stringify(UPLOADS_DOMAIN),
+      UPLOADS_DIR: JSON.stringify(UPLOADS_DIR),
       VERSION: JSON.stringify(pkg.version),
     }),
     new webpack.ProvidePlugin({
