@@ -1,5 +1,6 @@
 dist/
 build/
+uploads/
 node_modules/
 .gitsecret/keys/random_seed
 .env

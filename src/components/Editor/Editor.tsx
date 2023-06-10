@@ -10,7 +10,7 @@ import Toolbar from './Toolbar/Toolbar';
 import Tools from './tools';
 
 import S from './Editor.styl';
-import { hydrateComponents } from './Editor.helpers';
+import { hydrateComponents, bus, removeAllChildNodes } from './Editor.helpers';
 import PostRenderHelpers from './PostRenderHelpers';
 
 type Props = {
@@ -40,6 +40,8 @@ export default class Editor extends Component<Props> {
     this.setState({ showToolbar: true });
 
     this.editor.on('editor-change', this.onChange);
+
+    bus.addEventListener('change', this.onChange);
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -62,7 +64,10 @@ export default class Editor extends Component<Props> {
     this.editor.off('editor-change', this.onChange);
   }
 
-  hydrateComponents = debounce(() => hydrateComponents(this.editor.root), 500);
+  hydrateComponents = debounce(
+    () => hydrateComponents(this.editor.root, { isEditor: true }),
+    500
+  );
 
   setValue = value => {
     this.editor.root.innerHTML = value;
@@ -70,22 +75,25 @@ export default class Editor extends Component<Props> {
   };
 
   getValue = () => {
-    const { innerHTML } = this.editor.root;
-    const tree = this.domParser.parseFromString(innerHTML, 'text/html');
+    const { root } = this.editor;
+    const tree = root.cloneNode(true);
 
     tree.querySelectorAll('[data-props]').forEach(node => {
-      node.innerHTML = '';
+      removeAllChildNodes(node);
       node.removeAttribute('data-inited');
     });
 
-    return tree.body.innerHTML;
+    return tree.innerHTML;
   };
 
   onChange = () => {
     const { value, onChange } = this.props;
     const newVal = this.getValue();
 
-    if (value !== newVal) onChange?.(newVal);
+    if (value !== newVal) {
+      onChange?.(newVal);
+      this.hydrateComponents();
+    }
   };
 
   toggleFullscreen = () => {

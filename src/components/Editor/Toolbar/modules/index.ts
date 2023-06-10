@@ -20,7 +20,7 @@ type API = {
   format: any;
 };
 
-type Action = (props: API) => void;
+type Action = (props: API, moduleProps?: any) => void;
 
 type ModuleProps = API & {
   className: string;
