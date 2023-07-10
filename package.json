@@ -39,6 +39,7 @@
   },
   "dependencies": {
     "@foreverido/uilib": "^4.6.12",
+    "@homecode/ui": "^4.11.1",
     "@prisma/client": "^4.14.0-dev.2",
     "aws-sdk": "2.493.0",
     "babel-node": "^0.0.1-security",
