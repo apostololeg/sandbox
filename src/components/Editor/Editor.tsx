@@ -128,7 +128,7 @@ export default class Editor extends Component<Props> {
             </Button>
           </Toolbar>
         )}
-        <Scroll y>
+        <Scroll y className={S.scroll} innerClassName={S.scrollInner}>
           <div id="editor" className={S.editor} />
         </Scroll>
       </div>

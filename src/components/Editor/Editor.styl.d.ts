@@ -5,6 +5,8 @@ interface CssExports {
   'fullscreen': string;
   'fullscreenButton': string;
   'root': string;
+  'scroll': string;
+  'scrollInner': string;
   'toolbar': string;
   'toolbarAddons': string;
 }

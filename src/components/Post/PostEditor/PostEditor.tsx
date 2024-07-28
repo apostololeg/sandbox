@@ -312,7 +312,7 @@ class PostEditor extends Component<Props> {
         />
       </div>,
 
-      content ? (
+      typeof content === 'string' ? (
         <Editor
           key="content"
           value={content}
