@@ -5,20 +5,22 @@ import Quill from 'quill/core';
 import Header from 'quill/formats/header';
 import Bold from 'quill/formats/bold';
 import Italic from 'quill/formats/italic';
-import { IndentClass } from 'quill/formats/indent';
+import Indent from 'quill/formats/indent';
 import { AlignClass } from 'quill/formats/align';
-import List, { ListItem } from 'quill/formats/list';
+import ListItem, { ListContainer } from 'quill/formats/list';
 
 import Component from './formats/component.quill';
 import Image from './embeds/image.quill';
+
+ListContainer.tagName = 'ul';
 
 Quill.register({
   'formats/bold': Bold,
   'formats/italic': Italic,
   'formats/header': Header,
-  'formats/list': List,
+  'formats/list': ListContainer,
   'formats/list-item': ListItem,
-  'formats/indent': IndentClass,
+  'formats/indent': Indent,
   'formats/align': AlignClass,
   'formats/component': Component,
 });
