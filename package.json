@@ -46,7 +46,7 @@
     "babel-plugin-object-to-json-parse": "0.0.8",
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-latest": "^6.24.1",
-    "body-parser": "1.19.0",
+    "body-parser": "1.20.3",
     "classnames": "2.2.6",
     "compareq": "1.2.2",
     "connect-history-api-fallback-exclusions": "^1.5.1",
