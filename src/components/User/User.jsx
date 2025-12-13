@@ -1,8 +1,8 @@
-import { withStore } from 'justorm/react';
-
 import { Popup, Link } from 'uilib';
 
 import Menu, { MenuItem } from 'components/UI/Menu/Menu';
+import { useUser } from 'store/user';
+import { usePage } from 'store/page';
 
 import DefaultIcon from './icons/avatar.svg';
 import s from './User.styl';
@@ -33,12 +33,11 @@ function getMenuLinks({ isAuth, isLogged, isAdmin }) {
   return items;
 }
 
-export default withStore({
-  user: ['isLogged', 'isAdmin', 'email', 'name', 'avatar'],
-  page: ['isAuth'],
-})(function User({ store }) {
-  const { isLogged, isAdmin, email, name, avatar } = store.user;
-  const { isAuth } = store.page;
+export default function User() {
+  const user = useUser(['isLogged', 'isAdmin', 'email', 'name', 'avatar']);
+  const page = usePage(['isAuth']);
+  const { isLogged, isAdmin, email, name, avatar } = user;
+  const { isAuth } = page;
 
   if (!isLogged) return null;
 
@@ -67,4 +66,4 @@ export default withStore({
       }
     />
   );
-});
+}

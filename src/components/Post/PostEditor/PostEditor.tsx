@@ -1,11 +1,12 @@
-import { Component } from 'react';
-import { createStore, withStore } from 'justorm/react';
+import { useState, useEffect, useRef, useMemo, useCallback } from 'react';
+import { useStore } from 'justorm/react';
 import compare from 'compareq';
 import { Form, Spinner, Checkbox, Button, Link, debounce, array } from 'uilib';
 
 import { DEFAULT_LANG } from 'shared/langs';
 
 import { getTextsFromData } from 'tools/posts';
+import { usePosts } from 'store/posts';
 
 import Flex from 'components/UI/Flex/Flex';
 import { Title } from 'components/Header/Header';
@@ -18,280 +19,251 @@ import { EmptyState } from 'components/UI/EmptyState/EmptyState';
 import LangSwitcher from '../LangSwitcher/LangSwitcher';
 
 type Props = {
-  store?: any;
   pathParams: { id: string };
 };
 
-@withStore({
-  posts: [
+export default function PostEditor({ pathParams }: Props) {
+  const id = pathParams.id;
+  const posts = usePosts([
     'items',
+    'byId',
     'textsById',
     'creatingTexts',
     'localEdits',
     'loading',
     'updating',
     'lang',
-  ],
-  notifications: [],
-})
-class PostEditor extends Component<Props> {
-  store;
-  form;
-  editedLangs: string[] = [];
-  prevLang = null;
+  ]);
+  const { notifications } = useStore({ notifications: [] });
+  const formRef = useRef<any>(null);
+  const editedLangsRef = useRef<string[]>([]);
+  const prevLangRef = useRef<string | null>(null);
 
-  validationSchema = {
-    slug: { type: 'string' },
-    slugLock: { type: 'boolean' },
-    // content: { type: 'string' },
-    published: { type: 'boolean' },
-  };
-
-  constructor(props) {
-    super(props);
-
-    const postData = this.localVersion ?? this.remoteVersion ?? {};
-    const hasLocalVersion = Boolean(this.localVersion);
-
-    this.store = createStore(this, {
-      showLocalVersion: hasLocalVersion,
-      initialValues: H.pickFormData(postData),
-      isLoaded: false,
-      isSaved: !hasLocalVersion,
-      activeLang: DEFAULT_LANG,
-    });
-
-    this.onChange = debounce(this.onChange, 600);
-  }
-
-  componentDidMount() {
-    this.editedLangs = [];
-    this.loadPostData();
-
-    document.addEventListener('keydown', this.onKeyDown);
-  }
-
-  componentDidUpdate() {
-    const { lang } = this.props.store.posts;
-
-    if (this.prevLang !== lang) {
-      this.prevLang = lang;
-      this.store.initialValues = H.pickFormData(this.viewData);
-    }
-  }
-
-  componentWillUnmount() {
-    document.removeEventListener('keydown', this.onKeyDown);
-  }
-
-  get id() {
-    return this.props.pathParams.id;
-  }
-
-  get isLoading() {
-    const { store } = this.props;
-    return Boolean(store.posts.loading[this.id]);
-  }
-
-  get localVersion() {
-    const { store } = this.props;
-    return store.posts.getLocalVersion(this.id);
-  }
-
-  get remoteVersion() {
-    const { store } = this.props;
-    const { byId, textsById } = store.posts;
-    const _data = byId[this.id];
+  const localVersion = useMemo(() => posts.getLocalVersion(id), [posts, id]);
+  const remoteVersion = useMemo(() => {
+    const { byId, textsById } = posts;
+    const _data = byId[id];
 
     if (!_data) return null;
 
     const data = { ..._data };
-
     data.texts = data.texts.map(text => ({ ...text, ...textsById[text.id] }));
 
     return data;
-  }
+  }, [posts.byId, posts.textsById, id]);
 
-  async loadPostData() {
-    const { store } = this.props;
-    const { loadPost, loadCurrentTexts } = store.posts;
+  const postData = useMemo(
+    () => localVersion ?? remoteVersion ?? {},
+    [localVersion, remoteVersion]
+  );
+  const hasLocalVersion = Boolean(localVersion);
 
-    await loadPost(this.id);
-    await loadCurrentTexts(this.id);
+  const [localState, setLocalState] = useState({
+    showLocalVersion: hasLocalVersion,
+    initialValues: H.pickFormData(postData),
+    isLoaded: false,
+    isSaved: !hasLocalVersion,
+    activeLang: DEFAULT_LANG,
+  });
 
-    this.store.isLoaded = true;
+  const validationSchema = {
+    slug: { type: 'string' },
+    slugLock: { type: 'boolean' },
+    published: { type: 'boolean' },
+  };
 
-    // const { showLocalVersion } = this.store;
-    const formData = H.pickFormData(this.remoteVersion);
+  const isLoading = useMemo(
+    () => Boolean(posts.loading[id]),
+    [posts.loading, id]
+  );
 
-    this.store.initialValues = formData;
+  const viewData = useMemo(() => {
+    if (localState.showLocalVersion) return localVersion;
+    return remoteVersion;
+  }, [localState.showLocalVersion, localVersion, remoteVersion]);
 
-    if (!compare(this.localVersion, this.remoteVersion)) {
-      this.store.isSaved = false;
-    }
-
-    // if (showLocalVersion) {
-    //   Time.after(200, () => {
-    //     this.updateActiveContent(this.getContent());
-    //   });
-    // }
-  }
-
-  get viewData() {
-    if (this.store.showLocalVersion) return this.localVersion;
-    return this.remoteVersion;
-  }
-
-  getContent() {
-    const { textsById, lang } = this.props.store.posts;
-    const { showLocalVersion } = this.store;
-
-    const values = showLocalVersion ? this.localVersion : this.form.values;
-    const text = values.texts.find(item => item.lang === lang);
-
+  const getContent = useCallback(() => {
+    const { textsById, lang } = posts;
+    const values = localState.showLocalVersion
+      ? localVersion
+      : formRef.current?.values;
+    if (!values) return '';
+    const text = values.texts?.find((item: any) => item.lang === lang);
     if (!text) return '';
+    const { id: textId, content } = text;
+    return content ?? textsById[textId]?.content ?? '';
+  }, [posts, localState.showLocalVersion, localVersion]);
 
-    const { id, content } = text;
+  const handleSave = useCallback(
+    async (values?: any) => {
+      if (!formRef.current) return;
+      const formValues = values || formRef.current.values;
+      const { id: postId } = localVersion;
+      const data = { ...formValues };
 
-    return content ?? textsById[id]?.content ?? '';
-  }
+      data.texts = data.texts.filter(
+        ({ lang, title, content }: any) =>
+          editedLangsRef.current.includes(lang) && (title || content)
+      );
 
-  createText = async () => {
-    const { store } = this.props;
-    const { createText } = store.posts;
+      await posts.updatePost({ id: postId, data });
 
-    await createText(this.id);
+      notifications.show({
+        type: 'success',
+        title: 'Post updated',
+      });
 
-    this.store.initialValues = H.pickFormData(this.remoteVersion);
-  };
+      setLocalState(prev => ({
+        ...prev,
+        initialValues: H.pickFormData(remoteVersion),
+        showLocalVersion: false,
+        isSaved: true,
+      }));
+    },
+    [localVersion, posts, notifications, remoteVersion]
+  );
 
-  updateActiveContent(content) {
-    const { lang } = this.props.store.posts;
-    const { slugLock } = this.form.values;
+  useEffect(() => {
+    editedLangsRef.current = [];
 
-    const texts = [...this.form.values.texts];
-    const index = array.indexWhere(texts, lang, 'lang');
-    const title = H.parseTitleFromContent(content);
+    async function loadPostData() {
+      const { loadPost, loadCurrentTexts, byId } = posts;
+      await loadPost(id);
+      if (byId[id]) {
+        await loadCurrentTexts(id);
+      }
 
-    texts[index] = { ...texts[index], content, title };
-
-    this.form.setValue('texts', texts);
-
-    if (lang === 'EN' && title && !slugLock) {
-      this.form.setValue('slug', H.titleToSlug(title));
+      const formData = H.pickFormData(remoteVersion);
+      setLocalState(prev => ({
+        ...prev,
+        isLoaded: true,
+        initialValues: formData,
+        isSaved: compare(localVersion, remoteVersion),
+      }));
     }
-  }
 
-  updateLocalVersion() {
-    const { setLocalVersion, localEdits } = this.props.store.posts;
-    const prevData = localEdits[this.id]?.originalObject;
+    loadPostData();
 
-    setLocalVersion({ ...prevData, ...this.form.values });
-  }
-
-  onKeyDown = e => {
-    if ((e.ctrlKey || e.metaKey) && e.key === 's') {
-      e.preventDefault();
-      e.stopPropagation();
-      this.onSave();
+    function onKeyDown(e: KeyboardEvent) {
+      if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+        e.preventDefault();
+        e.stopPropagation();
+        handleSave();
+      }
     }
-  };
 
-  onLangChange = lang => (this.store.lang = lang);
+    document.addEventListener('keydown', onKeyDown);
 
-  onSlugInput = () => {
-    this.form.setValue('slugLock', true);
-  };
+    return () => {
+      document.removeEventListener('keydown', onKeyDown);
+    };
+  }, [id, posts, remoteVersion, localVersion, handleSave]);
 
-  onChange = () => {
-    this.updateLocalVersion();
-    this.store.showLocalVersion = true;
-    this.store.isSaved = false;
-  };
+  useEffect(() => {
+    if (prevLangRef.current !== posts.lang) {
+      prevLangRef.current = posts.lang;
+      setLocalState(prev => ({
+        ...prev,
+        initialValues: H.pickFormData(viewData),
+      }));
+    }
+  }, [posts.lang, viewData]);
 
-  onEditorChange = (value: string) => {
-    const { lang } = this.props.store.posts;
-    const content = this.getContent();
+  const updateLocalVersion = useCallback(() => {
+    if (!formRef.current) return;
+    const { setLocalVersion, localEdits } = posts;
+    const prevData = localEdits[id]?.originalObject;
+    setLocalVersion({ ...prevData, ...formRef.current.values });
+  }, [posts, id]);
 
-    if (content === value) return;
+  const debouncedOnChange = useMemo(
+    () =>
+      debounce(() => {
+        updateLocalVersion();
+        setLocalState(prev => ({
+          ...prev,
+          showLocalVersion: true,
+          isSaved: false,
+        }));
+      }, 600),
+    [updateLocalVersion]
+  );
 
-    array.addUniq(this.editedLangs, lang);
-    this.updateActiveContent(value);
-    this.onChange();
-  };
+  const updateActiveContent = useCallback(
+    (content: string) => {
+      if (!formRef.current) return;
+      const { lang } = posts;
+      const { slugLock } = formRef.current.values;
+      const texts = [...formRef.current.values.texts];
+      const index = array.indexWhere(texts, lang, 'lang');
+      const title = H.parseTitleFromContent(content);
 
-  onSave = async (values = this.form.values) => {
-    const { store } = this.props;
-    const { notifications, posts } = store;
-    const { id } = this.localVersion;
-    const data = { ...values };
+      texts[index] = { ...texts[index], content, title };
+      formRef.current.setValue('texts', texts);
 
-    data.texts = data.texts.filter(
-      ({ lang, title, content }) =>
-        this.editedLangs.includes(lang) && (title || content)
-    );
+      if (lang === 'EN' && title && !slugLock) {
+        formRef.current.setValue('slug', H.titleToSlug(title));
+      }
+    },
+    [posts]
+  );
 
-    await posts.updatePost({ id, data });
+  const handleEditorChange = useCallback(
+    (value: string) => {
+      const content = getContent();
+      if (content === value) return;
 
-    notifications.show({
-      type: 'success',
-      title: 'Post updated',
-    });
+      array.addUniq(editedLangsRef.current, posts.lang);
+      updateActiveContent(value);
+      debouncedOnChange();
+    },
+    [getContent, posts.lang, updateActiveContent, debouncedOnChange]
+  );
 
-    Object.assign(this.store, {
-      initialValues: H.pickFormData(this.remoteVersion),
-      showLocalVersion: false,
-      isSaved: true,
-    });
-  };
+  const createText = useCallback(async () => {
+    await posts.createText(id);
+    setLocalState(prev => ({
+      ...prev,
+      initialValues: H.pickFormData(remoteVersion),
+    }));
+  }, [posts, id, remoteVersion]);
 
-  // toggleLocalVersion = () => {
-  //   const { showLocalVersion } = this.store;
+  function renderTitle() {
+    if (!formRef.current) return null;
+    const { lang } = posts;
+    const postData = getTextsFromData(formRef.current.values, lang);
 
-  //   this.store.showLocalVersion = !showLocalVersion;
-
-  //   this.form.setValues(H.pickFormData(this.viewData));
-  // };
-
-  renderTitle() {
-    const { lang } = this.props.store.posts;
-    const postData = getTextsFromData(this.form.values, lang);
-
-    if (this.isLoading || !postData) return null;
+    if (isLoading || !postData) return null;
 
     return (
       <Title text={postData.title || 'New post'} key="title">
-        {this.renderTitleLinks()}
+        {renderTitleLinks()}
       </Title>
     );
   }
 
-  renderTitleLinks() {
-    const { isDirty } = this.form;
+  function renderTitleLinks() {
+    if (!formRef.current) return null;
+    const { isDirty } = formRef.current;
 
     if (!isDirty) return null;
 
     return [
-      // <Link href={`//post/${this.localVersion.slug}/preview`} key="preview">
-      //   Preview
-      // </Link>,
-      <Link href={`//post/${this.remoteVersion.slug}`} key="original">
+      <Link href={`//post/${remoteVersion?.slug}`} key="original">
         Original
       </Link>,
     ];
   }
 
-  renderForm = form => {
-    const { store } = this.props;
-    const { updating, isTextCreating } = store.posts;
-    const { showLocalVersion, isSaved } = this.store;
+  function renderForm(form: any) {
+    formRef.current = form;
+    const { updating, isTextCreating } = posts;
+    const { showLocalVersion } = localState;
     const { isDirty, isValid, Field, values } = form;
-    const content = this.getContent();
-
-    this.form = form;
+    const content = getContent();
 
     return [
-      this.renderTitle(),
+      renderTitle(),
 
       <div className={S.slugWrap} key="slug-line">
         <Field
@@ -299,7 +271,7 @@ class PostEditor extends Component<Props> {
           label="Slug"
           className={S.slug}
           key="slug"
-          onInput={this.onSlugInput}
+          onInput={() => form.setValue('slugLock', true)}
         />
         <Field
           name="slugLock"
@@ -316,17 +288,17 @@ class PostEditor extends Component<Props> {
         <Editor
           key="content"
           value={content}
-          onChange={this.onEditorChange}
-          toolbarAddons={<LangSwitcher postId={this.id} showAllLangs />}
+          onChange={handleEditorChange}
+          toolbarAddons={<LangSwitcher postId={id} showAllLangs />}
         />
       ) : (
         <EmptyState title="There are no texts for this language" key="empty">
           <LangSwitcher
             showAllLangs
-            postId={this.id}
+            postId={id}
             className={S.langSwitcherEmpty}
           />
-          <Button onClick={this.createText} loading={isTextCreating(this.id)}>
+          <Button onClick={createText} loading={isTextCreating(id)}>
             Create
           </Button>
         </EmptyState>
@@ -342,55 +314,38 @@ class PostEditor extends Component<Props> {
           label="Published"
         />
         <div className={S.gap} />
-        {/* {!isSaved && (
-          <Button
-            className={S.versionButton}
-            size="m"
-            checked={showLocalVersion}
-            disabled={!this.localVersion}
-            onClick={this.toggleLocalVersion}
-            key="localVersion"
-          >
-            Local version
-          </Button>
-        )} */}
         <Button
           size="m"
           key="submit"
           type="submit"
-          loading={updating[this.localVersion?.id]}
+          loading={updating[localVersion?.id]}
           disabled={!isDirty || !isValid}
         >
           Save
         </Button>
       </div>,
     ];
-  };
+  }
 
-  render() {
-    const { isLoaded, initialValues } = this.store;
-
-    if (!isLoaded)
-      return (
-        <Flex centered>
-          <Spinner size="l" />
-        </Flex>
-      );
-
-    if (!initialValues) return <Flex centered>No post data.</Flex>;
-
+  if (!localState.isLoaded) {
     return (
-      <Form
-        className={S.root}
-        initialValues={initialValues.originalObject}
-        validationSchema={this.validationSchema}
-        onChange={this.onChange}
-        onSubmit={this.onSave}
-      >
-        {this.renderForm}
-      </Form>
+      <Flex centered>
+        <Spinner size="l" />
+      </Flex>
     );
   }
-}
 
-export default PostEditor;
+  if (!localState.initialValues) return <Flex centered>No post data.</Flex>;
+
+  return (
+    <Form
+      className={S.root}
+      initialValues={localState.initialValues}
+      validationSchema={validationSchema}
+      onChange={debouncedOnChange}
+      onSubmit={handleSave}
+    >
+      {renderForm}
+    </Form>
+  );
+}

@@ -1,6 +1,4 @@
-import { hot } from 'react-hot-loader/root';
 import { Theme, VH, Container, Notifications } from 'uilib';
-import { withStore } from 'justorm/react';
 import cn from 'classnames';
 
 import 'store';
@@ -8,15 +6,18 @@ import 'store';
 import Flex from 'components/UI/Flex/Flex';
 import Routes from 'components/Routes/Routes';
 import Header from 'components/Header/Header';
+import { useApp } from './store';
+import { useUser } from 'store/user';
 
 import S from './App.styl';
 import { useEffect } from 'react';
 
 require('./store');
 
-const App = withStore(['app', { user: [] }])(({ store }) => {
-  const { app, user } = store;
-  const { currThemeConfig, theme, isEmbed } = app.originalObject;
+function App() {
+  const app = useApp(['currThemeConfig', 'theme', 'isEmbed']);
+  const user = useUser([]);
+  const { currThemeConfig, theme, isEmbed } = app;
 
   useEffect(() => {
     if (!isEmbed) user.init();
@@ -33,6 +34,6 @@ const App = withStore(['app', { user: [] }])(({ store }) => {
       <Notifications />
     </Flex>
   );
-});
+}
 
-export default PRODUCTION ? App : hot(App);
+export default App;

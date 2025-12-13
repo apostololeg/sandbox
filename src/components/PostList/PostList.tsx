@@ -1,5 +1,4 @@
-import { Fragment, Component } from 'react';
-import { withStore } from 'justorm/react';
+import { Fragment, useEffect } from 'react';
 
 import { Scroll, Button, Link } from 'uilib';
 
@@ -9,32 +8,25 @@ import { Gap } from 'components/UI/Flex/Flex';
 
 import { Title } from 'components/Header/Header';
 import LangSwitcher from 'components/Post/LangSwitcher/LangSwitcher';
+import { useUser } from 'store/user';
+import { usePosts } from 'store/posts';
 
 import S from './PostList.styl';
 
-type Props = {
-  store?: any;
-};
-
 let isFirstLoaded = false;
 
-@withStore({
-  user: ['isAdmin', 'isEditor'],
-  posts: ['items', 'lang', 'loadingList', 'deleting'],
-  notifications: [],
-})
-class PostList extends Component<Props> {
-  componentDidMount() {
-    const { loadPosts } = this.props.store.posts;
+export default function PostList() {
+  const user = useUser(['isAdmin', 'isEditor']);
+  const posts = usePosts(['items', 'byId', 'lang', 'loadingList', 'deleting']);
 
+  useEffect(() => {
     if (isFirstLoaded) return;
 
     isFirstLoaded = true;
-    loadPosts({ orderBy: { updatedAt: 'desc' } });
-  }
+    posts.loadPosts({ orderBy: { updatedAt: 'desc' } });
+  }, []);
 
-  renderItem = id => {
-    const { user, posts } = this.props.store;
+  const renderItem = id => {
     const { isAdmin, isEditor } = user;
     const allowEdit = isEditor || isAdmin;
     const { byId, lang } = posts;
@@ -59,33 +51,28 @@ class PostList extends Component<Props> {
     );
   };
 
-  render() {
-    const { user, posts } = this.props.store;
-    const { loadingList, items } = posts;
-    const { isAdmin, isEditor } = user;
-    const canCreateNew = isEditor || isAdmin;
+  const { loadingList, items } = posts;
+  const { isAdmin, isEditor } = user;
+  const canCreateNew = isEditor || isAdmin;
 
-    return (
-      <Fragment>
-        <Title text="Posts">
-          {canCreateNew && <Link href="/new">Create New</Link>}
-        </Title>
-        {loadingList ? (
-          <PageLoader size="l" />
-        ) : (
-          <>
-            <Scroll y>
-              <Menu>{items.map(this.renderItem)}</Menu>
-            </Scroll>
-            <Gap />
-            <div className={S.footer}>
-              <LangSwitcher popupProps={{ direction: 'right-top' }} />
-            </div>
-          </>
-        )}
-      </Fragment>
-    );
-  }
+  return (
+    <Fragment>
+      <Title text="Posts">
+        {canCreateNew && <Link href="/new">Create New</Link>}
+      </Title>
+      {loadingList ? (
+        <PageLoader size="l" />
+      ) : (
+        <>
+          <Scroll y>
+            <Menu>{items.map(renderItem)}</Menu>
+          </Scroll>
+          <Gap />
+          <div className={S.footer}>
+            <LangSwitcher popupProps={{ direction: 'right-top' }} />
+          </div>
+        </>
+      )}
+    </Fragment>
+  );
 }
-
-export default PostList;

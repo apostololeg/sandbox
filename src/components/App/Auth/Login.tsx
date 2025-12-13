@@ -1,8 +1,9 @@
-import { withStore } from 'justorm/react';
-
 import { Link } from 'uilib';
+import { useUser } from 'store/user';
 
-export default withStore({ user: [] })(function Login({ children, store }) {
+export default function Login({ children }) {
+  const user = useUser([]);
+
   return children({
     title: 'Sign in',
     titleLink: {
@@ -30,6 +31,6 @@ export default withStore({ user: [] })(function Login({ children, store }) {
     ],
     footerContent: <Link href="/reset-password">Forgot password?</Link>,
     submitText: 'Sign in',
-    onSubmit: store.user.login,
+    onSubmit: user.login,
   });
-});
+}

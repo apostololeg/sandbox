@@ -1,16 +1,14 @@
 import { useCallback, useEffect } from 'react';
-import { withStore } from 'justorm/react';
+import { useStore } from 'justorm/react';
 
 import { PageLoader } from 'components/UI/Loader/Loader';
+import { usePosts } from 'store/posts';
 
-export default withStore({
-  router: [],
-  posts: [],
-  notifications: [],
-})(function PostNew({ store }) {
+export default function PostNew() {
+  const posts = usePosts([]);
+  const { router, notifications } = useStore({ router: [], notifications: [] });
+
   const loadPost = useCallback(async () => {
-    const { router, notifications, posts } = store;
-
     try {
       const data = await posts.createPost();
       router.replaceState(`/post/${data.id}/edit`);
@@ -21,11 +19,11 @@ export default withStore({
         content: e?.message,
       });
     }
-  }, []);
+  }, [posts, router, notifications]);
 
   useEffect(() => {
     loadPost();
-  }, []);
+  }, [loadPost]);
 
   return <PageLoader />;
-});
+}

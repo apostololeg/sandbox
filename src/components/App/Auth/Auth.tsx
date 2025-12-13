@@ -1,6 +1,5 @@
-import { Component, Fragment } from 'react';
-import { bind } from 'decko';
-import { withStore } from 'justorm/react';
+import { Fragment, useCallback } from 'react';
+import { useStore } from 'justorm/react';
 
 import { Form, SubmitButtons, Link } from 'uilib';
 
@@ -20,33 +19,33 @@ const Forms = {
 };
 
 type Props = {
-  store?: any;
   router?: any;
 };
 
-@withStore({
-  router: ['path'],
-  page: [],
-  notifications: [],
-})
-class Auth extends Component<Props> {
-  onSubmit = async (onSubmit, payload) => {
-    const { store } = this.props;
-    const { router, notifications } = store;
+export default function Auth({ router: routerProp }: Props) {
+  const { router, notifications } = useStore({
+    router: ['path'],
+    notifications: [],
+  });
+  const currentRouter = routerProp || router;
 
-    try {
-      await onSubmit(payload);
-      router.go('/');
-    } catch (err: any) {
-      notifications.show({
-        type: 'error',
-        title: 'Login',
-        content: err.message,
-      });
-    }
-  };
+  const handleSubmit = useCallback(
+    async (onSubmit, payload) => {
+      try {
+        await onSubmit(payload);
+        currentRouter.go('/');
+      } catch (err: any) {
+        notifications.show({
+          type: 'error',
+          title: 'Login',
+          content: err.message,
+        });
+      }
+    },
+    [currentRouter, notifications]
+  );
 
-  renderAuthForm = ({
+  function renderAuthForm({
     title,
     titleContent,
     titleLink,
@@ -55,63 +54,58 @@ class Auth extends Component<Props> {
     submitText,
     onSubmit,
     ...formProps
-  }) => (
-    <div className={S.root}>
-      <div className={S.header}>
-        <h2>{title}</h2>
-        {titleContent}
-        {titleLink && (
-          <Link href={titleLink.to} className={S.link}>
-            {titleLink.text}
-          </Link>
-        )}
-      </div>
-      <Form
-        className={S.form}
-        onSubmit={payload => this.onSubmit(onSubmit, payload)}
-        {...formProps}
-      >
-        {({ Field, isValid, isDirty, isLoading }) => (
-          <Fragment>
-            {fields.map(props => (
-              <Field {...props} key={props.name} />
-            ))}
-            <div className={S.footer}>
-              {footerContent}
-              <div className={S.gap} />
-              <SubmitButtons
-                className={S.submitButtons}
-                buttons={[
-                  {
-                    children: submitText,
-                    type: 'submit',
-                    size: 'm',
-                    key: 'submit',
-                    loading: isLoading,
-                    disabled: !isDirty || !isValid,
-                  },
-                ]}
-              />
-            </div>
-          </Fragment>
-        )}
-      </Form>
-    </div>
-  );
-
-  render() {
-    const {
-      store: { router },
-    } = this.props;
-    const AuthForm = Forms[router.path];
-
+  }) {
     return (
-      <Flex centered scrolled>
-        <Title text="Auth" />
-        <AuthForm router={router}>{this.renderAuthForm}</AuthForm>
-      </Flex>
+      <div className={S.root}>
+        <div className={S.header}>
+          <h2>{title}</h2>
+          {titleContent}
+          {titleLink && (
+            <Link href={titleLink.to} className={S.link}>
+              {titleLink.text}
+            </Link>
+          )}
+        </div>
+        <Form
+          className={S.form}
+          onSubmit={payload => handleSubmit(onSubmit, payload)}
+          {...formProps}
+        >
+          {({ Field, isValid, isDirty, isLoading }) => (
+            <Fragment>
+              {fields.map(props => (
+                <Field {...props} key={props.name} />
+              ))}
+              <div className={S.footer}>
+                {footerContent}
+                <div className={S.gap} />
+                <SubmitButtons
+                  className={S.submitButtons}
+                  buttons={[
+                    {
+                      children: submitText,
+                      type: 'submit',
+                      size: 'm',
+                      key: 'submit',
+                      loading: isLoading,
+                      disabled: !isDirty || !isValid,
+                    },
+                  ]}
+                />
+              </div>
+            </Fragment>
+          )}
+        </Form>
+      </div>
     );
   }
-}
 
-export default Auth;
+  const AuthForm = Forms[currentRouter.path];
+
+  return (
+    <Flex centered scrolled>
+      <Title text="Auth" />
+      <AuthForm router={currentRouter}>{renderAuthForm}</AuthForm>
+    </Flex>
+  );
+}

@@ -1,33 +1,25 @@
-import { useCallback, useEffect } from 'react';
-import { withStore } from 'justorm/react';
+import { useEffect } from 'react';
 import cn from 'classnames';
 
 import { Select } from 'uilib';
 // import type { SelectProps } from 'uilib';
 
 import { LANGS } from 'shared/langs';
+import { usePosts } from 'store/posts';
 
 import S from './LangSwitcher.styl';
 
 type Props = {
   className?: string;
-  store?: any;
   postId: string | number;
   popupProps?: object; // SelectProps['popupProps'];
   showAllLangs?: boolean;
 };
 
-export default withStore({
-  posts: ['byId', 'lang'],
-})(function LangSwitcher(props: Props) {
-  const {
-    className,
-    postId,
-    store: { posts },
-    popupProps,
-    showAllLangs,
-  } = props;
+export default function LangSwitcher(props: Props) {
+  const { className, postId, popupProps, showAllLangs } = props;
 
+  const posts = usePosts(['byId', 'lang']);
   const { byId, lang } = posts;
   const data = byId[postId];
   const isVisible = showAllLangs || data?.texts.length > 1;
@@ -63,4 +55,4 @@ export default withStore({
       popupProps={popupProps}
     />
   );
-});
+}

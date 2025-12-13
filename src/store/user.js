@@ -1,4 +1,4 @@
-import { createStore } from 'justorm/react';
+import { createStore, useStore } from 'justorm/react';
 import { api } from 'tools/request';
 
 const STORE = createStore('user', {
@@ -59,3 +59,8 @@ function setUser(data) {
 }
 
 export default STORE;
+
+export const useUser = (fields = []) => {
+  const store = useStore({ user: fields });
+  return store.user;
+};

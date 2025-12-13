@@ -1,5 +1,5 @@
 import { queryParams, LS } from 'uilib';
-import { createStore } from 'justorm/react';
+import { createStore, useStore } from 'justorm/react';
 
 import { colorsConfig, getThemeConfig } from './theme';
 
@@ -15,7 +15,7 @@ function getInitialActiveColor() {
 
 const initialActiveColor = getInitialActiveColor();
 
-createStore('app', {
+const STORE = createStore('app', {
   theme: initialThemeType,
   currThemeConfig: getThemeConfig(initialThemeType, initialActiveColor),
   activeColor: initialActiveColor,
@@ -40,3 +40,11 @@ createStore('app', {
     this.currThemeConfig = getThemeConfig(theme, this.activeColor);
   },
 });
+
+export default STORE;
+export type AppStore = typeof STORE;
+
+export const useApp = (fields: (keyof AppStore)[] = []) => {
+  const store = useStore({ app: fields });
+  return store.app;
+};

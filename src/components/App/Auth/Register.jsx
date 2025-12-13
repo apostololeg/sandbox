@@ -1,7 +1,9 @@
-import { withStore } from 'justorm/react';
 import pick from 'lodash.pick';
+import { useUser } from 'store/user';
 
-export default withStore({ user: [] })(function Register({ children, store }) {
+export default function Register({ children }) {
+  const user = useUser([]);
+
   return children({
     title: 'Registration',
     titleLink: {
@@ -45,6 +47,6 @@ export default withStore({ user: [] })(function Register({ children, store }) {
       },
     ],
     submitText: 'Register',
-    onSubmit: ({ email, password }) => store.user.register({ email, password }),
+    onSubmit: ({ email, password }) => user.register({ email, password }),
   });
-});
+}

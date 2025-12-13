@@ -1,9 +1,8 @@
-import { Component, ReactNode } from 'react';
+import { ReactNode, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 
-import { withStore } from 'justorm/react';
-import { bind } from 'decko';
 import Time from 'timen';
+import { usePage } from 'store/page';
 
 import s from './Title.styl';
 
@@ -30,61 +29,38 @@ function waitForNode() {
 }
 
 type Props = {
-  store?: any;
   text: string;
   children?: ReactNode;
 };
 
-@withStore({ page: ['title'] })
-class Title extends Component<Props> {
-  componentDidMount() {
-    this.init();
-  }
+export default function Title({ text, children }: Props) {
+  const page = usePage(['title']);
+  const prevTitleRef = useRef<string>();
 
-  componentDidUpdate() {
-    const { title } = this.props.store.page;
-
-    if (title !== this.getTitle()) {
-      this.init();
-    }
-  }
-
-  async init() {
-    if (getNode()) {
-      await waitForNode();
-      this.setTitle();
-      return;
+  useEffect(() => {
+    async function init() {
+      if (getNode()) {
+        await waitForNode();
+      }
+      page.setTitle(text);
     }
 
-    this.setTitle();
-  }
+    if (prevTitleRef.current !== text) {
+      init();
+      prevTitleRef.current = text;
+    }
+  }, [text, page]);
 
-  getTitle() {
-    return this.props.text;
-  }
+  const { title } = page;
+  const targetNode = getNode();
 
-  @bind
-  setTitle() {
-    const { setTitle } = this.props.store.page;
+  if (!targetNode) return null;
 
-    setTitle(this.getTitle());
-  }
-
-  render() {
-    const { children, store } = this.props;
-    const { title } = store.page;
-    const targetNode = getNode();
-
-    if (!targetNode) return null;
-
-    return createPortal(
-      <>
-        {title && <h1 className={s.title}>{title}</h1>}
-        {children}
-      </>,
-      targetNode
-    );
-  }
+  return createPortal(
+    <>
+      {title && <h1 className={s.title}>{title}</h1>}
+      {children}
+    </>,
+    targetNode
+  );
 }
-
-export default Title;

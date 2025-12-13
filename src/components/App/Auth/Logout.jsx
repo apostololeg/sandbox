@@ -1,61 +1,53 @@
-import { Component } from 'react';
-import { bind } from 'decko';
-import { withStore } from 'justorm/react';
+import { useEffect } from 'react';
 import Time from 'timen';
+import { useStore } from 'justorm/react';
 
 import { Spinner } from 'uilib';
+import { useUser } from 'store/user';
 
 import s from './Auth.styl';
 
 const REDIRECT_TIMEOUT = 500;
 
-@withStore({ user: ['isLogged'] })
-class Logout extends Component {
-  clearTimer;
+export default function Logout({ router }) {
+  const user = useUser(['isLogged']);
 
-  componentDidMount() {
-    const { isLogged } = this.props.store.user;
+  useEffect(() => {
+    let clearTimer;
 
-    if (!isLogged) {
-      this.redirect();
+    async function logout() {
+      const startTime = Date.now();
+      await user.logout();
+      const delay = REDIRECT_TIMEOUT - (Date.now() - startTime);
+
+      if (delay <= 0) {
+        redirect();
+        return;
+      }
+
+      clearTimer = Time.after(delay, redirect);
+    }
+
+    function redirect() {
+      router.navigate('/', { replace: true });
+    }
+
+    if (!user.isLogged) {
+      redirect();
       return;
     }
 
-    this.logout();
-  }
+    logout();
 
-  componentWillUnmount() {
-    this.clearTimer?.();
-  }
+    return () => {
+      clearTimer?.();
+    };
+  }, [user, router]);
 
-  async logout() {
-    const { logout } = this.props.store.user;
-    const startTime = Date.now();
-    await logout();
-    const delay = REDIRECT_TIMEOUT - (Date.now() - startTime);
-
-    if (delay <= 0) {
-      this.redirect();
-      return;
-    }
-
-    this.clearTimer = Time.after(delay, this.redirect);
-  }
-
-  @bind
-  redirect() {
-    const { navigate } = this.props.router;
-
-    navigate('/', { replace: true });
-  }
-
-  render() {
-    return (
-      <div className={s.wrap}>
-        logging out
-        <Spinner paddedX />
-      </div>
-    );
-  }
+  return (
+    <div className={s.wrap}>
+      logging out
+      <Spinner paddedX />
+    </div>
+  );
 }
-export default Logout;

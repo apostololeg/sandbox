@@ -1,5 +1,5 @@
 import pick from 'lodash.pick';
-import { createStore } from 'justorm/react';
+import { createStore, useStore } from 'justorm/react';
 import { LS, RouterStore, array, queryParams } from 'uilib';
 
 import { DEFAULT_LANG } from 'shared/langs';
@@ -216,3 +216,11 @@ function delItem(id) {
   delete STORE.byId[id];
   delete STORE.bySlug[data.slug];
 }
+
+export default STORE;
+export type PostsStore = typeof STORE;
+
+export const usePosts = (fields: (keyof PostsStore)[] = []) => {
+  const store = useStore({ posts: fields });
+  return store.posts;
+};

@@ -1,18 +1,16 @@
-import { withStore } from 'justorm/react';
-
 import { Router, Route, Lazy, dom } from 'uilib';
 
 import Home from 'components/Home/Home';
 import Auth from 'components/App/Auth/Auth';
+import { useUser } from 'store/user';
 
 import NoMatch from './NoMatch';
 
 dom.watchControllerFlag();
 
-export default withStore({
-  user: ['isInited', 'isLogged', 'isEditor', 'isAdmin'],
-})(function Routes({ store }) {
-  const { isInited, isLogged, isEditor, isAdmin } = store.user;
+export default function Routes() {
+  const user = useUser(['isInited', 'isLogged', 'isEditor', 'isAdmin']);
+  const { isInited, isLogged, isEditor, isAdmin } = user;
 
   if (!isInited) return null;
 
@@ -91,4 +89,4 @@ export default withStore({
       <Route component={NoMatch} />
     </Router>
   );
-});
+}

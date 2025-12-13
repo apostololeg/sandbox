@@ -1,6 +1,6 @@
-import { createStore } from 'justorm/react';
+import { createStore, useStore } from 'justorm/react';
 
-export default createStore('page', {
+const STORE = createStore('page', {
   title: 'Home',
   isAuth: false,
   setTitle(title) {
@@ -12,3 +12,10 @@ export default createStore('page', {
     return prevTitle;
   },
 });
+
+export default STORE;
+
+export const usePage = (fields = []) => {
+  const store = useStore({ page: fields });
+  return store.page;
+};

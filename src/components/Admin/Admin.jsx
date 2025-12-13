@@ -1,12 +1,12 @@
-import { withStore } from 'justorm/react';
-
 import { Redirect } from 'uilib';
 
 import { Title } from 'components/Header/Header';
 import Flex from 'components/UI/Flex/Flex';
+import { useUser } from 'store/user';
 
-export default withStore({ user: ['isLogged'] })(function Admin({ store }) {
-  const { isLogged } = store.user;
+export default function Admin() {
+  const user = useUser(['isLogged']);
+  const { isLogged } = user;
 
   if (!isLogged) {
     return <Redirect to="/login" />;
@@ -18,4 +18,4 @@ export default withStore({ user: ['isLogged'] })(function Admin({ store }) {
       What's going on here?
     </Flex>
   );
-});
+}

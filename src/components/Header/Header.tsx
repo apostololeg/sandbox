@@ -1,17 +1,17 @@
 import { Container } from 'uilib';
-import { withStore } from 'justorm/react';
+import { useStore } from 'justorm/react';
 
 import User from 'components/User/User';
 import Logo from 'components/Logo/Logo';
+import { useApp } from 'components/App/store';
 
 import s from './Header.styl';
 
-const Header = withStore({
-  app: 'isEmbed',
-  router: 'path',
-})(({ store }) => {
-  const { isEmbed } = store.app;
-  const isRoot = store.router.path === '/';
+export default function Header() {
+  const app = useApp(['isEmbed']);
+  const { router } = useStore({ router: ['path'] });
+  const { isEmbed } = app;
+  const isRoot = router.path === '/';
 
   return (
     <Container className={s.root} size="m">
@@ -20,7 +20,6 @@ const Header = withStore({
       {!isEmbed && <User />}
     </Container>
   );
-});
+}
 
-export default Header;
 export { default as Title, Gap } from './Title/Title';
