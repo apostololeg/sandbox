@@ -1,5 +1,6 @@
 const webpack = require('webpack');
 const merge = require('webpack-merge');
+const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 const common = require('./common.js');
 const paths = require('../paths');
 
@@ -13,6 +14,9 @@ const proxyConfig = {
 const plugins = [
   new webpack.HotModuleReplacementPlugin(),
   new webpack.NoEmitOnErrorsPlugin(),
+  new ReactRefreshWebpackPlugin({
+    overlay: false,
+  }),
 ];
 
 module.exports = merge(common, {

@@ -31,7 +31,7 @@ module.exports = {
     alias: {
       config: paths.config,
       theme: `${paths.client}/theme.styl`,
-      uilib: '@foreverido/uilib',
+      uilib: '@homecode/ui',
       quill: `${paths.modules}/quill`,
       'quill-css': `${paths.modules}/quill/dist/quill.core.css`,
       // react: 'preact/compat',

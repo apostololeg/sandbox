@@ -24,6 +24,13 @@
   "rules": {
     // When importing files you do not need to add file extensions for the following extensions
     "import/extensions": "off",
+    // Override airbnb's "∞" to keep eslint-plugin-import schema happy
+    "import/no-cycle": [
+      "error",
+      {
+        "maxDepth": 1000000
+      }
+    ],
     // For absolute import
     "import/no-unresolved": "off",
     "import/no-duplicates": "off",
