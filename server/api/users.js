@@ -20,7 +20,7 @@ export function parseUserId(req) {
 export function getCurrentUser(req, select) {
   const id = parseUserId(req);
 
-  if (!id) return Promise.resolve(null);
+  if (id === null || id === undefined) return Promise.resolve(null);
   return db.user.findUnique({ where: { id }, select });
 }
 
