@@ -1,0 +1,56 @@
+module.exports = {
+  sourceType: 'unambiguous',
+  presets: [
+    [
+      '@babel/preset-typescript',
+      {
+        // "jsxPragma": "h",
+        // "pragmaFrag": "Fragment",
+        allExtensions: true,
+        isTSX: true,
+      },
+    ],
+    '@babel/preset-env',
+  ],
+  plugins: [
+    ...(process.env.NODE_ENV !== 'production' ? ['react-refresh/babel'] : []),
+    [
+      '@babel/plugin-transform-react-jsx',
+      {
+        // "pragma": "h",
+        // "pragmaFrag": "Fragment"
+      },
+    ],
+    [
+      '@babel/plugin-transform-runtime',
+      {
+        corejs: 2,
+        helpers: false,
+        regenerator: true,
+      },
+    ],
+    [
+      'object-to-json-parse',
+      {
+        minJSONStringSize: 1024,
+      },
+    ],
+    [
+      '@babel/plugin-proposal-decorators',
+      {
+        legacy: true,
+      },
+    ],
+    '@babel/plugin-proposal-export-default-from',
+    '@babel/plugin-proposal-export-namespace-from',
+    '@babel/plugin-syntax-dynamic-import',
+    '@babel/plugin-syntax-import-meta',
+    '@babel/plugin-proposal-class-properties',
+    '@babel/plugin-proposal-optional-chaining',
+    '@babel/plugin-proposal-json-strings',
+    '@babel/plugin-proposal-function-sent',
+    '@babel/plugin-proposal-numeric-separator',
+    '@babel/plugin-proposal-throw-expressions',
+  ],
+  comments: false,
+};
