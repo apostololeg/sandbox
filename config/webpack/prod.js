@@ -33,12 +33,10 @@ const plugins = [
 if (minimize) {
   plugins.push(
     new CompressionPlugin({
-      compressionOptions: {
-        numiterations: 15,
-      },
-      algorithm(input, compressionOptions, callback) {
-        return zopfli.gzip(input, compressionOptions, callback);
-      },
+      algorithm: 'gzip',
+      test: /\.(js|css|html|svg)$/,
+      threshold: 0,
+      minRatio: 0.8,
     }),
     new BrotliPlugin({
       asset: '[path].br[query]',
