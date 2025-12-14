@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.1.0](https://github.com/apostololeg/sandboxt/compare/v2.0.0...v2.1.0) (2025-12-14)
+
+
+### Features
+
+* add Projects component and utility hooks ([dfdc821](https://github.com/apostololeg/sandboxt/commit/dfdc8218aa436d9419f2f7c431a145c38ea65c6e))
+* Update analytics script ([e2c2352](https://github.com/apostololeg/sandboxt/commit/e2c23527675ac0e0a456ed863cd89af59d2747dc))
+
+
+### Bug Fixes
+
+* handle missing texts array in getTextsFromData ([8d7ad4d](https://github.com/apostololeg/sandboxt/commit/8d7ad4d3083b66276ac9d457c6e9e2e94a597b13))
+* improve null check in getCurrentUser ([01bd166](https://github.com/apostololeg/sandboxt/commit/01bd16658de246becb38a11c23d8c5a12037a34c))
+* Update Prisma, PostEditor empty texts ([b23d6f4](https://github.com/apostololeg/sandboxt/commit/b23d6f45c05cc24c58ff3bdafdbf844930c5955c))
+
 ## [2.0.0](https://github.com/apostololeg/sandboxt/compare/v1.1.4...v2.0.0) (2023-06-10)
 
 
