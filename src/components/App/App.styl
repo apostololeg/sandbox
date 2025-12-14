@@ -1,17 +1,14 @@
 @import '~theme'
 
 .root
+  display flex
+  flex-direction column
   height calc(100 * var(--vh))
+  overflow hidden
 
 .content
   flex-grow 1
   overflow-y auto
-
-  &::before
-    display block
-    content ''
-    height 70px
-    flex-shrink 0
 
 .contentCentered
   display flex

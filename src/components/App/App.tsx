@@ -28,7 +28,7 @@ function App() {
       <VH />
       <Theme config={currThemeConfig} />
       <Header />
-      <Container className={S.content} vertical fullWidth fullHeight size="m">
+      <Container className={S.content} vertical fullWidth fullHeight>
         <Routes />
       </Container>
       <Notifications />
