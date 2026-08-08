@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.1.1](https://github.com/apostololeg/sandboxt/compare/v2.1.0...v2.1.1) (2026-08-08)
+
+
+### Features
+
+* Header - Fixed blur header and Peer.pw updates ([36263dc](https://github.com/apostololeg/sandboxt/commit/36263dc0ede219fed1ac55e86ee84f4ee803e5f2))
+
+
+### Bug Fixes
+
+* upgrade terser-webpack-plugin to resolve OpenSSL compatibility issue ([49e0f06](https://github.com/apostololeg/sandboxt/commit/49e0f06b502066422029f29bfc27f64418046208))
+
 ## [2.1.0](https://github.com/apostololeg/sandboxt/compare/v2.0.0...v2.1.0) (2025-12-14)
 
 
