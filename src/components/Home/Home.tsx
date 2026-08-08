@@ -1,7 +1,6 @@
-import { Link, Scroll } from 'uilib';
+import { Scroll } from 'uilib';
 
 import { ScreenSaver } from 'components/ScreenSaver/ScreenSaver';
-import Menu, { MenuItem } from 'components/UI/Menu/Menu';
 import { Title } from 'components/Header/Header';
 import { Gap } from 'components/UI/Flex/Flex';
 import Projects from './Projects/Projects';
@@ -10,13 +9,7 @@ import S from './Home.styl';
 
 function Home() {
   return [
-    <Title text="~/apostol" key="title">
-      <Menu key="menu">
-        <MenuItem>
-          <Link href="/posts">Posts</Link>
-        </MenuItem>
-      </Menu>
-    </Title>,
+    <Title text="~/apostol" key="title" />,
 
     <Scroll
       y

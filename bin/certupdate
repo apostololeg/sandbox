@@ -1,4 +1,0 @@
-#!/bin/sh
-
-certbot certonly --standalone
-# certbot certonly --webroot -w /root/www/sandbox -d sandbox.space

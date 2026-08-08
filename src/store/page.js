@@ -2,7 +2,6 @@ import { createStore, useStore } from 'justorm/react';
 
 const STORE = createStore('page', {
   title: 'Home',
-  isAuth: false,
   setTitle(title) {
     const prevTitle = this.title;
 

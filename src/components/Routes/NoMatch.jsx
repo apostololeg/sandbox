@@ -1,7 +1,5 @@
-import Post from 'components/Post/Post';
-
 function NoMatch() {
-  return <Post slug="not-found" />;
+  return <div>Not found</div>;
 }
 
 export default NoMatch;

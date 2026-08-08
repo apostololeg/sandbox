@@ -22,42 +22,11 @@ jobs:
       - name: Install dependencies
         run: yarn install --frozen-lockfile
 
-      # Webpack build uses .env.sample fallback (config/const.js) — no secrets needed
       - name: Build
         run: yarn build:prod
 
-      - name: Setup age
-        uses: AnimMouse/setup-age@v1
-        with:
-          version: v1.1.1
-
-      - name: Decrypt env for deploy
-        env:
-          AGE_PRIVATE_KEY: ${{ secrets.AGE_PRIVATE_KEY }}
-        run: |
-          set -euo pipefail
-          if [ ! -f .env.age ]; then
-            echo "ERROR: .env.age not found in repository"
-            exit 1
-          fi
-          if [ -z "${AGE_PRIVATE_KEY:-}" ]; then
-            echo "ERROR: AGE_PRIVATE_KEY secret is not set"
-            exit 1
-          fi
-          echo "$AGE_PRIVATE_KEY" > /tmp/age-key.txt
-          chmod 600 /tmp/age-key.txt
-          age -d -i /tmp/age-key.txt .env.age > .env
-          rm -f /tmp/age-key.txt
-          test -s .env
-          echo "Decrypted .env ($(wc -l < .env) lines)"
-
-      - name: Package source
-        run: |
-          tar -czf deploy.tar.gz \
-            --exclude=build/uploads \
-            build server config prisma src/shared package.json yarn.lock babel.config.js \
-            .env \
-            .github/systemd/sandbox.service
+      - name: Package build
+        run: tar -czf deploy.tar.gz -C build .
 
       - name: Upload to VPS
         uses: appleboy/scp-action@v0.1.7
@@ -73,33 +42,18 @@ jobs:
         uses: appleboy/ssh-action@v1.2.0
         env:
           DEPLOY_PATH: ${{ vars.VPS_DEPLOY_PATH }}
-          DEPLOY_USER: ${{ vars.VPS_USER }}
         with:
           host: ${{ vars.VPS_HOST }}
           username: ${{ vars.VPS_USER }}
           port: ${{ vars.VPS_PORT || 22 }}
           key: ${{ secrets.VPS_SSH_KEY }}
-          envs: DEPLOY_PATH,DEPLOY_USER
+          envs: DEPLOY_PATH
           script: |
             set -e
-            mkdir -p "$DEPLOY_PATH"
-            tar -xzf /tmp/deploy.tar.gz -C "$DEPLOY_PATH"
-            rm /tmp/deploy.tar.gz
-            cd "$DEPLOY_PATH"
-
-            # Runtime secrets from age-decrypted .env (produced on Actions runner)
-            test -s .env
-            chmod 600 .env
-
-            export NVM_DIR="$HOME/.nvm"
-            [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
-
-            # babel-node runtime needs devDependencies -> full install
-            yarn install --frozen-lockfile --production=false
-
-            # Install/update systemd unit and restart
-            sed -e "s|{{VPS_DEPLOY_PATH}}|$DEPLOY_PATH|g" -e "s|{{VPS_USER}}|$DEPLOY_USER|g" \
-              .github/systemd/sandbox.service | sudo tee /etc/systemd/system/sandbox.service > /dev/null
-            sudo systemctl daemon-reload
-            sudo systemctl enable sandbox
-            sudo systemctl restart sandbox
+            # /var/www is root-owned; ci needs sudo to create the deploy path
+            sudo mkdir -p "$DEPLOY_PATH"
+            sudo chown "$USER:$USER" "$DEPLOY_PATH"
+            TMP_DIR=$(mktemp -d)
+            tar -xzf /tmp/deploy.tar.gz -C "$TMP_DIR"
+            rsync -a --delete "$TMP_DIR"/ "$DEPLOY_PATH"/
+            rm -rf "$TMP_DIR" /tmp/deploy.tar.gz

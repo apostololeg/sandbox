@@ -2,9 +2,7 @@ dist/
 build/
 uploads/
 node_modules/
-.gitsecret/keys/random_seed
 .env
-.age-key.txt
 package-lock.json
 yarn-error.log
 .vscode

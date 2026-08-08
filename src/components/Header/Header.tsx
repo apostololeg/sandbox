@@ -1,7 +1,6 @@
 import { Container } from 'uilib';
 import { useStore } from 'justorm/react';
 
-import User from 'components/User/User';
 import Logo from 'components/Logo/Logo';
 import { useApp } from 'components/App/store';
 
@@ -17,7 +16,6 @@ export default function Header() {
     <Container className={s.root} size="m">
       {!isEmbed && !isRoot && <Logo />}
       <div className={s.title} id="app-title" />
-      {!isEmbed && <User />}
     </Container>
   );
 }

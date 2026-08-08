@@ -15,8 +15,6 @@ const {
   PROTOCOL,
   HOST,
   PORT,
-  UPLOADS_DOMAIN,
-  UPLOADS_DIR,
 } = require('../const');
 
 module.exports = {
@@ -32,30 +30,19 @@ module.exports = {
       config: paths.config,
       theme: `${paths.client}/theme.styl`,
       uilib: '@homecode/ui',
-      quill: `${paths.modules}/quill`,
-      'quill-css': `${paths.modules}/quill/dist/quill.core.css`,
-      // react: 'preact/compat',
-      // 'react-dom': 'preact/compat',
-      // 'react-dom/test-utils': 'preact/test-utils',
     },
-    // plugins: [new ComponentDirectoryPlugin()],
     extensions: ['.js', '.jsx', '.ts', '.tsx', '.css'],
   },
   optimization: {
     moduleIds: 'named',
   },
   module: {
-    noParse: /node_modules\/quill\/dist/,
     rules: [
       {
         test: /\.(j|t)sx?$/,
         loader: 'babel-loader',
         include: paths.src,
         exclude: [paths.modules],
-        // exclude: {
-        //   exclude: [paths.modules],
-        //   test: [/\.quill\.js$/],
-        // },
       },
       {
         test: /\.m?js/,
@@ -137,8 +124,6 @@ module.exports = {
       PROTOCOL: JSON.stringify(PROTOCOL),
       HOST: JSON.stringify(HOST),
       PORT: JSON.stringify(PORT),
-      UPLOADS_DOMAIN: JSON.stringify(UPLOADS_DOMAIN),
-      UPLOADS_DIR: JSON.stringify(UPLOADS_DIR),
       VERSION: JSON.stringify(pkg.version),
     }),
     new webpack.ProvidePlugin({

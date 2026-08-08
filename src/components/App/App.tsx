@@ -7,21 +7,14 @@ import Flex from 'components/UI/Flex/Flex';
 import Routes from 'components/Routes/Routes';
 import Header from 'components/Header/Header';
 import { useApp } from './store';
-import { useUser } from 'store/user';
 
 import S from './App.styl';
-import { useEffect } from 'react';
 
 require('./store');
 
 function App() {
   const app = useApp(['currThemeConfig', 'theme', 'isEmbed']);
-  const user = useUser([]);
-  const { currThemeConfig, theme, isEmbed } = app;
-
-  useEffect(() => {
-    if (!isEmbed) user.init();
-  }, [isEmbed]);
+  const { currThemeConfig, theme } = app;
 
   return (
     <Flex className={cn(S.root, `theme-${theme}`)}>
