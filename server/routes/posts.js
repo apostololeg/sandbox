@@ -33,10 +33,28 @@ const select = {
 
 router
   .get('/', async (req, res) => {
-    const params = { ...req.query, where: {}, select };
+    const { take, skip, ...query } = req.query;
+    const params = { ...query, where: {}, select };
     const allowEdit = await canEdit(req);
 
     if (!allowEdit) params.where.published = true;
+
+    if (take !== undefined || skip !== undefined) {
+      const pagination = {
+        take: Math.max(parseInt(take, 10) || 0, 1),
+        skip: Math.max(parseInt(skip, 10) || 0, 0),
+      };
+      const [items, total] = await Promise.all([
+        db.post.findMany({ ...params, ...pagination }),
+        db.post.count({ where: params.where }),
+      ]);
+
+      return res.json({
+        items,
+        total,
+        hasMore: pagination.skip + items.length < total,
+      });
+    }
 
     const items = await db.post.findMany(params);
 

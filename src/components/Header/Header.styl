@@ -1,15 +1,19 @@
 @import '~theme'
 
 .root
+  position fixed
+  top 0
+  left 0
   z-index 10
-  // position absolute
   width 100%
+  height $headerHeight
   display flex
   align-items flex-start
   margin 0
-  background-color var(--decent-color-alpha-900)
+  background-color var(--decent-color-alpha-500)
   background-image linear-gradient(to bottom, var(--accent-color-alpha-50), transparent)
   backdrop-filter blur(50px)
+  -webkit-backdrop-filter blur(50px)
 
 .title
   display flex

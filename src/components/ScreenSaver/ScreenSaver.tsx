@@ -1,7 +1,7 @@
-import Logo from 'components/Logo/Logo';
+import { debounce, rangeMap, useDebounceCallback } from 'uilib';
 import { useCallback, useEffect, useState } from 'react';
-import { rangeMap, debounce, useDebounceCallback } from 'uilib';
 
+import Logo from 'components/Logo/Logo';
 import S from './ScreenSaver.styl';
 import { useThrottle } from 'hooks/useThrottle';
 
@@ -16,7 +16,6 @@ export function ScreenSaver() {
       const x = rangeMap(e.clientX, 0, w, -ROTATE, ROTATE);
       const y = rangeMap(e.clientY, 0, h, ROTATE, -ROTATE);
 
-      console.log('### updateTransform()');
       setTransform(`rotateX(${y}deg) rotateY(${x}deg)`);
     },
     100,

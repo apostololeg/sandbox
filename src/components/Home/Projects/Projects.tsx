@@ -40,8 +40,8 @@ const projects: Project[] = [
     description: 'Music-related events application with interactive map',
   },
   {
-    domain: 'sc.apostol.space',
-    title: 'P2P Screen Sharing',
+    domain: 'peer.pw',
+    title: 'Peer.pw',
     description: 'Peer-to-peer screen sharing application',
   },
   {
