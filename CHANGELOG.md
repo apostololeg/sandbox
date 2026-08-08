@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.1.2](https://github.com/apostololeg/sandboxt/compare/v2.1.1...v2.1.2) (2026-08-08)
+
+
+### Features
+
+* **ci:** deploy workflow ([185e120](https://github.com/apostololeg/sandboxt/commit/185e1209446bb6a2a7416d97e1685420a256e05c))
+
 ### [2.1.1](https://github.com/apostololeg/sandboxt/compare/v2.1.0...v2.1.1) (2026-08-08)
 
 
