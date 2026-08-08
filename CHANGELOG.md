@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.1.3](https://github.com/apostololeg/sandboxt/compare/v2.1.2...v2.1.3) (2026-08-08)
+
+
+### Bug Fixes
+
+* Config - Make production build work without .env ([469d719](https://github.com/apostololeg/sandboxt/commit/469d719a86e9f83e3e0c4fcb8513954f015c2ba1))
+
 ### [2.1.2](https://github.com/apostololeg/sandboxt/compare/v2.1.1...v2.1.2) (2026-08-08)
 
 
