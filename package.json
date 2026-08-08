@@ -30,7 +30,9 @@
     "release": "standard-version",
     "release:patch": "yarn release -- --release-as patch",
     "release:minor": "yarn release -- --release-as minor",
-    "release:major": "yarn release -- --release-as major"
+    "release:major": "yarn release -- --release-as major",
+    "encrypt-env": "age -r $(cat .age-key.pub) -o .env.age .env",
+    "decrypt-env": "age -d -i .age-key.txt .env.age"
   },
   "standard-version": {
     "scripts": {

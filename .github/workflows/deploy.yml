@@ -22,14 +22,41 @@ jobs:
       - name: Install dependencies
         run: yarn install --frozen-lockfile
 
+      # Webpack build uses .env.sample fallback (config/const.js) — no secrets needed
       - name: Build
         run: yarn build:prod
+
+      - name: Setup age
+        uses: AnimMouse/setup-age@v1
+        with:
+          version: v1.1.1
+
+      - name: Decrypt env for deploy
+        env:
+          AGE_PRIVATE_KEY: ${{ secrets.AGE_PRIVATE_KEY }}
+        run: |
+          set -euo pipefail
+          if [ ! -f .env.age ]; then
+            echo "ERROR: .env.age not found in repository"
+            exit 1
+          fi
+          if [ -z "${AGE_PRIVATE_KEY:-}" ]; then
+            echo "ERROR: AGE_PRIVATE_KEY secret is not set"
+            exit 1
+          fi
+          echo "$AGE_PRIVATE_KEY" > /tmp/age-key.txt
+          chmod 600 /tmp/age-key.txt
+          age -d -i /tmp/age-key.txt .env.age > .env
+          rm -f /tmp/age-key.txt
+          test -s .env
+          echo "Decrypted .env ($(wc -l < .env) lines)"
 
       - name: Package source
         run: |
           tar -czf deploy.tar.gz \
-            --exclude=build/uploads --exclude=.env \
+            --exclude=build/uploads \
             build server config prisma src/shared package.json yarn.lock babel.config.js \
+            .env \
             .github/systemd/sandbox.service
 
       - name: Upload to VPS
@@ -59,6 +86,10 @@ jobs:
             tar -xzf /tmp/deploy.tar.gz -C "$DEPLOY_PATH"
             rm /tmp/deploy.tar.gz
             cd "$DEPLOY_PATH"
+
+            # Runtime secrets from age-decrypted .env (produced on Actions runner)
+            test -s .env
+            chmod 600 .env
 
             export NVM_DIR="$HOME/.nvm"
             [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
