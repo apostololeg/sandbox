@@ -1,4 +1,6 @@
-import { Scroll } from 'uilib';
+import { useState } from 'react';
+import cn from 'classnames';
+import { Icon, Scroll } from 'uilib';
 
 import { ScreenSaver } from 'components/ScreenSaver/ScreenSaver';
 import { Title } from 'components/Header/Header';
@@ -8,21 +10,29 @@ import Projects from './Projects/Projects';
 import S from './Home.styl';
 
 function Home() {
+  const [scrolled, setScrolled] = useState(false);
+
   return [
     <Title text="~/apostol" key="title" />,
 
-    <Scroll
-      y
-      className={S.scroll}
-      innerClassName={S.scrollInner}
-      fadeSize="xl"
-      offset={{ y: { before: 20, after: 20 } }}
-    >
-      <ScreenSaver />
-      <Projects />
-      <Gap />
-      <div className={S.version}>v{VERSION}</div>
-    </Scroll>,
+    <div className={S.root} key="content">
+      <Scroll
+        y
+        className={S.scroll}
+        innerClassName={S.scrollInner}
+        fadeSize="xl"
+        offset={{ y: { before: 20, after: 20 } }}
+        onScroll={e => setScrolled((e.target as HTMLElement).scrollTop > 0)}
+      >
+        <ScreenSaver />
+        <Projects />
+        <Gap />
+        <div className={S.version}>v{VERSION}</div>
+      </Scroll>
+      <div className={cn(S.chevron, scrolled && S.hidden)} aria-hidden>
+        <Icon type="chevronDown" size="l" />
+      </div>
+    </div>,
   ];
 }
 

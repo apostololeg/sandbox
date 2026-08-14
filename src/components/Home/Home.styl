@@ -1,11 +1,37 @@
+.root
+  position relative
+  height 100%
+
 .scroll
   height 100%
 
 .scrollInner
   padding 0 var(--indent-l) var(--indent-l)
 
+.chevron
+  position absolute
+  left 50%
+  bottom var(--indent-l)
+  transform translateX(-50%)
+  opacity .5
+  pointer-events none
+  transition .3s opacity ease-in-out
+
+  &.hidden
+    opacity 0
+
+  svg
+    animation jump 1.2s ease-in-out infinite
+
+@keyframes jump
+  0%, 100%
+    transform translateY(0)
+  50%
+    transform translateY(8px)
+
 .version
   font-size 80%
   opacity .7
   margin var(--indent-l) auto 0
   text-align center
+  padding 20px
