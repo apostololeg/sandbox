@@ -1,5 +1,4 @@
 import { Link } from 'uilib';
-
 import S from './Projects.styl';
 
 interface Project {
@@ -9,46 +8,41 @@ interface Project {
 }
 
 const projects: Project[] = [
-  {
-    domain: 'andrew.apostol.space',
-    title: 'Portfolio for Andrew',
-    description: 'Personal portfolio website showcasing work and projects',
-  },
+  // {
+  //   domain: 'andrew.apostol.space',
+  //   title: 'Portfolio for Andrew',
+  //   description: 'Personal portfolio website showcasing work and projects',
+  // },
   {
     domain: 'cv.apostol.space',
     title: 'Curriculum Vitae',
     description: 'Interactive CV and professional experience showcase',
   },
-  {
-    domain: 'desserts.apostol.space',
-    title: 'Desserts',
-    description: 'Online cake shop and bakery ordering platform',
-  },
-  {
-    domain: 'facex.apostol.space',
-    title: 'FaceX',
-    description: 'Anonymous peer-to-peer communication application',
-  },
-  {
-    domain: 'greencore.apostol.space',
-    title: 'Agentic Flow Builder',
-    description: 'Build and manage agentic workflows and automation flows',
-  },
-  {
-    domain: 'muzfish.apostol.space',
-    title: 'Music Events App',
-    description: 'Music-related events application with interactive map',
-  },
+  // {
+  //   domain: 'desserts.apostol.space',
+  //   title: 'Desserts',
+  //   description: 'Online cake shop and bakery ordering platform',
+  // },
+  // {
+  //   domain: 'greencore.apostol.space',
+  //   title: 'Agentic Flow Builder',
+  //   description: 'Build and manage agentic workflows and automation flows',
+  // },
+  // {
+  //   domain: 'muzfish.apostol.space',
+  //   title: 'Music Events App',
+  //   description: 'Music-related events application with interactive map',
+  // },
   {
     domain: 'peer.pw',
     title: 'Peer.pw',
     description: 'Peer-to-peer screen sharing application',
   },
-  {
-    domain: 'starsky.apostol.space',
-    title: 'Starsky',
-    description: 'Web-based augmented reality stargazing application',
-  },
+  // {
+  //   domain: 'starsky.apostol.space',
+  //   title: 'Starsky',
+  //   description: 'Web-based augmented reality stargazing application',
+  // },
   {
     domain: 'stats.apostol.space',
     title: 'Stats',
@@ -65,22 +59,22 @@ const projects: Project[] = [
     title: 'UI',
     description: 'UI component library and design system',
   },
-  {
-    domain: 'webrush.apostol.space',
-    title: 'WEBRUSH',
-    description: 'Browser-based image editing app powered by web technologies',
-  },
-  {
-    domain: 'world.apostol.space',
-    title: 'WORLD.js',
-    description: 'World simulator and architecture game',
-  },
-  {
-    domain: 'yalta.apostol.space',
-    title: 'YaltaChanges',
-    description:
-      'Social app connecting people in residential areas to improve their neighborhoods',
-  },
+  // {
+  //   domain: 'webrush.apostol.space',
+  //   title: 'WEBRUSH',
+  //   description: 'Browser-based image editing app powered by web technologies',
+  // },
+  // {
+  //   domain: 'world.apostol.space',
+  //   title: 'WORLD.js',
+  //   description: 'World simulator and architecture game',
+  // },
+  // {
+  //   domain: 'yalta.apostol.space',
+  //   title: 'YaltaChanges',
+  //   description:
+  //     'Social app connecting people in residential areas to improve their neighborhoods',
+  // },
 ];
 
 export default function Projects() {
