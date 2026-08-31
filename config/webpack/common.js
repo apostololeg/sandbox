@@ -6,8 +6,13 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 // const ComponentDirectoryPlugin = require('component-directory-webpack-plugin');
 const FaviconWebpackPlugin = require('favicons-webpack-plugin');
 
+const path = require('path');
 const pkg = require('../../package.json');
 const paths = require('../paths');
+const formattedTextSrc = path.resolve(
+  __dirname,
+  '../../../ui/src/components/FormattedText'
+);
 const {
   PRODUCTION,
   PAGE_LANG,
@@ -25,11 +30,20 @@ module.exports = {
     filename: 'js/[name].js?v=[hash:5]',
   },
   resolve: {
-    modules: ['node_modules', paths.client],
+    modules: [paths.modules, 'node_modules', paths.client],
     alias: {
       config: paths.config,
       theme: `${paths.client}/theme.styl`,
       uilib: '@homecode/ui',
+      '@ui': path.resolve(__dirname, '../../../ui'),
+      'uilib/components/Button/Button': `${paths.client}/shims/uilib-button.js`,
+      'uilib/components/Router/Link/Link': `${paths.client}/shims/uilib-link.js`,
+      'uilib/components/Table/Table': `${paths.client}/shims/uilib-table.js`,
+      'uilib/components/Tooltip/Tooltip': `${paths.client}/shims/uilib-tooltip.js`,
+      '@homecode/ui/components/Button/Button': `${paths.client}/shims/uilib-button.js`,
+      '@homecode/ui/components/Router/Link/Link': `${paths.client}/shims/uilib-link.js`,
+      '@homecode/ui/components/Table/Table': `${paths.client}/shims/uilib-table.js`,
+      '@homecode/ui/components/Tooltip/Tooltip': `${paths.client}/shims/uilib-tooltip.js`,
     },
     extensions: ['.js', '.jsx', '.ts', '.tsx', '.css'],
   },
@@ -41,7 +55,7 @@ module.exports = {
       {
         test: /\.(j|t)sx?$/,
         loader: 'babel-loader',
-        include: paths.src,
+        include: [paths.client, formattedTextSrc],
         exclude: [paths.modules],
       },
       {
@@ -166,7 +180,7 @@ module.exports = {
     new FaviconWebpackPlugin({
       logo: `${paths.assets}/logo.svg`,
       mode: 'webapp', // optional can be 'webapp' or 'light' - 'webapp' by default
-      devMode: 'webapp', // optional can be 'webapp' or 'light' - 'light' by default
+      devMode: 'light',
       favicons: {
         appName: 'sandbox',
         appDescription: 'sandbox',
