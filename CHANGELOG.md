@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.2.3](https://github.com/apostololeg/sandboxt/compare/v2.2.2...v2.2.3) (2026-08-31)
+
+
+### Bug Fixes
+
+* bumo ui@5.11.0 ([6242e03](https://github.com/apostololeg/sandboxt/commit/6242e032a7aeddbf690a28500dd0cf399d42937a))
+
 ### [2.2.2](https://github.com/apostololeg/sandboxt/compare/v2.2.1...v2.2.2) (2026-08-31)
 
 
