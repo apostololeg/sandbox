@@ -40,7 +40,7 @@
     }
   },
   "dependencies": {
-    "@homecode/ui": "^5.7.1",
+    "@homecode/ui": "^5.11.0",
     "@prisma/client": "5.22.0",
     "classnames": "2.2.6",
     "core-js": "^3.6.5",
