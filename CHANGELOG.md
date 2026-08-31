@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.2.2](https://github.com/apostololeg/sandboxt/compare/v2.2.1...v2.2.2) (2026-08-31)
+
+
+### Features
+
+* Projects - Home tiles and project posts ([f64cc1b](https://github.com/apostololeg/sandboxt/commit/f64cc1b6307c14ee459954045a30f83c5bb4149f))
+
 ### [2.2.1](https://github.com/apostololeg/sandboxt/compare/v2.2.0...v2.2.1) (2026-08-15)
 
 ## [2.2.0](https://github.com/apostololeg/sandboxt/compare/v2.1.4...v2.2.0) (2026-08-14)
