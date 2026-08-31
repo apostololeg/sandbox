@@ -1,0 +1,17 @@
+[Unit]
+Description=Sandbox Server
+After=network.target
+
+[Service]
+Type=simple
+User={{VPS_USER}}
+WorkingDirectory={{VPS_DEPLOY_PATH}}
+Environment=NODE_ENV=production
+EnvironmentFile=-{{VPS_DEPLOY_PATH}}/.env
+ExecStart=/bin/bash -lc 'cd {{VPS_DEPLOY_PATH}} && NODE_ENV=production node server/index.js'
+Restart=always
+RestartSec=10
+NoNewPrivileges=true
+
+[Install]
+WantedBy=multi-user.target
