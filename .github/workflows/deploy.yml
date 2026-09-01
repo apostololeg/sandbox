@@ -29,7 +29,7 @@ jobs:
         run: |
           mkdir -p dist-deploy
           cp -R build/. dist-deploy/
-          cp -R server prisma content dist-deploy/
+          cp -R server content dist-deploy/
           cp package.json yarn.lock babel.config.js dist-deploy/
           mkdir -p dist-deploy/.github/systemd
           cp .github/systemd/sandbox.service dist-deploy/.github/systemd/
@@ -50,13 +50,12 @@ jobs:
         env:
           DEPLOY_PATH: ${{ vars.VPS_DEPLOY_PATH }}
           DEPLOY_USER: ${{ vars.VPS_USER }}
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
         with:
           host: ${{ vars.VPS_HOST }}
           username: ${{ vars.VPS_USER }}
           port: ${{ vars.VPS_PORT || 22 }}
           key: ${{ secrets.VPS_SSH_KEY }}
-          envs: DEPLOY_PATH,DEPLOY_USER,DATABASE_URL
+          envs: DEPLOY_PATH,DEPLOY_USER
           script: |
             set -e
             sudo mkdir -p "$DEPLOY_PATH"
@@ -67,26 +66,11 @@ jobs:
             rm -rf "$TMP_DIR" /tmp/deploy.tar.gz
             cd "$DEPLOY_PATH"
 
-            if [ -n "${DATABASE_URL:-}" ]; then
-              if [ -f .env ] && grep -q '^DATABASE_URL=' .env; then
-                sed -i "s|^DATABASE_URL=.*|DATABASE_URL='$DATABASE_URL'|" .env
-              else
-                echo "DATABASE_URL='$DATABASE_URL'" >> .env
-              fi
-              chmod 600 .env
-            fi
-
-            if [ ! -s .env ] || ! grep -q '^DATABASE_URL=' .env; then
-              echo "ERROR: DATABASE_URL missing. Set GitHub secret DATABASE_URL or place .env on the VPS."
-              exit 1
-            fi
-
             export NVM_DIR="$HOME/.nvm"
             [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
 
             yarn install --frozen-lockfile --production=false
-            yarn prisma migrate deploy
-            yarn seed
+            echo "Posts served on-demand from content/posts/*.md."
 
             sed -e "s|{{VPS_DEPLOY_PATH}}|$DEPLOY_PATH|g" -e "s|{{VPS_USER}}|$DEPLOY_USER|g" \
               .github/systemd/sandbox.service | sudo tee /etc/systemd/system/sandbox.service > /dev/null
