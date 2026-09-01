@@ -2,7 +2,6 @@
 // Please do not change this file!
 interface CssExports {
   'chevron': string;
-  'donate': string;
   'hidden': string;
   'jump': string;
   'root': string;

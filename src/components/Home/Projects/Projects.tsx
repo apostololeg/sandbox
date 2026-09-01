@@ -1,16 +1,15 @@
-import { ComponentType } from 'react';
-import { Link } from 'uilib';
+import { Link, ThinkingOutline } from 'uilib';
 
-import { projects } from 'data/projects';
+import BestHumansIcon from 'assets/projects/besthumans.svg';
+import { ComponentType } from 'react';
 import CvIcon from 'assets/projects/cv.svg';
+import GlassIcon from 'assets/projects/glass.svg';
 import PeerIcon from 'assets/projects/peer.svg';
+import S from './Projects.styl';
 import StatsIcon from 'assets/projects/stats.svg';
 import SvgDotWorkIcon from 'assets/projects/svg-dot-work.svg';
 import UiIcon from 'assets/projects/ui.svg';
-import BestHumansIcon from 'assets/projects/besthumans.svg';
-import GlassIcon from 'assets/projects/glass.svg';
-
-import S from './Projects.styl';
+import { projects } from 'data/projects';
 
 const icons: Record<string, ComponentType> = {
   cv: CvIcon,
@@ -34,12 +33,15 @@ export default function Projects() {
             className={S.card}
             isClear
           >
-            {Icon && (
-              <span className={S.icon} aria-hidden>
-                <Icon />
-              </span>
-            )}
-            <h3 className={S.title}>{project.title}</h3>
+            <ThinkingOutline className={S.outline} />
+            <h3 className={S.title}>
+              {Icon && (
+                <span className={S.icon} aria-hidden>
+                  <Icon />
+                </span>
+              )}
+              {project.title}
+            </h3>
             <p className={S.description}>{project.description}</p>
           </Link>
         );

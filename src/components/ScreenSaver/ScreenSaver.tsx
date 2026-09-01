@@ -25,6 +25,7 @@ export function ScreenSaver() {
 
   return (
     <div className={S.root} onPointerMove={updateTransform}>
+      <div className={S.bg} aria-hidden />
       <Logo className={S.inner} style={{ transform }} />
     </div>
   );

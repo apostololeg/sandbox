@@ -34,7 +34,7 @@ export default function Post({ pathParams, className }: Props) {
 
   return (
     <Fragment>
-      <Title text={texts?.title || slug} />
+      <Title text={`~/${texts?.title || slug}`} />
       <div className={cn(className, S.root)}>
         {!texts?.content ? (
           <EmptyState title="Empty" />

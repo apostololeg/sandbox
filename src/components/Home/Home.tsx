@@ -1,13 +1,13 @@
-import { useState } from 'react';
-import cn from 'classnames';
-import { Icon, Link, Scroll } from 'uilib';
+import { Icon, Scroll } from 'uilib';
 
-import { ScreenSaver } from 'components/ScreenSaver/ScreenSaver';
-import { Title } from 'components/Header/Header';
 import { Gap } from 'components/UI/Flex/Flex';
 import Projects from './Projects/Projects';
-
+import Donate from './Donate/Donate';
 import S from './Home.styl';
+import { ScreenSaver } from 'components/ScreenSaver/ScreenSaver';
+import { Title } from 'components/Header/Header';
+import cn from 'classnames';
+import { useState } from 'react';
 
 function Home() {
   const [scrolled, setScrolled] = useState(false);
@@ -26,17 +26,8 @@ function Home() {
       >
         <ScreenSaver />
         <Projects />
-        <div className={S.donate}>
-          If you like what im doing -{' '}
-          <Link
-            href="https://revolut.me/apostololeg"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            send me some money
-          </Link>{' '}
-          for tokens, or <Link href="//contacts">contact me</Link>
-        </div>
+
+        <Donate />
         <Gap />
         <div className={S.version}>v{VERSION}</div>
       </Scroll>
