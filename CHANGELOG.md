@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.0.0](https://github.com/apostololeg/sandboxt/compare/v2.2.3...v3.0.0) (2026-09-01)
+
+
+### Features
+
+* Donate - Extract donate section and polish home ([174461d](https://github.com/apostololeg/sandboxt/commit/174461dda0660853bac98415ed5a5eb69a27a9b2))
+* Home - Contacts, donate, and port 3010 ([c5e2371](https://github.com/apostololeg/sandboxt/commit/c5e2371b59e424c67427436905ebcb810608e402))
+
+
+### Bug Fixes
+
+* Post - Import FormattedText from uilib ([0c6c35c](https://github.com/apostololeg/sandboxt/commit/0c6c35c119f152eb2eab7129241d6c9804fe06df))
+
 ### [2.2.3](https://github.com/apostololeg/sandboxt/compare/v2.2.2...v2.2.3) (2026-08-31)
 
 
