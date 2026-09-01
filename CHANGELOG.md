@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.0.1](https://github.com/apostololeg/sandboxt/compare/v3.0.0...v3.0.1) (2026-09-01)
+
+
+### Features
+
+* Donate - Inline contact icons on home ([9322cba](https://github.com/apostololeg/sandboxt/commit/9322cba78d114d43f20e9f7895601c51de9a1bb8))
+
 ## [3.0.0](https://github.com/apostololeg/sandboxt/compare/v2.2.3...v3.0.0) (2026-09-01)
 
 
