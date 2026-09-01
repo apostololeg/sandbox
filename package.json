@@ -43,6 +43,7 @@
     "express": "^5.2.1",
     "favicons": "6.2.2",
     "justorm": "^3.0.2",
+    "lucide-react": "^1.39.0",
     "postcss-preset-env": "^7.4.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",

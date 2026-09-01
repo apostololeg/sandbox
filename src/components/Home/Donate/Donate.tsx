@@ -1,9 +1,26 @@
-import { Button, Link } from 'uilib';
-
+import { Button } from 'uilib';
+import { ComponentType } from 'react';
+import GithubIcon from 'assets/contacts/github.svg';
+import { MailIcon } from 'lucide-react';
 import S from './Donate.styl';
+import TelegramIcon from 'assets/contacts/telegram.svg';
 import { ThinkingOutline } from '@homecode/ui';
 
 const REVOLUT_URL = 'https://revolut.me/apostololeg';
+
+const contacts: { label: string; href: string; Icon: ComponentType }[] = [
+  { label: 'Telegram', href: 'https://t.me/apostol', Icon: TelegramIcon },
+  {
+    label: 'Email',
+    href: 'mailto:oleh.apostol.dev@gmail.com',
+    Icon: MailIcon,
+  },
+  {
+    label: 'GitHub',
+    href: 'https://github.com/apostololeg',
+    Icon: GithubIcon,
+  },
+];
 
 export default function Donate() {
   return (
@@ -24,7 +41,22 @@ export default function Donate() {
       </div>
       for tokens
       <br />
-      or <Link href="//contacts">contact me</Link>
+      or contact me
+      <div className={S.contacts}>
+        {contacts.map(({ label, href, Icon }) => (
+          <Button
+            key={label}
+            className={S.iconBtn}
+            square
+            round
+            variant="text"
+            aria-label={label}
+            onClick={() => window.open(href, '_blank', 'noopener,noreferrer')}
+          >
+            <Icon />
+          </Button>
+        ))}
+      </div>
     </div>
   );
 }

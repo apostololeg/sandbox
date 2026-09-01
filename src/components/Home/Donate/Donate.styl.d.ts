@@ -2,6 +2,8 @@
 // Please do not change this file!
 interface CssExports {
   'breathing': string;
+  'contacts': string;
+  'iconBtn': string;
   'root': string;
   'thinkingOutline': string;
   'thinkingOutlineContainer': string;

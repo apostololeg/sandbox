@@ -28,7 +28,6 @@
   button
     vertical-align middle
     margin 0 0.15em
-    transition all 0.5s ease-in-out
 
 @keyframes breathing {
   0% {
@@ -61,3 +60,31 @@
   position absolute
   height 100%
   width 100%
+
+.contacts
+  display flex
+  justify-content center
+  align-items center
+  gap var(--p-3)
+
+.iconBtn
+  display flex
+  align-items center
+  justify-content center
+  width 2.5rem
+  height 2.5rem
+  border-radius 50%
+  color inherit
+  opacity .75
+  transition all .1s ease-out
+
+  svg
+    display block
+    width 40px
+    height 40px
+
+  &:hover
+    opacity 1
+    transform scale(1.08)
+    background var(--active-color-alpha-100)
+
