@@ -1,8 +1,7 @@
-import { DateTime, Link, Scroll } from 'uilib';
+import { DateTime, FormattedText, Scroll } from 'uilib';
 import { Fragment, useEffect, useMemo } from 'react';
 
 import { EmptyState } from 'components/UI/EmptyState/EmptyState';
-import { FormattedText } from '@ui/src/components/FormattedText/FormattedText';
 import { PageLoader } from 'components/UI/Loader/Loader';
 import S from './Post.styl';
 import { Title } from 'components/Header/Header';

@@ -6,13 +6,8 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 // const ComponentDirectoryPlugin = require('component-directory-webpack-plugin');
 const FaviconWebpackPlugin = require('favicons-webpack-plugin');
 
-const path = require('path');
 const pkg = require('../../package.json');
 const paths = require('../paths');
-const formattedTextSrc = path.resolve(
-  __dirname,
-  '../../../ui/src/components/FormattedText'
-);
 const {
   PRODUCTION,
   PAGE_LANG,
@@ -35,7 +30,6 @@ module.exports = {
       config: paths.config,
       theme: `${paths.client}/theme.styl`,
       uilib: '@homecode/ui',
-      '@ui': path.resolve(__dirname, '../../../ui'),
       'uilib/components/Button/Button': `${paths.client}/shims/uilib-button.js`,
       'uilib/components/Router/Link/Link': `${paths.client}/shims/uilib-link.js`,
       'uilib/components/Table/Table': `${paths.client}/shims/uilib-table.js`,
@@ -55,7 +49,7 @@ module.exports = {
       {
         test: /\.(j|t)sx?$/,
         loader: 'babel-loader',
-        include: [paths.client, formattedTextSrc],
+        include: [paths.client],
         exclude: [paths.modules],
       },
       {

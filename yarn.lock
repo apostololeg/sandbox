@@ -2137,10 +2137,10 @@
     svgo "^3.0.2"
     timen "^0.1.0"
 
-"@homecode/ui@^5.11.0":
-  version "5.11.0"
-  resolved "https://registry.yarnpkg.com/@homecode/ui/-/ui-5.11.0.tgz#2daaf6440f865360fa2302f357a3a951b3f0efb7"
-  integrity sha512-fCO6RLBu3f6xkiKtAdNN95aNZrnE4emQ4cNekb07K9XzOYd+EjvrWt+tIOnFtnCQmpfkwO52Ct6YSLDv6L9Wtg==
+"@homecode/ui@^5.12.0":
+  version "5.12.0"
+  resolved "https://registry.yarnpkg.com/@homecode/ui/-/ui-5.12.0.tgz#454f9a5bc468c7811cbf0a65f2c70f397af461c5"
+  integrity sha512-rVW+yhwaxniu72KO1gXF0DNp26RNcPPCHQxw0b0QOjAtvEDBTVbMegQdS2Sphyx25QjC+4Dcmm7SYn4pbmYXeA==
   dependencies:
     "@homecode/ui" "^4.17.2"
     "@pmmmwh/react-refresh-webpack-plugin" "^0.5.10"
