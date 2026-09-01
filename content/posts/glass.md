@@ -6,8 +6,6 @@ domain: glass.cat
 
 # GLASS
 
-## About the project
-
 GLASS is a workspace for AI agents across typed chat, live voice, and phone calls. Agents can use connected tools and knowledge to answer questions and complete multi-step work.
 
 ## One workspace

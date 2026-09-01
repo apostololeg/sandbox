@@ -6,8 +6,6 @@ domain: ui.apostol.space
 
 # UI
 
-## About the project
-
 `@homecode/ui` is a React design system for keeping interfaces consistent across products and avoiding repeated UI work. It provides:
 
 - Common controls, forms, navigation, and layouts

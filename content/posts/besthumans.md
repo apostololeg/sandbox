@@ -6,8 +6,6 @@ domain: besthumans.org
 
 # BestHumans
 
-## About the project
-
 BestHumans is a public knowledge platform about people whose actions affect others. It organizes public figures into profiles and groups, with research focused on where their influence matters.
 
 ## Grounded public records

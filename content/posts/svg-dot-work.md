@@ -6,8 +6,6 @@ domain: svg-dot-work.apostol.space
 
 # SVG Dot Work
 
-## About the project
-
 SVG Dot Work is a small browser tool for creating dotted vector artwork. Start with the included world map or upload an image to use as the shape.
 
 ## Create and export

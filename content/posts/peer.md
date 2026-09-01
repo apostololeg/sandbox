@@ -6,8 +6,6 @@ domain: peer.pw
 
 # Peer.pw
 
-## About the project
-
 Peer is a lightweight service for one-to-one browser calls. Create a room, share its link, and start talking—no account, download, or installation required.
 
 ## Direct rooms

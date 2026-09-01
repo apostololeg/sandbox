@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import cn from 'classnames';
-import { Icon, Scroll } from 'uilib';
+import { Icon, Link, Scroll } from 'uilib';
 
 import { ScreenSaver } from 'components/ScreenSaver/ScreenSaver';
 import { Title } from 'components/Header/Header';
@@ -26,6 +26,17 @@ function Home() {
       >
         <ScreenSaver />
         <Projects />
+        <div className={S.donate}>
+          If you like what im doing -{' '}
+          <Link
+            href="https://revolut.me/apostololeg"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            send me some money
+          </Link>{' '}
+          for tokens, or <Link href="//contacts">contact me</Link>
+        </div>
         <Gap />
         <div className={S.version}>v{VERSION}</div>
       </Scroll>
