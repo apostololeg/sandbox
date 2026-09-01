@@ -11,16 +11,21 @@
 .chevron
   position absolute
   left 50%
-  bottom var(--indent-l)
+  bottom var(--p-6)
+  z-index 2
   transform translateX(-50%)
   opacity .5
   pointer-events none
   transition .3s opacity ease-in-out
+  color var(--accent-color)
 
   &.hidden
     opacity 0
 
   svg
+    display block
+    width 28px
+    height 28px
     animation jump 1.2s ease-in-out infinite
 
 @keyframes jump
@@ -28,6 +33,10 @@
     transform translateY(0)
   50%
     transform translateY(8px)
+
+@media (prefers-reduced-motion: reduce)
+  .chevron svg
+    animation none
 
 .donate
   padding 20px
