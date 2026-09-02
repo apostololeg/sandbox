@@ -24,6 +24,8 @@ jobs:
 
       - name: Build
         run: yarn build:prod
+        env:
+          STATS_PROJECT_ID: ${{ vars.STATS_PROJECT_ID }}
 
       - name: Package deploy
         run: |

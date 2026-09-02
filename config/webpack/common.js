@@ -15,6 +15,7 @@ const {
   PROTOCOL,
   HOST,
   PORT,
+  STATS_PROJECT_ID,
 } = require('../const');
 
 module.exports = {
@@ -133,6 +134,7 @@ module.exports = {
       HOST: JSON.stringify(HOST),
       PORT: JSON.stringify(PORT),
       VERSION: JSON.stringify(pkg.version),
+      STATS_PROJECT_ID: JSON.stringify(STATS_PROJECT_ID),
     }),
     new webpack.ProvidePlugin({
       React: 'react',

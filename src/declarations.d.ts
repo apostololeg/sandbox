@@ -8,3 +8,11 @@ declare module 'uilib';
 
 declare var PRODUCTION: boolean;
 declare var editor: HTMLDivElement;
+declare var STATS_PROJECT_ID: string;
+
+interface Window {
+  statsSDK?: {
+    report: (event: string) => void;
+    reportPage: () => void;
+  };
+}

@@ -10,6 +10,7 @@ import StatsIcon from 'assets/projects/stats.svg';
 import SvgDotWorkIcon from 'assets/projects/svg-dot-work.svg';
 import UiIcon from 'assets/projects/ui.svg';
 import { projects } from 'data/projects';
+import { reportEvent } from 'lib/analytics';
 
 const icons: Record<string, ComponentType> = {
   cv: CvIcon,
@@ -32,6 +33,7 @@ export default function Projects() {
             href={`//post/${project.slug}`}
             className={S.card}
             isClear
+            onClick={() => reportEvent(`project_${project.slug}`)}
           >
             <ThinkingOutline className={S.outline} />
             <h3 className={S.title}>

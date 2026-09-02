@@ -5,6 +5,7 @@ import { MailIcon } from 'lucide-react';
 import S from './Donate.styl';
 import TelegramIcon from 'assets/contacts/telegram.svg';
 import { ThinkingOutline } from '@homecode/ui';
+import { reportEvent } from 'lib/analytics';
 
 const REVOLUT_URL = 'https://revolut.me/apostololeg';
 
@@ -31,9 +32,10 @@ export default function Donate() {
         <Button
           variant="primary"
           round
-          onClick={() =>
-            window.open(REVOLUT_URL, '_blank', 'noopener,noreferrer')
-          }
+          onClick={() => {
+            reportEvent('donate_click');
+            window.open(REVOLUT_URL, '_blank', 'noopener,noreferrer');
+          }}
         >
           send me some money
         </Button>
@@ -51,7 +53,10 @@ export default function Donate() {
             round
             variant="text"
             aria-label={label}
-            onClick={() => window.open(href, '_blank', 'noopener,noreferrer')}
+            onClick={() => {
+              reportEvent(`contact_${label.toLowerCase()}`);
+              window.open(href, '_blank', 'noopener,noreferrer');
+            }}
           >
             <Icon />
           </Button>
