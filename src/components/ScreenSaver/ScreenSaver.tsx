@@ -1,8 +1,8 @@
-import { debounce, rangeMap, useDebounceCallback } from 'uilib';
-import { useCallback, useEffect, useState } from 'react';
-
 import Logo from 'components/Logo/Logo';
 import S from './ScreenSaver.styl';
+import { isMobile } from 'tools/isMobile';
+import { rangeMap } from 'uilib';
+import { useState } from 'react';
 import { useThrottle } from 'hooks/useThrottle';
 
 const ROTATE = 60;
@@ -24,9 +24,16 @@ export function ScreenSaver() {
   );
 
   return (
-    <div className={S.root} onPointerMove={updateTransform}>
+    <div
+      className={S.root}
+      onPointerMove={!isMobile ? updateTransform : undefined}
+    >
       <div className={S.bg} aria-hidden />
-      <Logo className={S.inner} style={{ transform }} />
+      <Logo
+        className={S.inner}
+        style={{ transform }}
+        onPointerMove={isMobile ? updateTransform : undefined}
+      />
     </div>
   );
 }
