@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.0.3](https://github.com/apostololeg/sandboxt/compare/v3.0.2...v3.0.3) (2026-09-03)
+
+
+### Features
+
+* ScreenSaver - Mobile pointer tilt and updated logo ([df9afa1](https://github.com/apostololeg/sandboxt/commit/df9afa109fc04f1f051efe613117b5697e268cc2))
+
 ### [3.0.2](https://github.com/apostololeg/sandboxt/compare/v3.0.1...v3.0.2) (2026-09-02)
 
 
