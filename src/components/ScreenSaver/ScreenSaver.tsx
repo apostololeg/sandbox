@@ -1,6 +1,5 @@
 import Logo from 'components/Logo/Logo';
 import S from './ScreenSaver.styl';
-import { isMobile } from 'tools/isMobile';
 import { rangeMap } from 'uilib';
 import { useState } from 'react';
 import { useThrottle } from 'hooks/useThrottle';
@@ -24,16 +23,9 @@ export function ScreenSaver() {
   );
 
   return (
-    <div
-      className={S.root}
-      onPointerMove={!isMobile ? updateTransform : undefined}
-    >
+    <div className={S.root} onPointerMove={updateTransform}>
       <div className={S.bg} aria-hidden />
-      <Logo
-        className={S.inner}
-        style={{ transform }}
-        onPointerMove={isMobile ? updateTransform : undefined}
-      />
+      <Logo className={S.inner} style={{ transform }} />
     </div>
   );
 }
