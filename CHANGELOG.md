@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.0.4](https://github.com/apostololeg/sandboxt/compare/v3.0.3...v3.0.4) (2026-09-03)
+
+
+### Bug Fixes
+
+* ScreenSaver - Allow touch page scroll ([d9b23aa](https://github.com/apostololeg/sandboxt/commit/d9b23aa7554c57e0f0997bcde45fcf04ca87dbac))
+
 ### [3.0.3](https://github.com/apostololeg/sandboxt/compare/v3.0.2...v3.0.3) (2026-09-03)
 
 
