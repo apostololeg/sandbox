@@ -1,10 +1,8 @@
 import { Container } from 'uilib';
-import { useStore } from 'justorm/react';
-
 import Logo from 'components/Logo/Logo';
-import { useApp } from 'components/App/store';
-
 import s from './Header.styl';
+import { useApp } from 'components/ErrorBoundary/App/store';
+import { useStore } from 'justorm/react';
 
 export default function Header() {
   const app = useApp(['isEmbed']);

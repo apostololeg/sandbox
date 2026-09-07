@@ -1,7 +1,7 @@
-import { createRoot } from 'react-dom/client';
-
-import App from './components/App/App';
 import './lib/analytics';
+
+import App from './components/ErrorBoundary/App/App';
+import { createRoot } from 'react-dom/client';
 
 if (PRODUCTION) {
   import('pwa');
