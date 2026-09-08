@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.0.5](https://github.com/apostololeg/sandboxt/compare/v3.0.4...v3.0.5) (2026-09-08)
+
+
+### Bug Fixes
+
+* Analytics - Send timeZone on events ([05cc325](https://github.com/apostololeg/sandboxt/commit/05cc3252a63c2e6d1441e045450c0e885a4a5aa7))
+
 ### [3.0.4](https://github.com/apostololeg/sandboxt/compare/v3.0.3...v3.0.4) (2026-09-03)
 
 
