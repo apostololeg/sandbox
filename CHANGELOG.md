@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.0.7](https://github.com/apostololeg/sandboxt/compare/v3.0.6...v3.0.7) (2026-10-16)
+
+
+### Features
+
+* Projects - Add Music Legends ([783ee7c](https://github.com/apostololeg/sandboxt/commit/783ee7c45bec0ed78d192bdb5a0949f28f133955))
+
 ### [3.0.6](https://github.com/apostololeg/sandboxt/compare/v3.0.5...v3.0.6) (2026-10-08)
 
 ### [3.0.5](https://github.com/apostololeg/sandboxt/compare/v3.0.4...v3.0.5) (2026-09-08)
