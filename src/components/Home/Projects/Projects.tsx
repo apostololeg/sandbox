@@ -4,6 +4,7 @@ import BestHumansIcon from 'assets/projects/besthumans.svg';
 import { ComponentType } from 'react';
 import CvIcon from 'assets/projects/cv.svg';
 import GlassIcon from 'assets/projects/glass.svg';
+import MusicLegendsIcon from 'assets/projects/music-legends.svg';
 import PeerIcon from 'assets/projects/peer.svg';
 import S from './Projects.styl';
 import StatsIcon from 'assets/projects/stats.svg';
@@ -20,6 +21,7 @@ const icons: Record<string, ComponentType> = {
   ui: UiIcon,
   besthumans: BestHumansIcon,
   glass: GlassIcon,
+  'music-legends': MusicLegendsIcon,
 };
 
 export default function Projects() {

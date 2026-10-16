@@ -51,4 +51,11 @@ export const projects: Project[] = [
     description:
       'Generate dotted SVG artwork. Adjust density, size, and colors to create vector dot art. Free online SVG optimization and export tool',
   },
+  {
+    slug: 'music-legends',
+    domain: 'musiclegend.app',
+    title: 'Music Legends',
+    description:
+      'Group song game: share one song per themed round, then vote for the best',
+  },
 ];
