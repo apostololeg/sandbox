@@ -3,7 +3,11 @@
 interface CssExports {
   'content': string;
   'date': string;
+  'figure': string;
   'footer': string;
+  'lang': string;
+  'langActive': string;
+  'langs': string;
   'root': string;
   'scroll': string;
   'scrollInner': string;

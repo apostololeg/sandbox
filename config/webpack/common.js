@@ -153,6 +153,10 @@ module.exports = {
           from: `${paths.assets}/logo.svg`,
           to: paths.build,
         },
+        {
+          from: `${paths.assets}/posts`,
+          to: `${paths.build}/posts`,
+        },
       ],
     }),
     new HtmlWebpackPlugin({

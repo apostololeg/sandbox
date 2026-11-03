@@ -28,26 +28,44 @@ function slugId(slug) {
   return h || 1;
 }
 
+// `<slug>.md` is the English post, `<slug>.<lang>.md` its translations
+const FILE_NAME = /^(.+?)(?:\.([a-z]{2}))?\.md$/;
+
 function loadMarkdownPosts() {
   if (!fs.existsSync(POSTS_DIR)) return [];
 
-  return fs
-    .readdirSync(POSTS_DIR)
+  const bySlug = {};
+
+  fs.readdirSync(POSTS_DIR)
     .filter(name => name.endsWith('.md'))
-    .map(name => {
+    .sort()
+    .forEach(name => {
+      const [, base, lang = 'en'] = name.match(FILE_NAME);
       const filePath = path.join(POSTS_DIR, name);
       const raw = fs.readFileSync(filePath, 'utf8');
       const { data, content } = parseFrontmatter(raw);
-      const slug = data.slug || name.replace(/\.md$/, '');
+      const slug = data.slug || base;
       const stat = fs.statSync(filePath);
-      return {
-        slug,
+      if (!bySlug[slug]) {
+        bySlug[slug] = { slug, texts: [], mtime: stat.mtime };
+      }
+      const post = bySlug[slug];
+
+      if (lang === 'en') {
+        post.title = data.title || slug;
+        post.domain = data.domain || '';
+      }
+      if (stat.mtime > post.mtime) post.mtime = stat.mtime;
+      const text = {
+        lang: lang.toUpperCase(),
         title: data.title || slug,
-        domain: data.domain || '',
         content,
-        mtime: stat.mtime,
       };
+      if (lang === 'en') post.texts.unshift(text);
+      else post.texts.push(text);
     });
+
+  return Object.values(bySlug);
 }
 
 function toApiPost(post) {
@@ -59,7 +77,7 @@ function toApiPost(post) {
     slug: post.slug,
     tags: post.domain ? [post.domain] : [],
     published: true,
-    texts: [{ id: 1, lang: 'EN', title: post.title, content: post.content }],
+    texts: post.texts.map((text, i) => ({ id: i + 1, ...text })),
   };
 }
 
