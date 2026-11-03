@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.1.0](https://github.com/apostololeg/sandboxt/compare/v3.0.7...v3.1.0) (2026-11-03)
+
+
+### Features
+
+* Post - Images, translations, and language switcher ([cc5fbeb](https://github.com/apostololeg/sandboxt/commit/cc5fbeb842a5078cb9f6cf82278e92f428bdc361))
+* Posts - Update GLASS post with screenshots in 14 languages ([459e84e](https://github.com/apostololeg/sandboxt/commit/459e84ed6d1d3e91b9b3315f8a00dad2cf27c710))
+
 ### [3.0.7](https://github.com/apostololeg/sandboxt/compare/v3.0.6...v3.0.7) (2026-10-16)
 
 
