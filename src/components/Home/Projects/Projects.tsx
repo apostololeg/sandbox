@@ -9,6 +9,7 @@ import PeerIcon from 'assets/projects/peer.svg';
 import S from './Projects.styl';
 import StatsIcon from 'assets/projects/stats.svg';
 import SvgDotWorkIcon from 'assets/projects/svg-dot-work.svg';
+import TournamentIcon from 'assets/projects/tournament.svg';
 import UiIcon from 'assets/projects/ui.svg';
 import { projects } from 'data/projects';
 import { reportEvent } from 'lib/analytics';
@@ -22,6 +23,7 @@ const icons: Record<string, ComponentType> = {
   besthumans: BestHumansIcon,
   glass: GlassIcon,
   'music-legends': MusicLegendsIcon,
+  tournament: TournamentIcon,
 };
 
 export default function Projects() {
