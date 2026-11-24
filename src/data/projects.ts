@@ -58,4 +58,11 @@ export const projects: Project[] = [
     description:
       'Group song game: share one song per themed round, then vote for the best',
   },
+  {
+    slug: 'tournament',
+    domain: 'tournament.apostol.space',
+    title: 'Tournament',
+    description:
+      'Run round robin and knockout tournaments: draw matches, record scores, follow the table',
+  },
 ];
