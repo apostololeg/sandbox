@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.1.1](https://github.com/apostololeg/sandboxt/compare/v3.1.0...v3.1.1) (2026-11-24)
+
+
+### Features
+
+* Projects - Add Tournament ([#92](https://github.com/apostololeg/sandboxt/issues/92)) ([d6b83a7](https://github.com/apostololeg/sandboxt/commit/d6b83a71d67cbd5a4fd980fe6d7cb4e84cadcb07))
+
+
+### Bug Fixes
+
+* Post - Limit content width to match images (960px) ([#91](https://github.com/apostololeg/sandboxt/issues/91)) ([6396a5d](https://github.com/apostololeg/sandboxt/commit/6396a5d4905af52966faf012273d07fc930d2f63))
+
 ## [3.1.0](https://github.com/apostololeg/sandboxt/compare/v3.0.7...v3.1.0) (2026-11-03)
 
 
